@@ -1,3 +1,3 @@
-public interface Incendie {
+public class Incendie {
     
 }

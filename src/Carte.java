@@ -1,5 +1,6 @@
 public class Carte {
     int tailleCases;
+    Case[] chequerboard;
     Carte(int nbLignes, int nbColonnes){
         this.tailleCases = nbColonnes*nbLignes;
     }
