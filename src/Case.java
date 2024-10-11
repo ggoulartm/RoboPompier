@@ -1,7 +1,10 @@
 public class Case{
-    int ligne, colonne;
-    NatureTerrain nature;
-    Case(){
+    
+    private int ligne, colonne;
+    private NatureTerrain nature;
+    Case(int ligne, int colonne){
+        this.ligne = ligne;
+        this.colonne = colonne;
     }
     public int getLigne(){
         return 0;
