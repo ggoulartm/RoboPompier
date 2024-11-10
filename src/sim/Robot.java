@@ -10,17 +10,19 @@ public abstract class Robot {
         this.vitesse = vitesse;
     }
 
-    public Case getPosition() { 
-        System.out.println("Mon position est n'importe ou "); 
+    public Case getPosition() 
+    { 
         return this.position;
-        };
+    };
 
-    public void setPosition(Case c) { System.out.println("Mon nouveau position est quoi?"); }
+    public void setPosition(Case c) 
+    { 
+        this.position = c; 
+    }
     
     public double getVitesse(NatureTerrain nature) 
     { 
-        System.out.println("Je roule à 100km/h ");
-        return 100; 
+        return this.vitesse; 
     }
     
     public void deverserEau(int vol) 
