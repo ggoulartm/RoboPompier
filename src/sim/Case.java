@@ -10,10 +10,10 @@ public class Case{
         this.nature = nature;
     }
     public int getLigne(){
-        return 0;
+        return this.ligne;
     }
     public int getColonne(){
-        return 0;
+        return this.colonne;
     }
     public NatureTerrain getNature(){
         return this.nature;
