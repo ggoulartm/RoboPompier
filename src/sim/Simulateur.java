@@ -1,3 +1,5 @@
+package sim;
+
 import gui.GUISimulator;
 import gui.Simulable;
 

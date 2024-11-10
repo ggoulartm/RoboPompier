@@ -1,10 +1,13 @@
+package sim;
+
 public class Case{
     
     private int ligne, colonne;
     private NatureTerrain nature;
-    Case(int ligne, int colonne){
+    public Case(int ligne, int colonne, NatureTerrain nature){
         this.ligne = ligne;
         this.colonne = colonne;
+        this.nature = nature;
     }
     public int getLigne(){
         return 0;
@@ -13,14 +16,12 @@ public class Case{
         return 0;
     }
     public NatureTerrain getNature(){
-        return NatureTerrain.EAU;
+        return this.nature;
     }
-}
 
-enum Direction{
-    NORD,SUD,EST,OUEST;
-}
-
-enum NatureTerrain{
-    EAU,FORET,ROCHE,TERRAIN_LIBRE,HABITAT;
+    @Override
+    public String toString()
+    {
+        return "lig: "+this.ligne+" col: "+this.colonne;
+    }
 }
