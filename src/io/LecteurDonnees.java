@@ -107,7 +107,7 @@ public class LecteurDonnees {
                     cases[lig][col] = new Case(lig, col, recupCaseNature(lig, col));
                 }
             }
-            return new Carte(nbLignes, nbColonnes, cases);
+            return new Carte(nbLignes, nbColonnes, tailleCases, cases);
 
         } catch (NoSuchElementException e) {
             throw new DataFormatException("Format invalide. "

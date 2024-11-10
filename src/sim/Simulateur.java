@@ -52,8 +52,8 @@ public class Simulateur implements Simulable {
 
                 // Draw each cell (case) as a rectangle
                 gui.addGraphicalElement(new gui.Rectangle(
-                        j * data.getCarte().getTailleCases(),   // X position
-                        i * data.getCarte().getTailleCases(),   // Y position
+                        j * data.getCarte().getTailleCases() + data.getCarte().getTailleCases()/2,   // X position
+                        i * data.getCarte().getTailleCases() + data.getCarte().getTailleCases()/2,   // Y position
                         Color.BLACK,                           // Border color
                         caseColor,                             // Fill color
                         data.getCarte().getTailleCases()        // Size of the square

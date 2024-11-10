@@ -1,19 +1,22 @@
 package sim;
 
 public class Carte {
-    
+    private int nbLignes;
+    private int nbColonnes;
     private int tailleCases;
     private Case[][] chequerboard;
     
-    public Carte(int nbLignes, int nbColonnes, Case[][] chequerboard){
-        this.tailleCases = nbColonnes*nbLignes;
+    public Carte(int nbLignes, int nbColonnes, int tailleCases, Case[][] chequerboard){
+        this.nbLignes = nbLignes;
+        this.nbColonnes = nbColonnes;
+        this.tailleCases = tailleCases;
         this.chequerboard = chequerboard;
     }
     public int getNbLignes(){
-        return 0;
+        return this.nbLignes;
     }
     public int getNbColonnes(){
-        return 0;
+        return this.nbColonnes;
     }
     public int getTailleCases(){
         return this.tailleCases;
