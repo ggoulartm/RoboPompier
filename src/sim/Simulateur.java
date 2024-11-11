@@ -70,11 +70,14 @@ public class Simulateur implements Simulable {
                 case "Drone":
                     this.drawDrone();
                     break;
-                case "Roues":
-                    this.drawRoues();
-                    break;
                 case "Pattes":
                     this.drawPattes();
+                    break;
+                case "RobotCaterpillar":
+                    this.drawRoues();
+                    break;
+                case "RobotWheels":
+                    this.drawRoues();
                     break;
             }
         }
