@@ -10,6 +10,7 @@ public abstract class Robot {
     protected int volumeReservoir;
     protected int volumeReservoirMax;
     protected int vitesse;
+    protected RobotKind kind;
 
     public Robot(Case position, int vitesse, int waterCapacityMax, int reserveWaterAmount)
     {
@@ -19,7 +20,9 @@ public abstract class Robot {
         this.volumeReservoirMax = waterCapacityMax;
     }
 
-    abstract public String getType();
+    public RobotKind getType(){
+        return this.kind;
+    }
 
     public Case getPosition() 
     { 
@@ -53,4 +56,11 @@ public abstract class Robot {
     {
         return "Robot at: "+this.position.toString()+" with speed: "+this.vitesse;
     }
+}
+
+enum RobotKind {
+    DRONE,
+    PATTES,
+    CATERPILLAR,
+    WHEELS
 }

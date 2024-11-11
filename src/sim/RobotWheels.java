@@ -3,11 +3,8 @@ package sim;
 public class RobotWheels extends Robot {
 
     public RobotWheels(Case position, int vitesse, int waterCapacityMax, int reserveWaterAmount) {
-        super(position, vitesse,waterCapacityMax,reserveWaterAmount);  
-    }
-
-    public String getType() {
-        return "RobotWheels";
+        super(position, vitesse,waterCapacityMax,reserveWaterAmount);
+        this.kind = RobotKind.WHEELS;  
     }
 
     @Override

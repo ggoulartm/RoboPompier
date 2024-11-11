@@ -67,16 +67,16 @@ public class Simulateur implements Simulable {
         {
             switch (data.getRobots()[i].getType())
             {
-                case "Drone":
+                case RobotKind.DRONE:
                     this.drawDrone();
                     break;
-                case "Pattes":
+                case RobotKind.PATTES:
                     this.drawPattes();
                     break;
-                case "RobotCaterpillar":
-                    this.drawRoues();
+                case RobotKind.CATERPILLAR:
+                    this.drawChenille();
                     break;
-                case "RobotWheels":
+                case RobotKind.WHEELS:
                     this.drawRoues();
                     break;
             }
@@ -87,6 +87,7 @@ public class Simulateur implements Simulable {
         for(int i = 0; i<data.getIncendies().length; i++)
         {
             // this.drawIncendie(date.getIncendies[i]);
+            this.drawIncendie();
         }
 
 
@@ -100,6 +101,11 @@ public class Simulateur implements Simulable {
     private void drawRoues()
     {
         System.out.println("Draw Roues");
+    }
+
+    private void drawChenille()
+    {
+        System.out.println("Draw Chenille");
     }
 
     private void drawPattes()

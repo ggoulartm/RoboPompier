@@ -5,12 +5,7 @@ public class Pattes extends Robot
     public Pattes(Case position, int vitesse, int reserve)
     {
         super(position, vitesse, Integer.MAX_VALUE, reserve);
-    }
-
-    @Override
-    public String getType()
-    {
-        return "Pattes";
+        this.kind = RobotKind.PATTES;
     }
 
     @Override

@@ -4,10 +4,7 @@ public class RobotCaterpillar extends Robot {
 
     public RobotCaterpillar(Case position, int vitesse, int waterCapacityMax, int reserveWaterAmount) {
         super(position,vitesse,waterCapacityMax,reserveWaterAmount);  
-    }
-
-    public String getType() {
-        return "RobotCaterpillar";
+        this.kind = RobotKind.CATERPILLAR;
     }
 
     @Override
