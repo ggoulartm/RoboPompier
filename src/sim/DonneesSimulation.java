@@ -18,6 +18,16 @@ public class DonneesSimulation {
         return this.carte;
     }
 
+    public Robot[] getRobots()
+    {
+        return this.robots;
+    }
+
+    public Incendie[] getIncendies()
+    {
+        return this.incendies;
+    }
+
     @Override
     public String toString()
     {

@@ -10,6 +10,8 @@ public abstract class Robot {
         this.vitesse = vitesse;
     }
 
+    abstract public String getType();
+
     public Case getPosition() 
     { 
         return this.position;

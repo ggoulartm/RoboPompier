@@ -46,7 +46,7 @@ public class Simulateur implements Simulable {
         for (int i = 0; i < data.getCarte().getNbLignes(); i++) {
             for (int j = 0; j < data.getCarte().getNbColonnes(); j++) {
                 Case currentCase = data.getCarte().getCase(i, j);
-
+                System.out.println("Drawing carte");
                 // Set colors based on the type of terrain
                 Color caseColor = getColorForCase(currentCase.getNature());
 
@@ -63,10 +63,50 @@ public class Simulateur implements Simulable {
 
         // Drawing the robots
         // TO DO
+        for(int i = 0; i < data.getRobots().length; i++)
+        {
+            switch (data.getRobots()[i].getType())
+            {
+                case "Drone":
+                    this.drawDrone();
+                    break;
+                case "Roues":
+                    this.drawRoues();
+                    break;
+                case "Pattes":
+                    this.drawPattes();
+                    break;
+            }
+        }
 
         // Drawing the fires
         // TO DO
+        for(int i = 0; i<data.getIncendies().length; i++)
+        {
+            // this.drawIncendie(date.getIncendies[i]);
+        }
 
+
+    }
+
+    private void drawDrone()
+    {
+        System.out.println("Draw Drone");
+    }
+
+    private void drawRoues()
+    {
+        System.out.println("Draw Roues");
+    }
+
+    private void drawPattes()
+    {
+        System.out.println("Draw Pattes");
+    }
+
+    private void drawIncendie()
+    {
+        System.out.println("Draw Incendie");
     }
 
     // Helper method to get the color based on the terrain type

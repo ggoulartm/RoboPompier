@@ -7,4 +7,10 @@ public class Drone extends Robot
     {
         super(position, vitesse);
     }
+
+    @Override
+    public String getType()
+    {
+        return "Drone";
+    }
 }
