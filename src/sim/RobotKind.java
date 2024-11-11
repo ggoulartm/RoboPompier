@@ -58,7 +58,7 @@ public abstract class Robot {
     }
 }
 
-enum RobotKind {
+public enum RobotKind {
     DRONE,
     PATTES,
     CATERPILLAR,

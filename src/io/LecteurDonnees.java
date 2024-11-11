@@ -236,15 +236,20 @@ public class LecteurDonnees {
             }
             verifieLigneTerminee();
             System.out.println();
+
+            int reserve = 5000;
+            int max = 5000;
             
             switch(type) 
             {
                 case "DRONE":
-                    return new Drone(carte.getCase(lig, col), vitesse);
+                    return new Drone(carte.getCase(lig, col), vitesse, max, reserve);
                 case "ROUES":
-                    return new Roues(carte.getCase(lig, col), vitesse);
+                    return new RobotWheels(carte.getCase(lig, col), vitesse, max, reserve);
                 case "PATTES":
-                    return new Pattes(carte.getCase(lig, col), vitesse);
+                    return new Pattes(carte.getCase(lig, col), vitesse, reserve);
+                case "CHENILLES":
+                    return new RobotCaterpillar(carte.getCase(lig, col), vitesse, max, reserve);
             }
 
         } catch (NoSuchElementException e) {
