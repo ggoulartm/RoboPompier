@@ -5,7 +5,6 @@ import sim.Case;
 import sim.DonneesSimulation;
 import sim.Simulateur;
 
-import graphes.StrategiePrim;
 import graphes.StrategieDijkstra;
 
 import gui.GUISimulator;
@@ -24,14 +23,22 @@ public class TestPathFinder
             System.out.println("Searching for shortest path from 0,0 to 4,6");
             ArrayList<Case> shortestPath_noRestrictions = StrategieDijkstra.findShortestPath(simData.getCarte(), 
                                     simData.getCarte().getCase(0,0), simData.getCarte().getCase(4,3),
-                                    new NatureTerrain[0]);
+                                    new NatureTerrain[0],
+                                    new double[]{10, 10, 10, 10, 10});
+            System.out.println("Found Path:");
             for(Case c : shortestPath_noRestrictions)
             {
                 System.out.println(c);
             }
             ArrayList<Case> shortestPath_noWater = StrategieDijkstra.findShortestPath(simData.getCarte(), 
                                     simData.getCarte().getCase(0,0), simData.getCarte().getCase(4,3),
-                                    new NatureTerrain[]{NatureTerrain.EAU});
+                                    new NatureTerrain[]{NatureTerrain.EAU},
+                                    new double[]{Double.POSITIVE_INFINITY, 10, 10, 10, 10});
+            System.out.println("Found Path:");
+            for(Case c : shortestPath_noWater)
+            {
+                System.out.println(c);
+            }
         }
         catch (Exception e)
         {

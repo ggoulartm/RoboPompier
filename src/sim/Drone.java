@@ -1,7 +1,8 @@
 package sim;
 
-import graphes.StrategiePrim;
 import java.util.ArrayList;
+
+import graphes.StrategieDijkstra;
 import sim.NatureTerrain;
 
 
@@ -16,7 +17,7 @@ public class Drone extends Robot
     @Override
     public void createShortestPathTo(Case end, Carte carte, Simulateur sim)
     {
-        ArrayList<Case> pathSteps = StrategiePrim.findShortestPath(carte, this.getPosition(), end, new NatureTerrain[]{});
+        ArrayList<Case> pathSteps = StrategieDijkstra.findShortestPath(carte, this.getPosition(), end, new NatureTerrain[]{}, new double[]{10,10,10,10,10});
     }
 
     @Override

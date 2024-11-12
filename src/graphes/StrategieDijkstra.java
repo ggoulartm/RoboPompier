@@ -9,24 +9,27 @@ import java.util.ArrayList;
 public class StrategieDijkstra
 {
 
-    public static ArrayList<Case> findShortestPath(Carte carte, Case start, Case target, NatureTerrain[] forbiddenTerrains)
+    public static ArrayList<Case> findShortestPath(Carte carte, Case start, Case target, NatureTerrain[] forbiddenTerrains, double[] natureCosts)
     {
         System.out.println(carte);
         System.out.println(start);
         System.out.println(target);
-        StrategieDijkstra strat = new StrategieDijkstra(carte, start, forbiddenTerrains);
-        System.out.println("Strategy successfully initialized");
+        StrategieDijkstra strat = new StrategieDijkstra(carte, start, forbiddenTerrains, natureCosts);
         return strat.shortestPath(start, target);
     }
 
     ArrayList<TreeCase> tree = new ArrayList<TreeCase>();
     Carte carte;
     NatureTerrain[] forbiddenTerrains;
+    // EAU, FORET, ROCHE, TERRAIN_LIBRE, HABITAT 
+    // POSITIVE_INFINITY when not allowed 
+    double[] natureCosts;
 
-    public StrategieDijkstra(Carte carte, Case start, NatureTerrain[] forbiddenTerrains)
+    public StrategieDijkstra(Carte carte, Case start, NatureTerrain[] forbiddenTerrains, double[] natureCosts)
     {
         this.carte = carte;
         this.forbiddenTerrains = forbiddenTerrains;
+        this.natureCosts = natureCosts;
     }
 
     private ArrayList<Case> shortestPath(Case s, Case t)
@@ -34,12 +37,12 @@ public class StrategieDijkstra
         // As long last as target is not element of tree continue searching
         TreeCase target = new TreeCase(carte, t);
         TreeCase start = new TreeCase(carte, s, 0);
-        System.out.println("target and start successfully initialized");
+        // System.out.println("target and start successfully initialized");
         int iterations = 0;
         // List of all sommets that were called in a scan
         ArrayList<TreeCase> updatedNeighbours = new ArrayList<TreeCase>();
         updatedNeighbours.add(start);
-        while(iterations <64) //&& iterations < this.carte.getNbLignes()*(this.carte.getNbColonnes()-1)
+        while(iterations < this.carte.getNbLignes()*this.carte.getNbColonnes()) //&& iterations < this.carte.getNbLignes()*(this.carte.getNbColonnes()-1)
         {
             iterations++;
             // System.out.println("Start of while - size of tree: "+this.tree.size());
@@ -56,30 +59,30 @@ public class StrategieDijkstra
                 }
             }
 
-            System.out.println("min_v at: "+min_v.getPosition());
+            // System.out.println("min_v at: "+min_v.getPosition());
             // SCAN
             ArrayList<TreeCase> neighbours = min_v.getNeighbours(forbiddenTerrains);
             for(TreeCase neighbour : neighbours)
             {
-                System.out.println("Call SCAN for: "+neighbour.getPosition());
+                // System.out.println("Call SCAN for: "+neighbour.getPosition());
                 if (tree.contains(neighbour)) {
-                    System.out.println("Neighbour already in searchtree, jump to next neighbour");
+                    // System.out.println("Neighbour already in searchtree, jump to next neighbour");
                 } else {
-                    System.out.println("Neighbour not in searchtree");
+                    // System.out.println("Neighbour not in searchtree");
                     if(updatedNeighbours.contains(neighbour))
                     {
-                        if(min_v.getLengthFromHome()+min_v.travelCost() < neighbour.getLengthFromHome())
+                        if(min_v.getLengthFromHome()+min_v.travelCost(this.natureCosts) < neighbour.getLengthFromHome())
                         {
-                            neighbour.setPredecesseur(min_v, min_v.getLengthFromHome()+min_v.travelCost());
-                            System.out.println("Changed predecesseur of neighbour "+neighbour.getPosition()+" with Predecesseur"+neighbour.getPredecesseur());
+                            neighbour.setPredecesseur(min_v, min_v.getLengthFromHome()+min_v.travelCost(this.natureCosts));
+                            // System.out.println("Changed predecesseur of neighbour "+neighbour.getPosition()+" with Predecesseur"+neighbour.getPredecesseur());
                         }
                     }
                     else 
                     {
                         // neighbour not yet in extern neighbours
-                        neighbour.setPredecesseur(min_v, min_v.getLengthFromHome()+min_v.travelCost());
+                        neighbour.setPredecesseur(min_v, min_v.getLengthFromHome()+min_v.travelCost(this.natureCosts));
                         updatedNeighbours.add(neighbour);
-                        System.out.println("Added neighbour "+neighbour.getPosition()+"with Predecesseur"+neighbour.getPredecesseur()+" to updatedNeighbours");
+                        // System.out.println("Added neighbour "+neighbour.getPosition()+"with Predecesseur"+neighbour.getPredecesseur()+" to updatedNeighbours");
                     }
 
                 }
@@ -90,10 +93,10 @@ public class StrategieDijkstra
         if(this.tree.contains(target))
         {
             target = this.tree.get(this.tree.indexOf(target));
-            System.out.println("Tree contains target");
+            // System.out.println("Tree contains target");
         }
 
-        System.out.println("Added target to tree or ran out of iterations");
+        // System.out.println("Added target to tree or ran out of iterations");
 
         return constructPathFromTarget(start, target); 
     }
@@ -101,12 +104,12 @@ public class StrategieDijkstra
     private ArrayList<Case> constructPathFromTarget(TreeCase start, TreeCase target)
     {
         System.out.println("Construct target from path");
-        System.out.println("Predecesseur from target: "+target.getPredecesseur());
+        // System.out.println("Predecesseur from target: "+target.getPredecesseur());
         ArrayList<TreeCase> path = new ArrayList<TreeCase>();
         path.add(target);
         while(!path.contains(start))
         {
-            System.out.println("Predecesseur of subpath: "+path.get(path.size()-1).getPredecesseur());
+            // System.out.println("Predecesseur of subpath: "+path.get(path.size()-1).getPredecesseur());
             path.add(path.get(path.size()-1).getPredecesseur());
         }
 

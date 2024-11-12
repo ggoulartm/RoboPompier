@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import sim.NatureTerrain;
 import sim.Case;
 import sim.Carte;
-
 public class TreeCase
 {
     private Carte carte;
@@ -49,7 +48,7 @@ public class TreeCase
         }
         catch(ArrayIndexOutOfBoundsException e)
         {
-            System.out.println("No east neighbour");
+            // System.out.println("No east neighbour");
         }
         try{
             Case toAdd =  carte.getCase(this.position.getLigne()+1, this.position.getColonne());
@@ -58,7 +57,7 @@ public class TreeCase
         }
         catch(ArrayIndexOutOfBoundsException e)
         {
-            System.out.println("No south neighbour");
+            // System.out.println("No south neighbour");
         }
         try{
             Case toAdd =  carte.getCase(this.position.getLigne(), this.position.getColonne()-1);
@@ -67,7 +66,7 @@ public class TreeCase
         }
         catch(ArrayIndexOutOfBoundsException e)
         {
-            System.out.println("No west neighbour");
+            // System.out.println("No west neighbour");
         }
         try{
             Case toAdd =  carte.getCase(this.position.getLigne()-1, this.position.getColonne());
@@ -76,7 +75,7 @@ public class TreeCase
         }
         catch(ArrayIndexOutOfBoundsException e)
         {
-            System.out.println("No north neighbour");
+            // System.out.println("No north neighbour");
         }
         return neighbours;
     }
@@ -107,8 +106,22 @@ public class TreeCase
         return this.localShortestPath;
     }
 
-    public double travelCost()
+    public double travelCost(double[] natureCosts)
     {
+        switch(this.position.getNature())
+        {
+            case EAU:
+                return natureCosts[0];
+            case FORET:
+                return natureCosts[1];
+            case ROCHE:
+                return natureCosts[2];
+            case TERRAIN_LIBRE:
+                return natureCosts[3];
+            case HABITAT:
+                return natureCosts[4];
+            
+        }
         System.out.println("----------------Implement me-------------------------");
         NatureTerrain nature = this.position.getNature();
         if(nature == NatureTerrain.EAU) 
