@@ -37,7 +37,7 @@ public abstract class Robot {
         this.position = c; 
     }
     
-    public double getVitesse(NatureTerrain nature) 
+    public double getVitesse()
     { 
         return this.vitesse; 
     }
@@ -91,4 +91,9 @@ public abstract class Robot {
     public int getDeversementTemps() {
         return this.Deversement.temps;
     }
+
+    public int setDeversementTemps(int temps) {
+        return this.Deversement.temps = temps;
+    }
+
 }

@@ -15,6 +15,14 @@ public class Incendie {
         this.intensite = intensite;
     }
 
+    public Case getPosition() {
+        return position;
+    }
+
+    public int getIntensite() {
+        return intensite;
+    }
+
     @Override
     public String toString()
     {

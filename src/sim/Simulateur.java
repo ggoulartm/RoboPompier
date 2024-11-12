@@ -10,6 +10,7 @@ public class Simulateur implements Simulable {
     private GUISimulator gui;           // Reference to the graphical interface
     private DonneesSimulation data;     // Contains the map, robots, and fires
     private long dateSimulation;
+    private Evenement premierEvent;
     ArrayList<Evenement> events = new ArrayList<Evenement>();
 
     public Simulateur(GUISimulator gui, DonneesSimulation data) {
@@ -28,7 +29,23 @@ public class Simulateur implements Simulable {
 
     public void addEvent(Evenement e)
     {
-        this.events.add(e);
+        if (premierEvent == null) {
+            premierEvent = e;
+        } else if (premierEvent.getDate() >= e.getDate()) {
+            e.setNext(premierEvent);
+            premierEvent = e;
+        } else if (premierEvent.getNext() == null) {
+            premierEvent.setNext(e);
+        } else {
+            Evenement prec = premierEvent;
+            Evenement courant = premierEvent.getNext();
+            while (courant != null && courant.getDate() < e.getDate()) {
+                prec = courant;
+                courant = courant.getNext();
+            }
+            e.setNext(courant);
+            prec.setNext(e);
+        }
     }
     private void incrementeDate()
     {
@@ -36,21 +53,36 @@ public class Simulateur implements Simulable {
     }
     private boolean simulationTerminee()
     {
-        return (this.dateSimulation >= events.size());
+        return (premierEvent == null);
+    }
+    public long getDateSimulation() {
+        return dateSimulation;
+    }
+    public Evenement getPremierEvent() {
+        return premierEvent;
+    }
+    public void setPremierEvent(Evenement premierEvent) {
+        this.premierEvent = premierEvent;
     }
 
     // This method is called when the "Next" button is pressed
     @Override
     public void next() {
-        // For now, just print something
+        draw();
         System.out.println("Next step in the simulation...");
-        try{
-            this.events.get((int)this.dateSimulation).execute();
-            this.incrementeDate();
+
+        if (simulationTerminee()) return;
+        Evenement premierEvent = getPremierEvent();
+        while (premierEvent != null && getDateSimulation() >= premierEvent.getDate()) {
+            premierEvent.execute();
+            premierEvent = premierEvent.getNext();
         }
-        catch(IndexOutOfBoundsException e)
-        {
-            System.out.println(e);
+        setPremierEvent(premierEvent);
+
+        if (data.getCarte().getTailleCases() != 10000) {
+            for (int i = 0; i < 5; i++) incrementeDate();
+        } else {
+            for (int i = 0; i < 80; i++) incrementeDate();
         }
     }
 
@@ -59,6 +91,8 @@ public class Simulateur implements Simulable {
     public void restart() {
         // Reset the simulation to its initial state
         System.out.println("Simulation restarted.");
+        this.dateSimulation = 0;
+        this.premierEvent = null;
         draw();
     }
 
