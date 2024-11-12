@@ -28,49 +28,55 @@ public class TreeCase
         this.lengthFromHome = lengthFromHome;
     }
 
+    private boolean isAllowed(NatureTerrain nature, NatureTerrain[] forbiddenTerrains)
+    {
+        if(forbiddenTerrains.length == 0) return true;
+        for(int i=0;i<forbiddenTerrains.length;i++)
+        {
+            if(nature == forbiddenTerrains[i]) return false;
+        }
+        return true;
+    }
+
     public ArrayList<TreeCase> getNeighbours(NatureTerrain[] forbiddenTerrains)
     {
         ArrayList<TreeCase> neighbours = new ArrayList<TreeCase>();
-        if(forbiddenTerrains.length == 0)
-        {
-            // Go around the Case and try to add neighbour if it exists
-            try{
-                neighbours.add(new TreeCase(carte, carte.getCase(this.position.getLigne(), this.position.getColonne()+1)));
-            }
-            catch(ArrayIndexOutOfBoundsException e)
-            {
-                System.out.println("No east neighbour");
-            }
-            try{
-                neighbours.add(new TreeCase(carte, carte.getCase(this.position.getLigne()+1, this.position.getColonne())));
-            }
-            catch(ArrayIndexOutOfBoundsException e)
-            {
-                System.out.println("No south neighbour");
-            }
-            try{
-                neighbours.add(new TreeCase(carte, carte.getCase(this.position.getLigne(), this.position.getColonne()-1)));
-            }
-            catch(ArrayIndexOutOfBoundsException e)
-            {
-                System.out.println("No west neighbour");
-            }
-            try{
-                neighbours.add(new TreeCase(carte, carte.getCase(this.position.getLigne()-1, this.position.getColonne())));       
-            }
-            catch(ArrayIndexOutOfBoundsException e)
-            {
-                System.out.println("No north neighbour");
-            }
+        // Go around the Case and try to add neighbour if it exists
+        try{
+            Case toAdd =  carte.getCase(this.position.getLigne(), this.position.getColonne()+1);
+            if(this.isAllowed(toAdd.getNature(), forbiddenTerrains))
+                neighbours.add(new TreeCase(carte, toAdd));
         }
-        else
+        catch(ArrayIndexOutOfBoundsException e)
         {
-            System.out.println("----------------------------------------------------------------------------");
-            System.out.println("----------------------------------------------------------------------------");
-            System.out.println("----------------------------------------------------------------------------");
-            System.out.println("----------------------------------------------------------------------------");
-            System.out.println("----------------------------------------------------------------------------");
-            System.out.println("----------------------------------------------------------------------------");
+            System.out.println("No east neighbour");
+        }
+        try{
+            Case toAdd =  carte.getCase(this.position.getLigne()+1, this.position.getColonne());
+            if(this.isAllowed(toAdd.getNature(), forbiddenTerrains))
+                neighbours.add(new TreeCase(carte, toAdd));
+        }
+        catch(ArrayIndexOutOfBoundsException e)
+        {
+            System.out.println("No south neighbour");
+        }
+        try{
+            Case toAdd =  carte.getCase(this.position.getLigne(), this.position.getColonne()-1);
+            if(this.isAllowed(toAdd.getNature(), forbiddenTerrains))
+                neighbours.add(new TreeCase(carte, toAdd));
+        }
+        catch(ArrayIndexOutOfBoundsException e)
+        {
+            System.out.println("No west neighbour");
+        }
+        try{
+            Case toAdd =  carte.getCase(this.position.getLigne()-1, this.position.getColonne());
+            if(this.isAllowed(toAdd.getNature(), forbiddenTerrains))
+                neighbours.add(new TreeCase(carte, toAdd));       
+        }
+        catch(ArrayIndexOutOfBoundsException e)
+        {
+            System.out.println("No north neighbour");
         }
         return neighbours;
     }

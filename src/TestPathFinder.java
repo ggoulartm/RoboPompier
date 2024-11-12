@@ -29,9 +29,9 @@ public class TestPathFinder
             {
                 System.out.println(c);
             }
-            // ArrayList<Case> shortestPath_noWater = StrategieDijkstra.findShortestPath(simData.getCarte(), 
-            //                         simData.getCarte().getCase(0,0), simData.getCarte().getCase(4,6),
-            //                         new NatureTerrain[]{NatureTerrain.EAU});
+            ArrayList<Case> shortestPath_noWater = StrategieDijkstra.findShortestPath(simData.getCarte(), 
+                                    simData.getCarte().getCase(0,0), simData.getCarte().getCase(4,3),
+                                    new NatureTerrain[]{NatureTerrain.EAU});
         }
         catch (Exception e)
         {
