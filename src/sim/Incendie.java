@@ -1,5 +1,8 @@
 package sim;
 
+import gui.GUISimulator;
+import java.awt.Color;
+
 public class Incendie {
     private Case position;
     private int intensite;
@@ -16,5 +19,16 @@ public class Incendie {
     public String toString()
     {
         return "Incendie at " +this.position.toString()+" with intensity: " + this.intensite;
+    }
+
+    public void draw (GUISimulator gui, int tailleCase) {
+        int coordX = this.position.getColonne() * tailleCase;
+        int coordY = this.position.getLigne() * tailleCase;
+            gui.addGraphicalElement(new gui.Rectangle(
+                    coordX, coordY,
+                    Color.BLACK,                           // Border color
+                    Color.RED,                             // Fill color
+                    tailleCase, tailleCase
+            ));
     }
 }

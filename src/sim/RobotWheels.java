@@ -41,7 +41,7 @@ public class RobotWheels extends Robot {
         gui.addGraphicalElement(new gui.Oval(
                 caseX, caseY,
                 Color.BLACK,                                   // Border color
-                Color.LIGHT_GRAY,                             // Fill color
+                Color.WHITE,                             // Fill color
                 tailleCase, tailleCase
         ));     }
 
