@@ -3,8 +3,6 @@ package sim;
 import gui.GUISimulator;
 import gui.Simulable;
 
-import java.awt.Color;
-
 public class Simulateur implements Simulable {
     private GUISimulator gui;           // Reference to the graphical interface
     private DonneesSimulation data;     // Contains the map, robots, and fires
@@ -12,10 +10,10 @@ public class Simulateur implements Simulable {
     public Simulateur(GUISimulator gui, DonneesSimulation data) {
         this.gui = gui;
         this.data = data;
-        gui.setSimulable(this);		    // Associating to the GUI
+        gui.setSimulable(this);            // Associating to the GUI
 
         // Initial setup: display the map, robots, and fires
-        displaySimulation();
+        draw();
     }
 
     public DonneesSimulation getDonnees() {
@@ -34,105 +32,31 @@ public class Simulateur implements Simulable {
     public void restart() {
         // Reset the simulation to its initial state
         System.out.println("Simulation restarted.");
-        displaySimulation();
+        draw();
     }
 
-    private void displaySimulation() {
-        // Clear the previous drawings on the GUI
+    private void draw() {
         gui.reset();
+        Carte carte = data.getCarte();
 
-        /* SKELETON TO THE METHOD (DRAWING STUFF) */
-        // Drawing the map (cases)
-        for (int i = 0; i < data.getCarte().getNbLignes(); i++) {
-            for (int j = 0; j < data.getCarte().getNbColonnes(); j++) {
-                Case currentCase = data.getCarte().getCase(i, j);
-                System.out.println("Drawing carte");
-                // Set colors based on the type of terrain
-                Color caseColor = getColorForCase(currentCase.getNature());
+        int tailleCase = 0;
+        if (carte.getNbColonnes() == 8) tailleCase = carte.getTailleCases() / 100;
+        else if (carte.getNbColonnes() == 20) tailleCase = 45;
+        else tailleCase = 20;
 
-                // Draw each cell (case) as a rectangle
-                gui.addGraphicalElement(new gui.Rectangle(
-                        j * data.getCarte().getTailleCases() + data.getCarte().getTailleCases()/2,   // X position
-                        i * data.getCarte().getTailleCases() + data.getCarte().getTailleCases()/2,   // Y position
-                        Color.BLACK,                           // Border color
-                        caseColor,                             // Fill color
-                        data.getCarte().getTailleCases()        // Size of the square
-                ));
+        // Draw cases
+        for (int x = 0; x < carte.getNbLignes(); x++) {
+            for (int y = 0; y < carte.getNbColonnes(); y++) {
+                Case cases_xy = carte.getCase(x, y);
+                cases_xy.dessineCase(gui, tailleCase);
             }
         }
 
-        // Drawing the robots
-        // TO DO
-        for(int i = 0; i < data.getRobots().length; i++)
-        {
-            switch (data.getRobots()[i].getType())
-            {
-                case RobotKind.DRONE:
-                    this.drawDrone();
-                    break;
-                case RobotKind.PATTES:
-                    this.drawPattes();
-                    break;
-                case RobotKind.CATERPILLAR:
-                    this.drawChenille();
-                    break;
-                case RobotKind.WHEELS:
-                    this.drawRoues();
-                    break;
-            }
-        }
-
-        // Drawing the fires
-        // TO DO
-        for(int i = 0; i<data.getIncendies().length; i++)
-        {
-            // this.drawIncendie(date.getIncendies[i]);
-            this.drawIncendie();
-        }
-
-
-    }
-
-    private void drawDrone()
-    {
-        System.out.println("Draw Drone");
-    }
-
-    private void drawRoues()
-    {
-        System.out.println("Draw Roues");
-    }
-
-    private void drawChenille()
-    {
-        System.out.println("Draw Chenille");
-    }
-
-    private void drawPattes()
-    {
-        System.out.println("Draw Pattes");
-    }
-
-    private void drawIncendie()
-    {
-        System.out.println("Draw Incendie");
-    }
-
-    // Helper method to get the color based on the terrain type
-    private Color getColorForCase(NatureTerrain terrain) {
-        switch (terrain) {
-            case EAU:
-                return Color.BLUE;
-            case FORET:
-                return Color.GREEN;
-            case ROCHE:
-                return Color.GRAY;
-            case TERRAIN_LIBRE:
-                return Color.LIGHT_GRAY; // ?
-            case HABITAT:
-                return Color.YELLOW; // ?
-            default:
-                return Color.WHITE;
+        // Draw robots
+        Robot[] robots = data.getRobots();
+        for (Robot robot : robots) {
+            robot.draw(gui, tailleCase);
         }
     }
 }
+

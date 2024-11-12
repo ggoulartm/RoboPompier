@@ -1,4 +1,5 @@
 package sim;
+import gui.GUISimulator;
 
 // This is an abstract class, so it cannot be instantiated
 // It is used as a base class for the Drone and Pattes classes
@@ -10,7 +11,7 @@ public abstract class Robot {
     protected int volumeReservoir;
     protected int volumeReservoirMax;
     protected int vitesse;
-    protected RobotKind kind;
+    protected RobotType type;
 
     public Robot(Case position, int vitesse, int waterCapacityMax, int reserveWaterAmount)
     {
@@ -20,8 +21,8 @@ public abstract class Robot {
         this.volumeReservoirMax = waterCapacityMax;
     }
 
-    public RobotKind getType(){
-        return this.kind;
+    public RobotType getType(){
+        return this.type;
     }
 
     public Case getPosition() 
@@ -56,11 +57,6 @@ public abstract class Robot {
     {
         return "Robot at: "+this.position.toString()+" with speed: "+this.vitesse;
     }
-}
 
-public enum RobotKind {
-    DRONE,
-    PATTES,
-    CATERPILLAR,
-    WHEELS
+    public abstract void draw(GUISimulator gui, int tailleCase);
 }

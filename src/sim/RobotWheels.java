@@ -1,10 +1,12 @@
 package sim;
+import gui.GUISimulator;
+import java.awt.Color;
 
 public class RobotWheels extends Robot {
 
     public RobotWheels(Case position, int vitesse, int waterCapacityMax, int reserveWaterAmount) {
         super(position, vitesse,waterCapacityMax,reserveWaterAmount);
-        this.kind = RobotKind.WHEELS;  
+        this.type = RobotType.WHEELS;
     }
 
     @Override
@@ -29,4 +31,18 @@ public class RobotWheels extends Robot {
         System.out.println("Wheeled robot refilling...");
         this.volumeReservoir = this.volumeReservoirMax;
     }
+
+    @Override
+    public void draw(GUISimulator gui, int tailleCase) {
+        Case caseRobot = this.getPosition();
+        int caseX = caseRobot.getColonne() * tailleCase;
+        int caseY = caseRobot.getLigne() * tailleCase;
+
+        gui.addGraphicalElement(new gui.Oval(
+                caseX, caseY,
+                Color.BLACK,                                   // Border color
+                Color.LIGHT_GRAY,                             // Fill color
+                tailleCase, tailleCase
+        ));     }
+
 }

@@ -1,11 +1,13 @@
 package sim;
+import gui.GUISimulator;
+import java.awt.Color;
 
 public class Pattes extends Robot
 {
     public Pattes(Case position, int vitesse, int reserve)
     {
         super(position, vitesse, Integer.MAX_VALUE, reserve);
-        this.kind = RobotKind.PATTES;
+        this.type = RobotType.PATTES;
     }
 
     @Override
@@ -35,4 +37,17 @@ public class Pattes extends Robot
             this.deverserEau(volume);
         }
     }
+
+    @Override
+    public void draw(GUISimulator gui, int tailleCase) {
+        Case caseRobot = this.getPosition();
+        int caseX = caseRobot.getColonne() * tailleCase;
+        int caseY = caseRobot.getLigne() * tailleCase;
+
+        gui.addGraphicalElement(new gui.Oval(
+                caseX, caseY,
+                Color.BLACK,                           // Border color
+                Color.CYAN,                             // Fill color
+                tailleCase, tailleCase
+        ));     }
 }

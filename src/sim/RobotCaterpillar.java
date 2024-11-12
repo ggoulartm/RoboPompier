@@ -1,10 +1,12 @@
 package sim;
+import gui.GUISimulator;
+import java.awt.Color;
 
 public class RobotCaterpillar extends Robot {
 
     public RobotCaterpillar(Case position, int vitesse, int waterCapacityMax, int reserveWaterAmount) {
         super(position,vitesse,waterCapacityMax,reserveWaterAmount);  
-        this.kind = RobotKind.CATERPILLAR;
+        this.type = RobotType.CATERPILLAR;
     }
 
     @Override
@@ -30,5 +32,19 @@ public class RobotCaterpillar extends Robot {
     public void remplirReservoir() {
         System.out.println("Caterpillar robot refilling...");
         this.volumeReservoir = this.volumeReservoirMax;
+    }
+
+    @Override
+    public void draw(GUISimulator gui, int tailleCase) {
+        Case caseRobot = this.getPosition();
+        int caseX = caseRobot.getColonne() * tailleCase;
+        int caseY = caseRobot.getLigne() * tailleCase;
+
+        gui.addGraphicalElement(new gui.Oval(
+                caseX, caseY,
+                Color.BLACK,                           // Border color
+                Color.ORANGE,                             // Fill color
+                tailleCase, tailleCase
+        ));
     }
 }
