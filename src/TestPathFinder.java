@@ -25,6 +25,10 @@ public class TestPathFinder
             ArrayList<Case> shortestPath_noRestrictions = StrategieDijkstra.findShortestPath(simData.getCarte(), 
                                     simData.getCarte().getCase(0,0), simData.getCarte().getCase(4,3),
                                     new NatureTerrain[0]);
+            for(Case c : shortestPath_noRestrictions)
+            {
+                System.out.println(c);
+            }
             // ArrayList<Case> shortestPath_noWater = StrategieDijkstra.findShortestPath(simData.getCarte(), 
             //                         simData.getCarte().getCase(0,0), simData.getCarte().getCase(4,6),
             //                         new NatureTerrain[]{NatureTerrain.EAU});
