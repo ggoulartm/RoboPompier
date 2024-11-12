@@ -24,4 +24,23 @@ public class Case{
     {
         return "lig: "+this.ligne+" col: "+this.colonne;
     }
+
+    @Override
+    public boolean equals(Object o) 
+    {
+        if( ! (o instanceof Case)) {
+                return false ;
+        }
+        // ou, plus restrictif :
+        // if(o.getClass() != this.getClass()) {
+        //  return false ;
+        //}
+
+        // cast explicite nécessaire, car Downcast :
+        Case other = (Case) o;
+        return (this.ligne == other.ligne
+                && this.colonne == other.colonne
+                && this.nature == other.nature);
+    }
+    
 }

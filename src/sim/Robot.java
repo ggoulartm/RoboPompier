@@ -11,6 +11,7 @@ public abstract class Robot {
     }
 
     abstract public String getType();
+    abstract public void createShortestPathTo(Case end, Carte carte, Simulateur sim);
 
     public Case getPosition() 
     { 
