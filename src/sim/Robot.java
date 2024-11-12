@@ -8,10 +8,12 @@ import gui.GUISimulator;
 // The Drone and Pattes classes might implement the toString method
 public abstract class Robot {
     protected Case position;
-    protected int volumeReservoir;
-    protected int volumeReservoirMax;
-    protected int vitesse;
-    protected RobotType type;
+    protected int volumeReservoir; //Litres
+    protected int volumeReservoirMax; //Litres
+    protected int vitesse; //km/h
+    protected RobotType type; //Type de robot: Drone, Pattes(Legs), Roues(Wheels), Chenilles(Caterpillar)
+    protected InterventionUnitaire Deversement; //Litres/seconde
+    protected int tempsRemplissage; //minutes
 
     public Robot(Case position, int vitesse, int waterCapacityMax, int reserveWaterAmount)
     {
@@ -42,14 +44,17 @@ public abstract class Robot {
     
     public void deverserEau(int vol) 
     { 
-        System.out.println("Je deverse d'eau"); 
-        this.volumeReservoir -= vol;
+        if (this.volumeReservoir > 0 && vol <= this.volumeReservoir) {
+            System.out.println("Je deverse d'eau"); 
+            this.volumeReservoir -= vol;
+            System.out.println(this.type + " robot pours " + vol + "L of water.");
+         }
     }
     
     public void remplirReservoir() 
     { 
-        System.out.println("Remplir Reservoir"); 
         this.volumeReservoir = this.volumeReservoirMax;
+        System.out.println(this.type + " robot a rempli son reservoir.");
     }
 
     @Override
@@ -59,4 +64,31 @@ public abstract class Robot {
     }
 
     public abstract void draw(GUISimulator gui, int tailleCase);
+
+    public class InterventionUnitaire {
+        public int volume;
+        public int temps;
+        public InterventionUnitaire(int volume, int temps) {
+            this.volume = volume;
+            this.temps = temps;
+        }
+    }
+
+    public void InterventionUnitaire() {
+        System.out.println("Intervention unitaire: " + this.Deversement.volume + "L in " + this.Deversement.temps + "s.");
+        deverserEau(this.Deversement.volume); //Litres/seconde
+        //Attendre this.Deversement.temps secondes
+    }
+
+    public int getTempsRemplissage() {
+        return this.tempsRemplissage;
+    }
+    
+    public int getDeversementVolume() {
+        return this.Deversement.volume;
+    }
+
+    public int getDeversementTemps() {
+        return this.Deversement.temps;
+    }
 }

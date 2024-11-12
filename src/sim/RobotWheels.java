@@ -4,11 +4,25 @@ import java.awt.Color;
 
 public class RobotWheels extends Robot {
 
+    // Vitesse par défaut de 80 km/h, mais qui peut être lue dans le fichier. 
+    // Capacité de stockage d’eau de 5000L, mais qui peut être lue dans le fichier.
+    //Peut déverser de l’eau sur un incendie.
+    //Intervention unitaire: déversement de 100L d’eau en 5 secondes.
+    //Remplissage du réservoir: 10 minutes pour remplir le réservoir.
     public RobotWheels(Case position, int vitesse, int waterCapacityMax, int reserveWaterAmount) {
         super(position, vitesse,waterCapacityMax,reserveWaterAmount);
+        if (vitesse == 0) {
+            this.vitesse = 80;
+        }
+        if(waterCapacityMax == 0) {
+            this.volumeReservoirMax = 5000;
+        }
         this.type = RobotType.WHEELS;
+        this.tempsRemplissage = 10;
+        this.Deversement = new InterventionUnitaire(100, 5); //Litres/seconde
     }
 
+    //Ne peut se déplacer que sur du terrain libre ou habitat.
     @Override
     public void setPosition(Case target) {
         if (target.getNature() == NatureTerrain.TERRAIN_LIBRE || target.getNature() == NatureTerrain.HABITAT) {
@@ -16,20 +30,6 @@ public class RobotWheels extends Robot {
         } else {
             System.out.println("Wheeled robot cannot move to this terrain.");
         }
-    }
-
-    @Override
-    public void deverserEau(int volume) {
-        if (this.volumeReservoir>0 && volume <= this.volumeReservoir) {
-            this.volumeReservoir -= volume;
-            System.out.println("Wheeled robot pours " + volume + "L of water.");
-        }
-    }
-
-    @Override
-    public void remplirReservoir() {
-        System.out.println("Wheeled robot refilling...");
-        this.volumeReservoir = this.volumeReservoirMax;
     }
 
     @Override

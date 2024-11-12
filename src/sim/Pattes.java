@@ -4,15 +4,21 @@ import java.awt.Color;
 
 public class Pattes extends Robot
 {
+    //Vitesse de base de 30 km/h, réduite à 10 km/h sur du rocher. 
+    //Intervention unitaire : 10 litres en 1 sec.
+    //Utilise de la poudre. Réservoir considéré infini à l’échelle de la si- mulation. Ne se remplit jamais.
     public Pattes(Case position, int vitesse, int reserve)
     {
         super(position, vitesse, Integer.MAX_VALUE, reserve);
         this.type = RobotType.PATTES;
+        this.Deversement = new InterventionUnitaire(10, 1);
     }
 
+    //Ne peut pas se rendre sur de l’eau.
     @Override
     public void setPosition(Case target) {
-        if (target.getNature() == NatureTerrain.TERRAIN_LIBRE || target.getNature() == NatureTerrain.HABITAT || target.getNature() == NatureTerrain.FORET) {
+        if (target.getNature() == NatureTerrain.TERRAIN_LIBRE || target.getNature() == NatureTerrain.HABITAT 
+        || target.getNature() == NatureTerrain.FORET) {
             int adjustedSpeed = (target.getNature() == NatureTerrain.FORET) ? this.vitesse / 2 : this.vitesse;
             System.out.println("Robot Pattes moving to target at speed " + adjustedSpeed + " km/h.");
             this.position = target;
@@ -21,22 +27,6 @@ public class Pattes extends Robot
         }
     }
 
-    @Override
-    public void remplirReservoir() {
-        System.out.println("Robot Pattes refilling...");
-        this.volumeReservoir = Integer.MAX_VALUE;
-    }
-
-    @Override
-    public void deverserEau(int volume) {
-        if (this.volumeReservoir > 0 && volume <= this.volumeReservoir) {
-            this.volumeReservoir -= volume;
-            System.out.println("Robot Pattes pours " + volume + "L of water.");
-        } else {
-            this.remplirReservoir();
-            this.deverserEau(volume);
-        }
-    }
 
     @Override
     public void draw(GUISimulator gui, int tailleCase) {
