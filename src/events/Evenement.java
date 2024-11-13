@@ -1,14 +1,14 @@
 package events;
 
 public abstract class Evenement {
-    private long date;
+    private int date;
     private Evenement next;
-    public Evenement(long date)
+    public Evenement(int date)
     {
         this.date = date;
         this.next = null;
     }
-    public long getDate()
+    public int getDate()
     {
         return this.date;
     }

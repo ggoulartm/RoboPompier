@@ -1,6 +1,9 @@
 package sim;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Queue;
+import java.util.LinkedList;
 
 import events.*;
 import gui.GUISimulator;
@@ -9,8 +12,10 @@ import gui.Simulable;
 public class Simulateur implements Simulable {
     private GUISimulator gui;           // Reference to the graphical interface
     private DonneesSimulation data;     // Contains the map, robots, and fires
-    private long dateSimulation;
+    private int dateSimulation;
     private Evenement premierEvent, lastEvent;
+    // Evenement Management, outer arraylist collects arraylist of events to be executed at certain date 
+    ArrayList<ArrayList<Evenement>> dates = new ArrayList<ArrayList<Evenement>>();
     ArrayList<Evenement> events = new ArrayList<Evenement>();
 
     public Simulateur(GUISimulator gui, DonneesSimulation data) {
@@ -21,11 +26,6 @@ public class Simulateur implements Simulable {
 
         // Initial setup: display the map, robots, and fires
         draw();
-        this.addEvent(new EvenementMessage(this.getDateSimulation(),"Init Simulation",data.getRobots()[1],Action.DEPLACER,data));
-        this.addEvent(new EvenementMessage(this.getDateSimulation()+1,"Step 0"));
-        this.addEvent(new EvenementMessage(this.getDateSimulation()+2,"Step 1"));
-        this.addEvent(new EvenementMessage(this.getDateSimulation()+3,"Step 2"));
-        this.addEvent(new EvenementMessage(this.getDateSimulation()+4,"Step 3"));
     }
 
     public DonneesSimulation getDonnees() {
@@ -34,26 +34,17 @@ public class Simulateur implements Simulable {
 
     public void addEvent(Evenement e)
     {
-        if (premierEvent == null) {
-            premierEvent = e;
-        } else if (premierEvent.getDate() >= e.getDate()) {
-            e.setNext(premierEvent);
-            premierEvent = e;
-        } else if (premierEvent.getNext() == null) {
-            premierEvent.setNext(e);
-            this.lastEvent = e;
-        } else if (lastEvent.getNext() == null ) {
-            this.lastEvent.setNext(e);
-            this.lastEvent = e;
-        } else {
-            Evenement prec = premierEvent;
-            Evenement courant = premierEvent.getNext();
-            while (courant != null && courant.getDate() < e.getDate()) {
-                prec = courant;
-                courant = courant.getNext();
+        if(e.getDate() > dates.size()-1)
+        {
+            for(int i = 0; i < e.getDate()-(dates.size()-1); i++)
+            {
+                dates.add(new ArrayList<Evenement>());
             }
-            e.setNext(courant);
-            prec.setNext(e);
+            dates.get(e.getDate()).add(e);
+        }
+        else
+        {
+            dates.get(e.getDate()).add(e);
         }
     }
     private void incrementeDate()
@@ -64,7 +55,7 @@ public class Simulateur implements Simulable {
     {
         return (premierEvent == null);
     }
-    public long getDateSimulation() {
+    public int getDateSimulation() {
         return dateSimulation;
     }
     public Evenement getPremierEvent() {
@@ -77,13 +68,18 @@ public class Simulateur implements Simulable {
     // This method is called when the "Next" button is pressed
     @Override
     public void next() {
-        System.out.println("Next step in the simulation...");
-        this.incrementeDate();
-
-        if (premierEvent != null) {
-            premierEvent.execute();
-            premierEvent = this.premierEvent.getNext();
+        System.out.println("It's the "+this.dateSimulation+" day");
+        try{
+            for(Evenement e : dates.get(this.dateSimulation))
+            {
+                e.execute();
+            }
         }
+        catch(IndexOutOfBoundsException e){
+            System.out.println("Nothing to do on date "+this.dateSimulation);
+        }
+
+        this.incrementeDate();
         draw();
     }
 
@@ -125,6 +121,20 @@ public class Simulateur implements Simulable {
         for (Incendie incendie : incendies) {
             incendie.draw(gui, tailleCase);
         }
+    }
+
+    public void printEvenements()
+    {
+        System.out.println("Simulator Events:");
+        System.out.println(this.dates.size());
+        for(ArrayList<Evenement> date : this.dates)
+        {
+            for(Evenement e : date)
+            {
+                System.out.println(e);
+            }
+        }
+        
     }
 }
 

@@ -31,6 +31,9 @@ testLecture:
 
 testSimulateur:
 	javac -d bin -classpath lib/gui.jar -sourcepath src src/TestSimulateur.java
+
+testEvenement:
+	javac -d bin -classpath lib/gui.jar -sourcepath src src/TestEvenement.java
 # Execution:
 # on peut taper directement la ligne de commande :
 #   > java -classpath bin:lib/gui.jar TestInvader
@@ -44,6 +47,9 @@ exeLecture:
 
 exeSim:
 	java -classpath bin:lib/gui.jar TestSimulateur cartes/carteSujet.map
+
+exeEve:
+	java -classpath bin:lib/gui.jar TestEvenement cartes/carteSujet.map
 
 clean:
 	rm -rf bin/*
