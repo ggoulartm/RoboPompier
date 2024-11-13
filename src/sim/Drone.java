@@ -17,7 +17,7 @@ public class Drone extends Robot
     //Intervention unitaire: vide la totalité du réservoir en 30 se- condes.
     public Drone(Case position, int vitesse, int max, int reserve)
     {
-        super(position, vitesse, max, reserve);
+        super(position, vitesse, max, reserve, RobotType.DRONE);
         if(vitesse == 0)
         {
             this.vitesse = 100;

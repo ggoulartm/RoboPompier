@@ -8,7 +8,7 @@ public class RobotCaterpillar extends Robot {
     //Réservoir de 2000 litres. Intervention unitaire : 100 litres en 8 sec.
     //Remplissage complet en 5 minutes. Se remplit à côté d’une case contenant de l’eau.
     public RobotCaterpillar(Case position, int vitesse, int waterCapacityMax, int reserveWaterAmount) {
-        super(position,vitesse,waterCapacityMax,reserveWaterAmount);  
+        super(position,vitesse,waterCapacityMax,reserveWaterAmount, RobotType.CATERPILLAR);  
         if(vitesse == 0)
         {
             this.vitesse = 60;
@@ -49,5 +49,10 @@ public class RobotCaterpillar extends Robot {
                 Color.ORANGE,                             // Fill color
                 tailleCase, tailleCase
         ));
+    }
+
+    public void createShortestPathTo(Case c, Carte carte, Simulateur sim)
+    {
+        
     }
 }

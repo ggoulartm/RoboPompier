@@ -15,12 +15,13 @@ public abstract class Robot {
     protected InterventionUnitaire Deversement; //Litres/seconde
     protected int tempsRemplissage; //minutes
 
-    public Robot(Case position, int vitesse, int waterCapacityMax, int reserveWaterAmount)
+    public Robot(Case position, int vitesse, int waterCapacityMax, int reserveWaterAmount, RobotType type)
     {
         this.position = position;
         this.vitesse = vitesse;
         this.volumeReservoir = reserveWaterAmount;
         this.volumeReservoirMax = waterCapacityMax;
+        this.type = type;
     }
 
     public RobotType getType(){

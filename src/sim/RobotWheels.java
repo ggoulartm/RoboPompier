@@ -1,6 +1,9 @@
 package sim;
 import gui.GUISimulator;
 import java.awt.Color;
+import java.util.ArrayList;
+
+import graphes.StrategieDijkstra;
 
 public class RobotWheels extends Robot {
 
@@ -10,7 +13,7 @@ public class RobotWheels extends Robot {
     //Intervention unitaire: déversement de 100L d’eau en 5 secondes.
     //Remplissage du réservoir: 10 minutes pour remplir le réservoir.
     public RobotWheels(Case position, int vitesse, int waterCapacityMax, int reserveWaterAmount) {
-        super(position, vitesse,waterCapacityMax,reserveWaterAmount);
+        super(position, vitesse,waterCapacityMax,reserveWaterAmount, RobotType.WHEELS);
         if (vitesse == 0) {
             this.vitesse = 80;
         }
@@ -45,4 +48,25 @@ public class RobotWheels extends Robot {
                 tailleCase, tailleCase
         ));     }
 
+    public void createShortestPathTo(Case end, Carte carte, Simulateur sim)
+    {
+        double[] natureCosts = {Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY, 
+            Double.POSITIVE_INFINITY, this.vitesse, this.vitesse};
+        ArrayList<Case> shortestPath = StrategieDijkstra.findShortestPath(carte, this.position, end, new NatureTerrain[]{NatureTerrain.EAU, NatureTerrain.FORET, NatureTerrain.ROCHE}, natureCosts);
+        for(Case c : shortestPath)
+        {
+            switch(c.getNature())
+            {
+                case TERRAIN_LIBRE:
+                    System.out.println(c+" - TERRAIN LIBRE");
+                    break;
+                case HABITAT:
+                    System.out.println(c+" - HABITAT");
+                    break;
+                default:
+                    System.err.println("Nature in path thats not reachable!");
+                    break;
+            }
+        }
+    }
 }

@@ -9,6 +9,15 @@ import java.util.ArrayList;
 public class StrategieDijkstra
 {
 
+    /**
+     * 
+     * @param carte
+     * @param start
+     * @param target
+     * @param forbiddenTerrains
+     * @param natureCosts Tableau du cout pour une nature de case de la forme {EAU, FORET, ROCHE, TERRAIN_LIBRE, HABITAT}
+     * @return
+     */
     public static ArrayList<Case> findShortestPath(Carte carte, Case start, Case target, NatureTerrain[] forbiddenTerrains, double[] natureCosts)
     {
         System.out.println(carte);
@@ -103,7 +112,7 @@ public class StrategieDijkstra
 
     private ArrayList<Case> constructPathFromTarget(TreeCase start, TreeCase target)
     {
-        System.out.println("Construct target from path");
+        System.out.println("Construct path from target");
         // System.out.println("Predecesseur from target: "+target.getPredecesseur());
         ArrayList<TreeCase> path = new ArrayList<TreeCase>();
         path.add(target);

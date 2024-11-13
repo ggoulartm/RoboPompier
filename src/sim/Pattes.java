@@ -14,7 +14,7 @@ public class Pattes extends Robot
     //Utilise de la poudre. Réservoir considéré infini à l’échelle de la si- mulation. Ne se remplit jamais.
     public Pattes(Case position, int vitesse, int reserve)
     {
-        super(position, vitesse, Integer.MAX_VALUE, reserve);
+        super(position, vitesse, Integer.MAX_VALUE, reserve, RobotType.PATTES);
         this.type = RobotType.PATTES;
         this.Deversement = new InterventionUnitaire(10, 1);
     }
@@ -51,11 +51,5 @@ public class Pattes extends Robot
                 Color.CYAN,                             // Fill color
                 tailleCase, tailleCase
         ));     
-    }
-    
-    @Override
-    public String getType()
-    {
-        return "Pattes";
     }
 }
