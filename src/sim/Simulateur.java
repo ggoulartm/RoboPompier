@@ -2,26 +2,25 @@ package sim;
 
 import java.util.ArrayList;
 
+import events.Evenement;
 import gui.GUISimulator;
 import gui.Simulable;
-
-import java.awt.Color;
 
 public class Simulateur implements Simulable {
     private GUISimulator gui;           // Reference to the graphical interface
     private DonneesSimulation data;     // Contains the map, robots, and fires
     private long dateSimulation;
-
+    private Evenement premierEvent;
     ArrayList<Evenement> events = new ArrayList<Evenement>();
 
     public Simulateur(GUISimulator gui, DonneesSimulation data) {
         this.gui = gui;
         this.data = data;
         this.dateSimulation = 0;
-        gui.setSimulable(this);		    // Associating to the GUI
+        gui.setSimulable(this);            // Associating to the GUI
 
         // Initial setup: display the map, robots, and fires
-        displaySimulation();
+        draw();
     }
 
     public DonneesSimulation getDonnees() {
@@ -30,31 +29,60 @@ public class Simulateur implements Simulable {
 
     public void addEvent(Evenement e)
     {
-       this.events.add(e);
+        if (premierEvent == null) {
+            premierEvent = e;
+        } else if (premierEvent.getDate() >= e.getDate()) {
+            e.setNext(premierEvent);
+            premierEvent = e;
+        } else if (premierEvent.getNext() == null) {
+            premierEvent.setNext(e);
+        } else {
+            Evenement prec = premierEvent;
+            Evenement courant = premierEvent.getNext();
+            while (courant != null && courant.getDate() < e.getDate()) {
+                prec = courant;
+                courant = courant.getNext();
+            }
+            e.setNext(courant);
+            prec.setNext(e);
+        }
     }
-
     private void incrementeDate()
     {
         this.dateSimulation++;
     }
-
     private boolean simulationTerminee()
     {
-        return (this.dateSimulation >= events.size()); 
+        return (premierEvent == null);
+    }
+    public long getDateSimulation() {
+        return dateSimulation;
+    }
+    public Evenement getPremierEvent() {
+        return premierEvent;
+    }
+    public void setPremierEvent(Evenement premierEvent) {
+        this.premierEvent = premierEvent;
     }
 
     // This method is called when the "Next" button is pressed
     @Override
     public void next() {
-        // For now, just print something
+        draw();
         System.out.println("Next step in the simulation...");
-        try{
-            this.events.get((int)this.dateSimulation).execute();
-            this.incrementeDate();
+
+        if (simulationTerminee()) return;
+        Evenement premierEvent = getPremierEvent();
+        while (premierEvent != null && getDateSimulation() >= premierEvent.getDate()) {
+            premierEvent.execute();
+            premierEvent = premierEvent.getNext();
         }
-        catch(IndexOutOfBoundsException e)
-        {
-            System.out.println(e);
+        setPremierEvent(premierEvent);
+
+        if (data.getCarte().getTailleCases() != 10000) {
+            for (int i = 0; i < 5; i++) incrementeDate();
+        } else {
+            for (int i = 0; i < 80; i++) incrementeDate();
         }
     }
 
@@ -63,96 +91,39 @@ public class Simulateur implements Simulable {
     public void restart() {
         // Reset the simulation to its initial state
         System.out.println("Simulation restarted.");
-        displaySimulation();
+        this.dateSimulation = 0;
+        this.premierEvent = null;
+        draw();
     }
 
-    private void displaySimulation() {
-        // Clear the previous drawings on the GUI
+    private void draw() {
         gui.reset();
+        Carte carte = data.getCarte();
 
-        /* SKELETON TO THE METHOD (DRAWING STUFF) */
-        // Drawing the map (cases)
-        for (int i = 0; i < data.getCarte().getNbLignes(); i++) {
-            for (int j = 0; j < data.getCarte().getNbColonnes(); j++) {
-                Case currentCase = data.getCarte().getCase(i, j);
-                System.out.println("Drawing carte");
-                // Set colors based on the type of terrain
-                Color caseColor = getColorForCase(currentCase.getNature());
+        int tailleCase = 0;
+        if (carte.getNbColonnes() == 8) tailleCase = carte.getTailleCases() / 100;
+        else if (carte.getNbColonnes() == 20) tailleCase = 45;
+        else tailleCase = 20;
 
-                // Draw each cell (case) as a rectangle
-                gui.addGraphicalElement(new gui.Rectangle(
-                        j * data.getCarte().getTailleCases() + data.getCarte().getTailleCases()/2,   // X position
-                        i * data.getCarte().getTailleCases() + data.getCarte().getTailleCases()/2,   // Y position
-                        Color.BLACK,                           // Border color
-                        caseColor,                             // Fill color
-                        data.getCarte().getTailleCases()        // Size of the square
-                ));
+        // Draw cases
+        for (int x = 0; x < carte.getNbLignes(); x++) {
+            for (int y = 0; y < carte.getNbColonnes(); y++) {
+                Case cases_xy = carte.getCase(x, y);
+                cases_xy.draw(gui, tailleCase);
             }
         }
 
-        // Drawing the robots
-        // TO DO
-        for(int i = 0; i < data.getRobots().length; i++)
-        {
-            switch (data.getRobots()[i].getType())
-            {
-                case "Drone":
-                    this.drawDrone();
-                    break;
-                case "Roues":
-                    this.drawRoues();
-                    break;
-                case "Pattes":
-                    this.drawPattes();
-                    break;
-            }
+        // Draw robots
+        Robot[] robots = data.getRobots();
+        for (Robot robot : robots) {
+            robot.draw(gui, tailleCase);
         }
 
-        // Drawing the fires
-        // TO DO
-        for(int i = 0; i<data.getIncendies().length; i++)
-        {
-            // this.drawIncendie(date.getIncendies[i]);
-        }
-
-
-    }
-
-    private void drawDrone()
-    {
-        System.out.println("Draw Drone");
-    }
-
-    private void drawRoues()
-    {
-        System.out.println("Draw Roues");
-    }
-
-    private void drawPattes()
-    {
-        System.out.println("Draw Pattes");
-    }
-
-    private void drawIncendie()
-    {
-        System.out.println("Draw Incendie");
-    }
-
-    // Helper method to get the color based on the terrain type
-    private Color getColorForCase(NatureTerrain terrain) {
-        switch (terrain) {
-            case EAU:
-                return Color.BLUE;
-            case FORET:
-                return Color.GREEN;
-            case ROCHE:
-                return Color.GRAY;
-            case TERRAIN_LIBRE:
-                return Color.LIGHT_GRAY; // ?
-            case HABITAT:
-                return Color.YELLOW; // ?
-            default:
-                return Color.WHITE;
+        // Draw fires
+        Incendie[] incendies = getDonnees().getIncendies();
+        for (Incendie incendie : incendies) {
+            incendie.draw(gui, tailleCase);
         }
     }
 }
+
