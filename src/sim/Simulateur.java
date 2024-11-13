@@ -2,7 +2,7 @@ package sim;
 
 import java.util.ArrayList;
 
-import events.Evenement;
+import events.*;
 import gui.GUISimulator;
 import gui.Simulable;
 
@@ -10,7 +10,7 @@ public class Simulateur implements Simulable {
     private GUISimulator gui;           // Reference to the graphical interface
     private DonneesSimulation data;     // Contains the map, robots, and fires
     private long dateSimulation;
-    private Evenement premierEvent;
+    private Evenement premierEvent, lastEvent;
     ArrayList<Evenement> events = new ArrayList<Evenement>();
 
     public Simulateur(GUISimulator gui, DonneesSimulation data) {
@@ -21,6 +21,11 @@ public class Simulateur implements Simulable {
 
         // Initial setup: display the map, robots, and fires
         draw();
+        this.addEvent(new EvenementMessage(this.getDateSimulation(),"Init Simulation",data.getRobots()[1],Action.DEPLACER,data));
+        this.addEvent(new EvenementMessage(this.getDateSimulation()+1,"Step 0"));
+        this.addEvent(new EvenementMessage(this.getDateSimulation()+2,"Step 1"));
+        this.addEvent(new EvenementMessage(this.getDateSimulation()+3,"Step 2"));
+        this.addEvent(new EvenementMessage(this.getDateSimulation()+4,"Step 3"));
     }
 
     public DonneesSimulation getDonnees() {
@@ -36,6 +41,10 @@ public class Simulateur implements Simulable {
             premierEvent = e;
         } else if (premierEvent.getNext() == null) {
             premierEvent.setNext(e);
+            this.lastEvent = e;
+        } else if (lastEvent.getNext() == null ) {
+            this.lastEvent.setNext(e);
+            this.lastEvent = e;
         } else {
             Evenement prec = premierEvent;
             Evenement courant = premierEvent.getNext();
@@ -68,22 +77,14 @@ public class Simulateur implements Simulable {
     // This method is called when the "Next" button is pressed
     @Override
     public void next() {
-        draw();
         System.out.println("Next step in the simulation...");
+        this.incrementeDate();
 
-        if (simulationTerminee()) return;
-        Evenement premierEvent = getPremierEvent();
-        while (premierEvent != null && getDateSimulation() >= premierEvent.getDate()) {
+        if (premierEvent != null) {
             premierEvent.execute();
-            premierEvent = premierEvent.getNext();
+            premierEvent = this.premierEvent.getNext();
         }
-        setPremierEvent(premierEvent);
-
-        if (data.getCarte().getTailleCases() != 10000) {
-            for (int i = 0; i < 5; i++) incrementeDate();
-        } else {
-            for (int i = 0; i < 80; i++) incrementeDate();
-        }
+        draw();
     }
 
     // This method is called when the "Restart" button is pressed

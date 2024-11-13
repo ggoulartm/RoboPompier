@@ -11,8 +11,8 @@ public class DebutDeplacer extends Evenement{
     private Direction dir;
     private Carte carte;
 
-    public DebutDeplacer(long date, Simulateur sim, Robot robot, Direction dir, Carte carte) {
-        super(date, sim);
+    public DebutDeplacer(long date, Robot robot, Direction dir, Carte carte) {
+        super(date);
         this.robot = robot;
         this.dir = dir;
         this.carte = carte;
@@ -21,8 +21,7 @@ public class DebutDeplacer extends Evenement{
     @Override
     public void execute() {
         long dateFinDeplacement = dateFinEvenement();
-        FinDeplacer finDeplacement = new FinDeplacer(dateFinDeplacement, getSim(), robot, dir, carte);
-        this.getSim().addEvent(finDeplacement);
+        FinDeplacer finDeplacement = new FinDeplacer(dateFinDeplacement, robot, dir, carte);
     }
 
     public long dateFinEvenement() {

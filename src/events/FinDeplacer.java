@@ -7,8 +7,8 @@ public class FinDeplacer extends Evenement{
     private Direction dir;
     private Carte carte;
 
-    public FinDeplacer(long date, Simulateur sim, Robot robot, Direction dir, Carte carte) {
-        super(date, sim);
+    public FinDeplacer(long date,Robot robot, Direction dir, Carte carte) {
+        super(date);
         this.robot = robot;
         this.dir = dir;
         this.carte = carte;
