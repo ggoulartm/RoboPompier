@@ -1,11 +1,6 @@
 import io.LecteurDonnees;
 
-import sim.NatureTerrain;
-import sim.RobotWheels;
-import sim.Case;
-import sim.DonneesSimulation;
-import sim.Simulateur;
-import sim.Robot;
+import sim.*;
 
 import graphes.StrategieDijkstra;
 
@@ -51,7 +46,9 @@ public class TestPathFinder
     {
         for(Robot rob : this.simData.getRobots())
         {
-            rob.createShortestPathTo(1, this.simData.getCarte().getCase(0,0), this.simData.getCarte(), this.mySim);
+            for(Incendie inc: this.simData.getIncendies()) {
+                rob.createShortestPathTo(1, inc.getPosition(), this.simData.getCarte(), this.mySim);
+            }
         }
         this.mySim.printEvenements();
     }
@@ -66,6 +63,5 @@ public class TestPathFinder
         TestPathFinder testPath = new TestPathFinder(args[0]);
         System.out.println("Testpathfinder created");
         testPath.testRobotShortestPathCreation();
-        testPath.testPattesShortestPathCreation();
     }
 }

@@ -21,7 +21,7 @@
 #   -classpath : repertoire dans lequel sont cherches les .class deja compiles
 #   -sourcepath : repertoire dans lequel sont cherches les .java (dependances)
 
-all: testInvader testLecture
+all: testPathFinder exePath
 
 testInvader:
 	javac -d bin -classpath lib/gui.jar -sourcepath src src/TestInvader.java
@@ -51,7 +51,7 @@ exeLecture:
 	java -classpath bin TestLecteurDonnees cartes/carteSujet.map
 
 exeSim:
-	java -classpath bin:lib/gui.jar TestSimulateur cartes/carteSujet.map
+	java -classpath bin:lib/gui.jar TestSimulateur cartes/spiralOfMadness-50x50.map
 
 exeEve:
 	java -classpath bin:lib/gui.jar TestEvenement cartes/carteSujet.map
@@ -59,8 +59,11 @@ exeEve:
 exePath:
 	java -classpath bin:lib/gui.jar TestPathFinder cartes/carteSujet.map
 
+exeDesert:
+	java -classpath bin:lib/gui.jar TestPathFinder cartes/desertOfDeath-20x20.map
+
 exeMove:
-	java -classpath bin:lib/gui.jar TestMover cartes/carteSujet.map
+	java -classpath bin:lib/gui.jar TestMover cartes/mushroomOfHell-20x20.map
 
 clean:
 	rm -rf bin/*
