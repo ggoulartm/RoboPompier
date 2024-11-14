@@ -5,13 +5,14 @@ import java.awt.Color;
 
 import java.util.ArrayList;
 
+import events.Deplacer;
 import graphes.StrategieDijkstra;
 import sim.NatureTerrain;
 
 
 public class Drone extends Robot
 {
-
+    NatureTerrain[] forbiddenTerrains = {};
     //Vitesse par défault de 100 km/h, mais peut être lue dans le fichier de données (sans dépasser 150 km/h)
     //Réservoir de 10000litres. Remplissage complet en 30 minutes. Se remplit sur une case contenant de l’eau.
     //Intervention unitaire: vide la totalité du réservoir en 30 se- condes.
@@ -37,7 +38,37 @@ public class Drone extends Robot
     @Override
     public void createShortestPathTo(Case end, Carte carte, Simulateur sim)
     {
-        ArrayList<Case> pathSteps = StrategieDijkstra.findShortestPath(carte, this.getPosition(), end, new NatureTerrain[]{}, new double[]{10,10,10,10,10});
+        if(!this.isMoving())
+        {
+            System.out.println("Move Drone");
+            double[] natureCosts = {this.vitesse, this.vitesse, 
+            this.vitesse, this.vitesse, this.vitesse};
+            ArrayList<Case> shortestPath = StrategieDijkstra.findShortestPath(carte, this.position, end, forbiddenTerrains, natureCosts);
+            for(Case c : shortestPath)
+            {
+                System.out.println(c);
+            }
+            
+            int previousDate = sim.getDateSimulation();
+            for(int i = 0; i<shortestPath.size()-1;i++)
+            {
+                Case currentCase = shortestPath.get(i);
+                Case nextCase = shortestPath.get(i+1);
+                Direction dir = this.getDirectionFromCases(currentCase, nextCase);
+                int currentCaseVitesse = this.vitesse/10;
+                int nextCaseVitesse = this.vitesse/10;
+                int timeToNextCase = currentCaseVitesse+nextCaseVitesse;
+                int dateAtNextCase = previousDate + timeToNextCase;
+                sim.addEvent(new Deplacer(dateAtNextCase, this, dir, carte));
+
+                previousDate = dateAtNextCase;
+            }
+            this.setMoving(true);
+        }
+        else
+        {
+            System.out.println("Relax - wait until robot has reached its destination to set a new path!");
+        }
     }
 
     @Override

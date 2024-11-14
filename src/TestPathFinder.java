@@ -49,8 +49,9 @@ public class TestPathFinder
 
     private void testRobotShortestPathCreation()
     {
-        this.simData.getRobots()[1].createShortestPathTo(simData.getCarte().getCase(0, 0), simData.getCarte(), mySim);
-        this.simData.getRobots()[2].createShortestPathTo(simData.getCarte().getCase(0, 0), simData.getCarte(), mySim);
+        this.simData.getRobots()[0].createShortestPathTo(this.simData.getCarte().getCase(0,0), this.simData.getCarte(), this.mySim);
+        this.simData.getRobots()[1].createShortestPathTo(this.simData.getCarte().getCase(0, 0), this.simData.getCarte(), this.mySim);
+        this.simData.getRobots()[2].createShortestPathTo(this.simData.getCarte().getCase(0, 0), this.simData.getCarte(), this.mySim);
         this.mySim.printEvenements();
     }
     public static void main(String[] args)
