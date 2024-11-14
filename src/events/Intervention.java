@@ -24,6 +24,7 @@ public class Intervention extends Evenement{
 
     public void execute()
     {
+        System.out.println("INTERVENTION of: "+this.robot);
         Incendie incendie = this.sim.getIncendie(this.robot.getPosition());
         try{
             System.out.println("Fire intensity before intervention: "+incendie.getIntensite());

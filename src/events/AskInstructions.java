@@ -17,7 +17,7 @@ public class AskInstructions extends Evenement{
 
     public void execute()
     {
-        System.out.println("Ask chefPompier for instructions");
+        System.out.println("ASKINSTRUCTION of: "+this.robot);
         this.chefPompier.askInstructions(this.robot);
     }
 

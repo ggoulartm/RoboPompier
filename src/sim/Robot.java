@@ -157,10 +157,6 @@ public abstract class Robot {
         if(this.position.equals(this.targetCase))
         {
             this.setMoving(false);
-        } 
-        else
-        {
-            System.err.println("Relax - Robot still moving, wait until its target is reached and set new path");
         }
     }
     

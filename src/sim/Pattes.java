@@ -39,6 +39,7 @@ public class Pattes extends Robot
     @Override
     public int createShortestPathTo(int start_date, Case end, Carte carte, Simulateur sim, SimpleChefPompier chef)
     {
+        System.out.println("Creating path for Pattes");
         int endDate = 0;
         if(!this.isMoving() && !this.getPosition().equals(end))
         {
@@ -46,7 +47,7 @@ public class Pattes extends Robot
             double tailleCase = sim.getDonnees().getCarte().getTaille();
             double[] natureCosts = {Double.POSITIVE_INFINITY, ((double)tailleCase)/(double)this.vitesse, 
                 (double)tailleCase/((double)this.vitesse/2), (double)tailleCase/(double)this.vitesse, (double)tailleCase/(double)this.vitesse};
-            ArrayList<Case> shortestPath = StrategieDijkstra.findShortestPath(carte, this.position, end, forbiddenTerrains, natureCosts);
+            ArrayList<Case> shortestPath = StrategieDijkstra.findShortestPath(carte, this.position, end, this.forbiddenTerrains, natureCosts);
             for(Case c : shortestPath)
             {
                 System.out.println(c);
@@ -112,7 +113,7 @@ public class Pattes extends Robot
         if (target.getNature() == NatureTerrain.TERRAIN_LIBRE || target.getNature() == NatureTerrain.HABITAT 
         || target.getNature() == NatureTerrain.FORET) {
             int adjustedSpeed = (target.getNature() == NatureTerrain.FORET) ? this.vitesse / 2 : this.vitesse;
-            System.out.println("Robot Pattes moving to target at speed " + adjustedSpeed + " km/h.");
+            System.out.println("Robot Pattes moving to target "+target+" at speed " + adjustedSpeed + " km/h.");
             this.position = target;
         } else {
             System.out.println("Robot Pattes cannot move to this terrain.");

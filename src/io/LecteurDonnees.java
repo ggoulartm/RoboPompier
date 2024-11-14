@@ -230,6 +230,18 @@ public class LecteurDonnees {
             int vitesse = 0;
             if (s == null) {
                 System.out.print("valeur par defaut");
+                switch(type) 
+                {
+                    case "DRONE":
+                        vitesse = 100;
+                    case "ROUES":
+                        vitesse = 80;
+                    case "PATTES":
+                        vitesse = 30;
+                    case "CHENILLES":
+                        vitesse = 60;
+                }
+
             } else {
                 vitesse = Integer.parseInt(s);
                 System.out.print(vitesse);
