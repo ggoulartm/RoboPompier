@@ -36,14 +36,16 @@ public class Drone extends Robot
 
     //Peut se déplacer sur toutes les cases, quelle que soit leur nature, à vitesse constante.
     @Override
-    public void createShortestPathTo(int start_date, Case end, Carte carte, Simulateur sim)
+    public int createShortestPathTo(int start_date, Case end, Carte carte, Simulateur sim)
     {
+        int endDate = 0;
         if(!this.isMoving())
         {
             this.setTargetCase(end);
             System.out.println("Move Drone");
-            double[] natureCosts = {this.vitesse, this.vitesse, 
-            this.vitesse, this.vitesse, this.vitesse};
+            int tailleCase = sim.getDonnees().getCarte().getTaille();
+            double[] natureCosts = {tailleCase/this.vitesse, tailleCase/this.vitesse, 
+            tailleCase/this.vitesse, tailleCase/this.vitesse, tailleCase/this.vitesse};
             ArrayList<Case> shortestPath = StrategieDijkstra.findShortestPath(carte, this.position, end, forbiddenTerrains, natureCosts);
             for(Case c : shortestPath)
             {
@@ -56,12 +58,12 @@ public class Drone extends Robot
                 Case currentCase = shortestPath.get(i);
                 Case nextCase = shortestPath.get(i+1);
                 Direction dir = this.getDirectionFromCases(currentCase, nextCase);
-                int currentCaseVitesse = this.vitesse/10;
-                int nextCaseVitesse = this.vitesse/10;
-                int timeToNextCase = currentCaseVitesse+nextCaseVitesse;
+                int currentCaseTemps = tailleCase/this.vitesse;
+                int nextCaseTemps = tailleCase/this.vitesse;
+                int timeToNextCase = Math.max(1, currentCaseTemps+nextCaseTemps);
                 int dateAtNextCase = previousDate + timeToNextCase;
                 sim.addEvent(new Deplacer(dateAtNextCase, this, dir, carte));
-
+                endDate = dateAtNextCase;
                 previousDate = dateAtNextCase;
             }
             this.setMoving(true);
@@ -70,6 +72,7 @@ public class Drone extends Robot
         {
             System.out.println("Relax - wait until robot has reached its destination to set a new path!");
         }
+        return endDate;
     }
 
     @Override

@@ -51,7 +51,7 @@ public class TestPathFinder
     {
         for(Robot rob : this.simData.getRobots())
         {
-            rob.createShortestPathTo(1, this.simData.getCarte().getCase(0,0), this.simData.getCarte(), this.mySim);
+            System.out.println(rob.createShortestPathTo(1, this.simData.getCarte().getCase(0,0), this.simData.getCarte(), this.mySim));
         }
         this.mySim.printEvenements();
     }

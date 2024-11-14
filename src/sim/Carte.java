@@ -77,6 +77,10 @@ public class Carte {
                 return null;
         }
     }
+    public int getTaille()
+    {
+        return this.tailleCases;
+    }
 
     @Override
     public String toString()

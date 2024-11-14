@@ -73,12 +73,14 @@ public class RobotWheels extends Robot {
      * adds Deplacements to the simulator at the corresponding dates
      */
     @Override
-    public void createShortestPathTo(int start_date, Case end, Carte carte, Simulateur sim)
+    public int createShortestPathTo(int start_date, Case end, Carte carte, Simulateur sim)
     {
+        int endDate = -1;
         if(!this.isMoving())
         {
+            int tailleCase = sim.getDonnees().getCarte().getTaille();
             double[] natureCosts = {Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY, 
-                Double.POSITIVE_INFINITY, this.vitesse, this.vitesse};
+                Double.POSITIVE_INFINITY, (double)tailleCase/(double)this.vitesse, (double)tailleCase/(double)this.vitesse};
             ArrayList<Case> shortestPath = StrategieDijkstra.findShortestPath(carte, this.position, end, new NatureTerrain[]{NatureTerrain.EAU, NatureTerrain.FORET, NatureTerrain.ROCHE}, natureCosts);
             for(Case c : shortestPath)
             {
@@ -91,12 +93,12 @@ public class RobotWheels extends Robot {
                 Case currentCase = shortestPath.get(i);
                 Case nextCase = shortestPath.get(i+1);
                 Direction dir = this.getDirectionFromCases(currentCase, nextCase);
-                int currentCaseVitesse = this.getVitesseParNature(currentCase);
-                int nextCaseVitesse = this.getVitesseParNature(nextCase);
-                int timeToNextCase = currentCaseVitesse+nextCaseVitesse;
+                int currentCaseTemps = tailleCase/this.getVitesseParNature(currentCase);
+                int nextCaseTemps = tailleCase/this.getVitesseParNature(nextCase);
+                int timeToNextCase = Math.max(1, currentCaseTemps+nextCaseTemps);
                 int dateAtNextCase = previousDate + timeToNextCase;
                 sim.addEvent(new Deplacer(dateAtNextCase, this, dir, carte));
-
+                endDate = dateAtNextCase;
                 previousDate = dateAtNextCase;
             }
             this.setMoving(true);
@@ -105,5 +107,6 @@ public class RobotWheels extends Robot {
         {
             System.out.println("Relax - wait until robot has reached its destination to set a new path!");
         }
+        return endDate;
     }
 }

@@ -75,12 +75,14 @@ public class RobotCaterpillar extends Robot {
 
     }
 
-    public void createShortestPathTo(int start_date, Case end, Carte carte, Simulateur sim)
+    public int createShortestPathTo(int start_date, Case end, Carte carte, Simulateur sim)
     {
+        int endDate = -1;
         if(!this.isMoving())
         {
-            double[] natureCosts = {Double.POSITIVE_INFINITY, ((double)this.vitesse)/2, 
-                Double.POSITIVE_INFINITY, this.vitesse, this.vitesse};
+            int tailleCase = sim.getDonnees().getCarte().getTaille();
+            double[] natureCosts = {Double.POSITIVE_INFINITY, (double)tailleCase/((double)this.vitesse/2), 
+                Double.POSITIVE_INFINITY, (double)tailleCase/this.vitesse, (double)tailleCase/this.vitesse};
             ArrayList<Case> shortestPath = StrategieDijkstra.findShortestPath(carte, this.position, end, new NatureTerrain[]{NatureTerrain.EAU, NatureTerrain.ROCHE}, natureCosts);
             for(Case c : shortestPath)
             {
@@ -93,12 +95,12 @@ public class RobotCaterpillar extends Robot {
                 Case currentCase = shortestPath.get(i);
                 Case nextCase = shortestPath.get(i+1);
                 Direction dir = this.getDirectionFromCases(currentCase, nextCase);
-                int currentCaseVitesse = this.getVitesseParNature(currentCase);
-                int nextCaseVitesse = this.getVitesseParNature(nextCase);
-                int timeToNextCase = currentCaseVitesse+nextCaseVitesse;
+                int currentCaseTemps = (tailleCase/this.getVitesseParNature(currentCase))/2;
+                int nextCaseTemps = (tailleCase/this.getVitesseParNature(nextCase))/2;
+                int timeToNextCase = Math.max(1, currentCaseTemps+nextCaseTemps);
                 int dateAtNextCase = previousDate + timeToNextCase;
                 sim.addEvent(new Deplacer(dateAtNextCase, this, dir, carte));
-
+                endDate = dateAtNextCase;
                 previousDate = dateAtNextCase;
             }
             this.setMoving(true);
@@ -107,5 +109,6 @@ public class RobotCaterpillar extends Robot {
         {
             System.out.println("Relax - wait until robot has reached its destination to set a new path!");
         }
+        return endDate;
     }
 }

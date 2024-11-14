@@ -36,12 +36,14 @@ public class Pattes extends Robot
 
     //Ne peut pas se rendre sur de l’eau.
     @Override
-    public void createShortestPathTo(int start_date, Case end, Carte carte, Simulateur sim)
+    public int createShortestPathTo(int start_date, Case end, Carte carte, Simulateur sim)
     {
+        int endDate = 0;
         if(!this.isMoving())
         {
-            double[] natureCosts = {Double.POSITIVE_INFINITY, this.vitesse, 
-                ((double)this.vitesse)/2, this.vitesse, this.vitesse};
+            int tailleCase = sim.getDonnees().getCarte().getTaille();
+            double[] natureCosts = {Double.POSITIVE_INFINITY, ((double)tailleCase)/(double)this.vitesse, 
+                (double)tailleCase/((double)this.vitesse/2), (double)tailleCase/(double)this.vitesse, (double)tailleCase/(double)this.vitesse};
             ArrayList<Case> shortestPath = StrategieDijkstra.findShortestPath(carte, this.position, end, forbiddenTerrains, natureCosts);
             for(Case c : shortestPath)
             {
@@ -54,12 +56,12 @@ public class Pattes extends Robot
                 Case currentCase = shortestPath.get(i);
                 Case nextCase = shortestPath.get(i+1);
                 Direction dir = this.getDirectionFromCases(currentCase, nextCase);
-                int currentCaseVitesse = this.getVitesseParNature(currentCase);
-                int nextCaseVitesse = this.getVitesseParNature(nextCase);
-                int timeToNextCase = currentCaseVitesse+nextCaseVitesse;
+                int currentCaseTemps = Math.max(1,(tailleCase/this.getVitesseParNature(currentCase))/2);
+                int nextCaseTemps = tailleCase/this.getVitesseParNature(nextCase);
+                int timeToNextCase = Math.max(1, currentCaseTemps+nextCaseTemps);
                 int dateAtNextCase = previousDate + timeToNextCase;
                 sim.addEvent(new Deplacer(dateAtNextCase, this, dir, carte));
-
+                endDate = dateAtNextCase;
                 previousDate = dateAtNextCase;
             }
             this.setMoving(true);
@@ -68,6 +70,7 @@ public class Pattes extends Robot
         {
             System.out.println("Relax - wait until robot has reached its destination to set a new path!");
         }
+        return endDate;
     }
 
     //Ne peut pas se rendre sur de l’eau.
