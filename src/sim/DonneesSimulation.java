@@ -1,5 +1,7 @@
 package sim;
 
+import java.util.ArrayList;
+
 public class DonneesSimulation {
     private Incendie[] incendies;
     private Carte carte;
@@ -26,6 +28,23 @@ public class DonneesSimulation {
     public Incendie[] getIncendies()
     {
         return this.incendies;
+    }
+
+    /**
+     * 
+     * @return All incendies that are not fully extinguished
+     */
+    public ArrayList<Incendie> getIncendiesBrules()
+    {
+        ArrayList<Incendie> burningFires = new ArrayList<Incendie>();
+        for(Incendie fire : this.getIncendies())
+        {
+            if(fire.getIntensite() > 0)
+            {
+                burningFires.add(fire);
+            }
+        }
+        return burningFires;
     }
 
     @Override

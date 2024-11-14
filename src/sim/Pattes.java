@@ -39,8 +39,9 @@ public class Pattes extends Robot
     public int createShortestPathTo(int start_date, Case end, Carte carte, Simulateur sim)
     {
         int endDate = 0;
-        if(!this.isMoving())
+        if(!this.isMoving() && !this.getPosition().equals(end))
         {
+            this.setTargetCase(end);
             double tailleCase = sim.getDonnees().getCarte().getTaille();
             double[] natureCosts = {Double.POSITIVE_INFINITY, ((double)tailleCase)/(double)this.vitesse, 
                 (double)tailleCase/((double)this.vitesse/2), (double)tailleCase/(double)this.vitesse, (double)tailleCase/(double)this.vitesse};
@@ -68,7 +69,10 @@ public class Pattes extends Robot
         }
         else
         {
-            System.out.println("Relax - wait until robot has reached its destination to set a new path!");
+            if(this.isMoving())
+                System.out.println("Relax - wait until robot has reached its destination to set a new path!");
+            else
+                System.out.println("Robot already in target position");
         }
         return endDate;
     }

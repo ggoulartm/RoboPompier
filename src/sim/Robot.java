@@ -1,8 +1,10 @@
 package sim;
+import events.AskInstructions;
 import events.Evenement;
 import events.Intervention;
 import events.Remplir;
 import gui.GUISimulator;
+import strategies.SimpleChefPompier;
 
 // This is an abstract class, so it cannot be instantiated
 // It is used as a base class for the Drone and Pattes classes
@@ -47,16 +49,32 @@ public abstract class Robot {
         Intervention intervention = new Intervention(date, this.volumeReservoir, sim, this);
         sim.addEvent(intervention);
     }
+
+    public void registerAskForInstructions(int date, SimpleChefPompier chef, Simulateur sim)
+    {
+        System.out.println("Robot is moving: "+this.moving);
+        AskInstructions question = new AskInstructions(date, this, chef);
+        sim.addEvent(question);
+    }
+
     public void emptyWater()
     {
         this.volumeReservoir = 0;
     }
+    /**
+     * Registers a Remplir event to the simulator
+     * @param date Date of the attempt to remplir
+     * @param sim Simulator to register the event to
+     */
     public void registerFillReservoir(int date, Simulateur sim)
     {
         Remplir remplir = new Remplir(date, sim, this);
         sim.addEvent(remplir);
         this.volumeReservoir = this.volumeReservoirMax;
     }
+    /**
+     * Only to be called by the Simulator
+     */
     public void fillReservoir()
     {
         this.volumeReservoir = this.volumeReservoirMax;
@@ -116,6 +134,15 @@ public abstract class Robot {
 
     }
 
+    /**
+     * 
+     * @return int of size of water reservoir
+     */
+    public int getMaxWaterContent()
+    {
+        return this.volumeReservoirMax;
+    }
+
     public RobotType getType(){
         return this.type;
     }
@@ -143,6 +170,11 @@ public abstract class Robot {
         return this.vitesse; 
     }
     
+    public int getWaterContent()
+    {
+        return this.volumeReservoir;
+    }
+
     public void deverserEau(int vol) 
     { 
         if (this.volumeReservoir > 0 && vol <= this.volumeReservoir) {

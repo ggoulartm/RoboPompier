@@ -38,8 +38,8 @@ public class Drone extends Robot
     @Override
     public int createShortestPathTo(int start_date, Case end, Carte carte, Simulateur sim)
     {
-        int endDate = 0;
-        if(!this.isMoving())
+        int endDate = -1;
+        if(!this.isMoving() && !this.getPosition().equals(end))
         {
             this.setTargetCase(end);
             System.out.println("Move Drone");
@@ -69,8 +69,11 @@ public class Drone extends Robot
             this.setMoving(true);
         }
         else
-        {
-            System.out.println("Relax - wait until robot has reached its destination to set a new path!");
+        {   
+            if(this.isMoving())
+                System.out.println("Relax - wait until robot has reached its destination to set a new path!");
+            else
+                System.out.println("Robot already in target position");
         }
         return endDate;
     }

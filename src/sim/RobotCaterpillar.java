@@ -80,6 +80,7 @@ public class RobotCaterpillar extends Robot {
         int endDate = -1;
         if(!this.isMoving())
         {
+            this.setTargetCase(end);
             double tailleCase = carte.getTaille();
             double[] natureCosts = {Double.POSITIVE_INFINITY, (double)tailleCase/((double)this.vitesse/2), 
                 Double.POSITIVE_INFINITY, (double)tailleCase/this.vitesse, (double)tailleCase/this.vitesse};
@@ -107,7 +108,10 @@ public class RobotCaterpillar extends Robot {
         }
         else
         {
-            System.out.println("Relax - wait until robot has reached its destination to set a new path!");
+            if(this.isMoving())
+                System.out.println("Relax - wait until robot has reached its destination to set a new path!");
+            else
+                System.out.println("Robot already in target position");
         }
         return endDate;
     }

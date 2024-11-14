@@ -52,6 +52,7 @@ public class RobotWheels extends Robot {
         if(target.equals(this.getTargetCase()))
         {
             this.setMoving(false);
+            System.out.println();
         }
     }
 
@@ -76,8 +77,9 @@ public class RobotWheels extends Robot {
     public int createShortestPathTo(int start_date, Case end, Carte carte, Simulateur sim)
     {
         int endDate = -1;
-        if(!this.isMoving())
+        if(!this.isMoving() && !this.getPosition().equals(end))
         {
+            this.setTargetCase(end);
             double tailleCase = carte.getTaille();
             double[] natureCosts = {Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY, 
                 Double.POSITIVE_INFINITY, (double)tailleCase/(double)this.vitesse, (double)tailleCase/(double)this.vitesse};
@@ -105,7 +107,10 @@ public class RobotWheels extends Robot {
         }
         else
         {
-            System.out.println("Relax - wait until robot has reached its destination to set a new path!");
+            if(this.isMoving())
+                System.out.println("Relax - wait until robot has reached its destination to set a new path!");
+            else
+                System.out.println("Robot already in target position");
         }
         return endDate;
     }

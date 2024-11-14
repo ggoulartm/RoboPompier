@@ -23,6 +23,19 @@ public class Carte {
     public int getTailleCases(){
         return this.tailleCases;
     }
+    public ArrayList<Case> getWaterCases()
+    {
+        ArrayList<Case> waterCases = new ArrayList<Case>();
+        for(int ligne = 0; ligne<this.getNbLignes(); ligne++)
+        {
+            for(int colonne = 0; colonne<this.getNbColonnes(); colonne++)
+            {
+                if(this.chequerboard[ligne][colonne].getNature() == NatureTerrain.EAU)
+                    waterCases.add(this.chequerboard[ligne][colonne]);
+            }
+        }
+        return waterCases;
+    }
     /**
      * TODO: handle case that case is not available
      * @param lig
@@ -41,8 +54,29 @@ public class Carte {
             neighbours.add(this.getVoisin(c, Direction.EST));
         if(this.voisinExiste(c, Direction.SUD))
             neighbours.add(this.getVoisin(c, Direction.SUD));
-        if(this.voisinExiste(c, Direction.SUD))
+        if(this.voisinExiste(c, Direction.OUEST))
             neighbours.add(this.getVoisin(c, Direction.SUD));
+        return neighbours;
+    }
+    public ArrayList<Case> getNonWaterNeighbours(Case c)
+    {
+        ArrayList<Case> neighbours = new ArrayList<Case>();
+        if(this.voisinExiste(c, Direction.NORD)){
+            if(this.getVoisin(c, Direction.NORD).getNature()!=NatureTerrain.EAU)
+                neighbours.add(this.getVoisin(c, Direction.NORD));
+        }
+        if(this.voisinExiste(c, Direction.EST)){
+            if(this.getVoisin(c, Direction.EST).getNature()!=NatureTerrain.EAU)
+                neighbours.add(this.getVoisin(c, Direction.EST));
+        }
+        if(this.voisinExiste(c, Direction.SUD)){
+            if(this.getVoisin(c, Direction.SUD).getNature()!=NatureTerrain.EAU)
+                neighbours.add(this.getVoisin(c, Direction.SUD));
+        }
+        if(this.voisinExiste(c, Direction.OUEST)){
+            if(this.getVoisin(c, Direction.OUEST).getNature()!=NatureTerrain.EAU)
+                neighbours.add(this.getVoisin(c, Direction.OUEST));
+        }
         return neighbours;
     }
     public boolean voisinExiste(Case src, Direction dir){
