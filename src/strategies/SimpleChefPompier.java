@@ -37,10 +37,25 @@ public class SimpleChefPompier {
             System.out.println("Sending robot to Refill Water");
             this.sendRobotToWater(robot);
         }
-        if(robot.getWaterContent() > robot.getMaxWaterContent()/2)
+        else if(robot.getWaterContent() > robot.getMaxWaterContent()/2)
         {
-            System.out.println("Sending robot to nearest burning fire");
-            this.sendRobotToFire(robot);
+            boolean alreadyOnFire = false;
+            for(Incendie inc : this.simData.getIncendies())
+            {
+                if(inc.getIntensite()>0 && inc.getPosition().equals(robot.getPosition()))
+                {
+                    System.out.println("Let Robot put out the fire its standing on");
+                    robot.intervenir(this.sim.getDateSimulation()+1, this.sim);
+                    robot.registerAskForInstructions(this.sim.getDateSimulation()+2, this, this.sim);
+                    alreadyOnFire = true;
+                    break;
+                }
+            }
+            if(!alreadyOnFire)
+            {
+                System.out.println("Sending robot to nearest burning fire");
+                this.sendRobotToFire(robot);
+            }
         }
     }
 
@@ -73,9 +88,9 @@ public class SimpleChefPompier {
             }
             System.out.println("Fire next to "+walli+": "+incendieProche);
             incendieVisitees.add(incendieProche);
-            int dateOfFireArrival = walli.createShortestPathTo(date, incendieProche.getPosition(), this.simData.getCarte(), this.sim);
+            int dateOfFireArrival = walli.createShortestPathTo(date, incendieProche.getPosition(), this.simData.getCarte(), this.sim, this);
             walli.intervenir(dateOfFireArrival+1, this.sim);
-            walli.registerAskForInstructions(dateOfFireArrival+3, this, this.sim);
+            walli.registerAskForInstructions(dateOfFireArrival+2, this, this.sim);
             endDates.add(dateOfFireArrival+1);
         }
         return endDates;
@@ -103,7 +118,7 @@ public class SimpleChefPompier {
                 }
             }
             System.out.println("Fire next to "+walli+": "+incendieProche);
-            int dateOfFireArrival = walli.createShortestPathTo(this.sim.getDateSimulation(), incendieProche.getPosition(), this.simData.getCarte(), this.sim);
+            int dateOfFireArrival = walli.createShortestPathTo(this.sim.getDateSimulation(), incendieProche.getPosition(), this.simData.getCarte(), this.sim, this);
             walli.intervenir(dateOfFireArrival+1, this.sim);
             walli.registerAskForInstructions(dateOfFireArrival+2, this, this.sim);
         }
@@ -141,7 +156,7 @@ public class SimpleChefPompier {
                 }
             }
             System.out.println("Found nearest Water "+nearestWaterNeigbour+" for robot: "+ walli);
-            int dateOfFireArrival = walli.createShortestPathTo(this.sim.getDateSimulation(), nearestWaterNeigbour, this.simData.getCarte(), this.sim);
+            int dateOfFireArrival = walli.createShortestPathTo(this.sim.getDateSimulation(), nearestWaterNeigbour, this.simData.getCarte(), this.sim, this);
             walli.registerFillReservoir(dateOfFireArrival+1, this.sim);
             walli.registerAskForInstructions(dateOfFireArrival+2, this, this.sim);
         // }

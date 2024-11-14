@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import events.Deplacer;
 import graphes.StrategieDijkstra;
 import sim.NatureTerrain;
+import strategies.SimpleChefPompier;
 
 public class Pattes extends Robot
 {
@@ -36,7 +37,7 @@ public class Pattes extends Robot
 
     //Ne peut pas se rendre sur de l’eau.
     @Override
-    public int createShortestPathTo(int start_date, Case end, Carte carte, Simulateur sim)
+    public int createShortestPathTo(int start_date, Case end, Carte carte, Simulateur sim, SimpleChefPompier chef)
     {
         int endDate = 0;
         if(!this.isMoving() && !this.getPosition().equals(end))
@@ -72,7 +73,10 @@ public class Pattes extends Robot
             if(this.isMoving())
                 System.out.println("Relax - wait until robot has reached its destination to set a new path!");
             else
+            {
                 System.out.println("Robot already in target position");
+                this.registerAskForInstructions(start_date+1, chef, sim);
+            }
         }
         return endDate;
     }

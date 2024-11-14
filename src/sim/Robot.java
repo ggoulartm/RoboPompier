@@ -41,7 +41,7 @@ public abstract class Robot {
      * @param sim reference to the simulateur that receives the deplacer events
      * @return returns duration it takes the robot to move from current position to target
      */
-    abstract public int createShortestPathTo(int date, Case end, Carte carte, Simulateur sim);
+    abstract public int createShortestPathTo(int date, Case end, Carte carte, Simulateur sim, SimpleChefPompier chef);
     abstract public int timeTo(Case c, Carte carte);
 
     public void intervenir(int date, Simulateur sim)
@@ -79,7 +79,6 @@ public abstract class Robot {
     {
         this.volumeReservoir = this.volumeReservoirMax;
     }
-
     /**
      * return the Case which the Robot is moving towards
      */

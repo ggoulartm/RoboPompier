@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import events.Deplacer;
 import graphes.StrategieDijkstra;
 import sim.NatureTerrain;
+import strategies.SimpleChefPompier;
 
 
 public class Drone extends Robot
@@ -36,7 +37,7 @@ public class Drone extends Robot
 
     //Peut se déplacer sur toutes les cases, quelle que soit leur nature, à vitesse constante.
     @Override
-    public int createShortestPathTo(int start_date, Case end, Carte carte, Simulateur sim)
+    public int createShortestPathTo(int start_date, Case end, Carte carte, Simulateur sim, SimpleChefPompier chef)
     {
         int endDate = -1;
         if(!this.isMoving() && !this.getPosition().equals(end))
@@ -73,7 +74,10 @@ public class Drone extends Robot
             if(this.isMoving())
                 System.out.println("Relax - wait until robot has reached its destination to set a new path!");
             else
+            {
                 System.out.println("Robot already in target position");
+                this.registerAskForInstructions(start_date+1, chef, sim);
+            }
         }
         return endDate;
     }

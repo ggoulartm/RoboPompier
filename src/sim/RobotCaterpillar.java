@@ -1,5 +1,7 @@
 package sim;
 import gui.GUISimulator;
+import strategies.SimpleChefPompier;
+
 import java.awt.Color;
 import java.util.ArrayList;
 
@@ -75,7 +77,7 @@ public class RobotCaterpillar extends Robot {
 
     }
 
-    public int createShortestPathTo(int start_date, Case end, Carte carte, Simulateur sim)
+    public int createShortestPathTo(int start_date, Case end, Carte carte, Simulateur sim, SimpleChefPompier chef)
     {
         int endDate = -1;
         if(!this.isMoving())
@@ -111,7 +113,10 @@ public class RobotCaterpillar extends Robot {
             if(this.isMoving())
                 System.out.println("Relax - wait until robot has reached its destination to set a new path!");
             else
+            {
                 System.out.println("Robot already in target position");
+                this.registerAskForInstructions(start_date+1, chef, sim);
+            }
         }
         return endDate;
     }
