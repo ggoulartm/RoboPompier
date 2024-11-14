@@ -45,6 +45,10 @@ public class DonneesSimulation {
         return this.incendies;
     }
 
+    public Case[] getWater(){
+        return this.getCarte().getCasesByTerrain(NatureTerrain.EAU);
+    }
+
     @Override
     public String toString()
     {

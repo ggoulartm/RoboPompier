@@ -24,6 +24,9 @@ public class RobotWheels extends Robot {
         this.type = RobotType.WHEELS;
         this.tempsRemplissage = 10;
         this.Deversement = new InterventionUnitaire(100, 5); //Litres/seconde
+        this.natureCosts = new double[]{Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY,
+                Double.POSITIVE_INFINITY, this.vitesse, this.vitesse};
+        this.forbiddenTerrains = new NatureTerrain[]{NatureTerrain.EAU, NatureTerrain.FORET, NatureTerrain.ROCHE};
     }
 
     private int getVitesseParNature(Case c)
@@ -76,8 +79,6 @@ public class RobotWheels extends Robot {
     {
         if(!this.isMoving())
         {
-            double[] natureCosts = {Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY, 
-                Double.POSITIVE_INFINITY, this.vitesse, this.vitesse};
             ArrayList<Case> shortestPath = StrategieDijkstra.findShortestPath(carte, this.position, end, new NatureTerrain[]{NatureTerrain.EAU, NatureTerrain.FORET, NatureTerrain.ROCHE}, natureCosts);
             for(Case c : shortestPath)
             {
@@ -99,11 +100,69 @@ public class RobotWheels extends Robot {
                 previousDate = dateAtNextCase;
             }
             this.setMoving(true);
-            this.intervenir(previousDate,sim);
+            //this.fillReservoir();
         }
         else
         {
             System.out.println("Relax - wait until robot has reached its destination to set a new path!");
         }
     }
+
+    public int findShortestPathTo(Case end, Carte carte){
+        ArrayList<Case> shortestPath = StrategieDijkstra.findShortestPath(carte, this.position, end, forbiddenTerrains, this.natureCosts);
+        return shortestPath.size();
+    }
+
+    public void createShortestPathToIncendie(int start_date, Incendie end, Carte carte, Simulateur sim){
+        if(!this.isMoving())
+        {
+            ArrayList<Case> shortestPath = StrategieDijkstra.findShortestPath(carte, this.position, end.getPosition(), forbiddenTerrains, this.natureCosts);
+            for(Case c : shortestPath)
+            {
+                System.out.println(c);
+            }
+
+            int previousDate = start_date;
+            for(int i = 0; i<shortestPath.size()-1;i++)
+            {
+                Case currentCase = shortestPath.get(i);
+                Case nextCase = shortestPath.get(i+1);
+                Direction dir = this.getDirectionFromCases(currentCase, nextCase);
+                int currentCaseVitesse = this.getVitesseParNature(currentCase);
+                int nextCaseVitesse = this.getVitesseParNature(nextCase);
+                int timeToNextCase = currentCaseVitesse+nextCaseVitesse;
+                int dateAtNextCase = previousDate + timeToNextCase;
+                sim.addEvent(new Deplacer(dateAtNextCase, this, dir, carte));
+
+                previousDate = dateAtNextCase;
+            }
+            this.setMoving(true);
+            extinguishFire(end,previousDate,sim);
+        }
+        else
+        {
+            System.out.println("Relax - wait until robot is full of water to set a path to the fire!");
+        }
+    }
+    private void extinguishFire(Incendie end, int previousDate, Simulateur sim)  {
+        int interventions = 0;
+        int interventionNumber = this.volumeReservoir/this.Deversement.volume;
+        int interventionNumber_Fire = end.getIntensite()/this.Deversement.volume;
+        if(interventionNumber > interventionNumber_Fire) {
+            interventionNumber = interventionNumber_Fire;
+        }
+        while(interventionNumber > interventions)
+        {
+            interventions++;
+            this.intervenir(previousDate+interventions*this.Deversement.temps,sim);
+        }
+        end.getPosition().extinguish();
+    }
+
+    @Override
+    public String toString()
+    {
+        return "Robot Wheels at: "+this.position.toString()+" with speed: "+this.vitesse;
+    }
+
 }

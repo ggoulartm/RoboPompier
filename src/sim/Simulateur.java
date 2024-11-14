@@ -15,13 +15,13 @@ public class Simulateur implements Simulable {
     private DonneesSimulation data; // Contains the map, robots, and fires
     private int dateSimulation;
     // Evenement Management, outer arraylist collects arraylist of events to be executed at certain date 
-    ArrayList<ArrayList<Evenement>> dates = new ArrayList<ArrayList<Evenement>>();
-    ArrayList<Evenement> events = new ArrayList<Evenement>();
+    private PriorityQueue<Evenement> dates;
 
     public Simulateur(GUISimulator gui, DonneesSimulation dataNew) {
         this.gui = gui;
         this.data = dataNew;
         this.dateSimulation = 0;
+        this.dates = new PriorityQueue<>(this::compare);
         gui.setSimulable(this);            // Associating to the GUI
 
         // Initial setup: display the map, robots, and fires
@@ -32,28 +32,17 @@ public class Simulateur implements Simulable {
         return this.data;
     }
 
+    public int compare(Evenement e1, Evenement e2)
+    {
+        return e1.getDate() - e2.getDate();
+    }
+
     public void addEvent(Evenement e)
     {
-        if(e.getDate() > dates.size()-1)
-        {
-            // System.out.println("Starting with "+dates.size()+"days");
-            int datesToAdd = (e.getDate()+1)-dates.size();
-            // Add every day that's missing between date of Event and current list of dates
-            for(int i = 0; i < datesToAdd; i++)
-            {
-                dates.add(new ArrayList<Evenement>());
-            }
-            // System.out.println("Dates length: "+dates.size());
-            // System.out.println("Date of Event: "+e.getDate());
-            dates.get(e.getDate()).add(e);
-        }
-        else
-        {
-            // System.out.println("Dates length: "+dates.size());
-            // System.out.println("Date of Event: "+e.getDate());
-            dates.get(e.getDate()).add(e);
-            // System.out.println("Added Event to que of events"+e);
-        }
+            System.out.println("Dates length: "+dates.size());
+             System.out.println("Date of Event: "+e.getDate());
+            dates.add(e);
+            System.out.println("Added Event to que of events"+e);
     }
     private void incrementeDate()
     {
@@ -79,14 +68,18 @@ public class Simulateur implements Simulable {
     @Override
     public void next() {
         System.out.println("It's the "+this.dateSimulation+" day");
+
         try{
-            for(Evenement e : dates.get(this.dateSimulation))
+            while(dates.peek().getDate() == this.dateSimulation)
             {
-                e.execute();
+                dates.poll().execute();
             }
         }
         catch(IndexOutOfBoundsException e){
             System.out.println("Nothing to do on date "+this.dateSimulation);
+        }
+        catch(NullPointerException e){
+            System.out.println("Nothing to do");
         }
 
         this.incrementeDate();
@@ -100,6 +93,7 @@ public class Simulateur implements Simulable {
         System.out.println("Simulation restarted.");
         this.dateSimulation = 0;
         this.data.Restore();
+        this.dates = new PriorityQueue<>(this::compare);
         draw();
     }
 
@@ -135,15 +129,8 @@ public class Simulateur implements Simulable {
 
     public void printEvenements()
     {
-        System.out.println("Simulator Events:");
-        System.out.println(this.dates.size());
-        for(ArrayList<Evenement> date : this.dates)
-        {
-            for(Evenement e : date)
-            {
-                System.out.println(e);
-            }
-        }
+        System.out.println("Simulator Events: "+this.dates.size());
+        //System.out.println("Priority Queue: "+this.dates);
         
     }
 }

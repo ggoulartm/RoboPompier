@@ -4,6 +4,8 @@ import events.Intervention;
 import events.Remplir;
 import gui.GUISimulator;
 
+import java.util.ArrayList;
+
 // This is an abstract class, so it cannot be instantiated
 // It is used as a base class for the Drone and Pattes classes
 // The Drone and Pattes classes must implement the getType method
@@ -21,7 +23,8 @@ public abstract class Robot {
     protected int tempsRemplissage; //minutes
     private boolean moving;
     private Case targetCase;
-
+    protected double[] natureCosts;
+    protected NatureTerrain[] forbiddenTerrains;
     public Robot(Case position, int vitesse, int waterCapacityMax, int reserveWaterAmount, RobotType type)
     {
         this.position = position;
@@ -43,10 +46,11 @@ public abstract class Robot {
      * @param sim reference to the simulateur that receives the deplacer events
      */
     abstract public void createShortestPathTo(int date, Case end, Carte carte, Simulateur sim);
-
+    abstract public void createShortestPathToIncendie(int date, Incendie inc, Carte carte, Simulateur sim);
+    abstract public int findShortestPathTo(Case end, Carte carte);
     public void intervenir(int date, Simulateur sim)
     {
-        Intervention intervention = new Intervention(date, this.volumeReservoir, sim, this);
+        Intervention intervention = new Intervention(date, this.getDeversementVolume(), sim, this);
         sim.addEvent(intervention);
     }
     public void emptyWater()
@@ -199,6 +203,9 @@ public abstract class Robot {
         return this.Deversement.temps = temps;
     }
 
+    public boolean isEmpty(){
+        return this.volumeReservoir == 0;
+    }
     public void Restore(){
         this.position = new Case(this.InitCase.getLigne(), this.InitCase.getColonne(), this.InitCase.getNature());
         this.volumeReservoir = initVolume;

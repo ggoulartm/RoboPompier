@@ -21,9 +21,9 @@ public class StrategieDijkstra
      */
     public static ArrayList<Case> findShortestPath(Carte carte, Case start, Case target, NatureTerrain[] forbiddenTerrains, double[] natureCosts)
     {
-        System.out.println(carte);
-        System.out.println(start);
-        System.out.println(target);
+        //System.out.println(carte);
+        //System.out.println(start);
+        //System.out.println(target);
         StrategieDijkstra strat = new StrategieDijkstra(carte, start, forbiddenTerrains, natureCosts);
         return strat.shortestPath(start, target);
     }
@@ -120,7 +120,7 @@ public class StrategieDijkstra
 
     private ArrayList<Case> constructPathFromTarget(TreeCase start, TreeCase target)
     {
-        System.out.println("Construct path from target");
+        //System.out.println("Construct path from target"+start+" to "+target);
         // System.out.println("Predecesseur from target: "+target.getPredecesseur());
         ArrayList<TreeCase> path = new ArrayList<TreeCase>();
         path.add(target);

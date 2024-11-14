@@ -23,6 +23,8 @@
 
 all: testPathFinder exePath
 
+Boss: testBoss exeBoss
+
 testInvader:
 	javac -d bin -classpath lib/gui.jar -sourcepath src src/TestInvader.java
 
@@ -35,6 +37,9 @@ testEvenement:
 
 testPathFinder:
 	javac -d bin -classpath lib/gui.jar -sourcepath src src/TestPathFinder.java
+
+testBoss:
+	javac -d bin -classpath lib/gui.jar -sourcepath src src/TestChefPompier.java
 
 testMover:
 	javac -d bin -classpath lib/gui.jar -sourcepath src src/TestMover.java
@@ -58,6 +63,9 @@ exeEve:
 
 exePath:
 	java -classpath bin:lib/gui.jar TestPathFinder cartes/carteSujet.map
+
+exeBoss:
+	java -classpath bin:lib/gui.jar TestChefPompier cartes/carteSujet.map
 
 exeDesert:
 	java -classpath bin:lib/gui.jar TestPathFinder cartes/desertOfDeath-20x20.map
