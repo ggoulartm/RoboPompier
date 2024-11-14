@@ -52,10 +52,11 @@ public class TestMover
         walli.intervenir(this.mySim.getDateSimulation()+2, this.mySim);
         this.mySim.addEvent(new Deplacer(this.mySim.getDateSimulation()+3, walli, Direction.OUEST, this.simData.getCarte()));
         this.mySim.addEvent(new Deplacer(this.mySim.getDateSimulation()+4, walli, Direction.OUEST, this.simData.getCarte()));
-        walli.remplirReservoir();
+        walli.registerFillReservoir(this.mySim.getDateSimulation()+5, this.mySim);
         this.mySim.addEvent(new Deplacer(this.mySim.getDateSimulation()+6, walli, Direction.EST, this.simData.getCarte()));
         this.mySim.addEvent(new Deplacer(this.mySim.getDateSimulation()+7, walli, Direction.EST, this.simData.getCarte()));
         walli.intervenir(this.mySim.getDateSimulation()+8, this.mySim);
+        walli.registerFillReservoir(this.mySim.getDateSimulation()+8, this.mySim);
     }
 
     public static void main(String[] args)

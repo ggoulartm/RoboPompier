@@ -53,6 +53,7 @@ public class Simulateur implements Simulable {
             // System.out.println("Dates length: "+dates.size());
             // System.out.println("Date of Event: "+e.getDate());
             dates.get(e.getDate()).add(e);
+            // System.out.println("Added Event to que of events"+e);
         }
     }
     private void incrementeDate()

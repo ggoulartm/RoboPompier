@@ -1,5 +1,7 @@
 package sim;
 
+import java.util.ArrayList;
+
 public class Carte {
     private int nbLignes;
     private int nbColonnes;
@@ -30,11 +32,50 @@ public class Carte {
     public Case getCase(int lig, int col){
             return chequerboard[lig][col];
     }
+    public ArrayList<Case> getNeighbours(Case c)
+    {
+        ArrayList<Case> neighbours = new ArrayList<Case>();
+        if(this.voisinExiste(c, Direction.NORD))
+            neighbours.add(this.getVoisin(c, Direction.NORD));
+        if(this.voisinExiste(c, Direction.EST))
+            neighbours.add(this.getVoisin(c, Direction.EST));
+        if(this.voisinExiste(c, Direction.SUD))
+            neighbours.add(this.getVoisin(c, Direction.SUD));
+        if(this.voisinExiste(c, Direction.SUD))
+            neighbours.add(this.getVoisin(c, Direction.SUD));
+        return neighbours;
+    }
     public boolean voisinExiste(Case src, Direction dir){
-        return false;
+        int ligne = src.getLigne();
+        int colonne = src.getColonne();
+        switch(dir)
+        {
+            case NORD: 
+                return (ligne > 0);
+            case EST:
+                return (colonne < (this.getNbColonnes()-1));
+            case SUD:
+                return (ligne < (this.getNbLignes()-1));
+            case OUEST:
+                return (colonne > 0);
+            default: 
+                return false;
+        }
     }
     public Case getVoisin(Case src, Direction dir){
-        return null;
+        switch(dir)
+        {
+            case NORD:
+                return this.chequerboard[src.getLigne()-1][src.getColonne()];
+            case EST:
+                return this.chequerboard[src.getLigne()][src.getColonne()+1];
+            case SUD:
+                return this.chequerboard[src.getLigne()+1][src.getColonne()];
+            case OUEST:
+                return this.chequerboard[src.getLigne()][src.getColonne()-1];
+            default:
+                return null;
+        }
     }
 
     @Override

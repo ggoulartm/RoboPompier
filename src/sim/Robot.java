@@ -1,6 +1,7 @@
 package sim;
 import events.Evenement;
 import events.Intervention;
+import events.Remplir;
 import gui.GUISimulator;
 
 // This is an abstract class, so it cannot be instantiated
@@ -47,6 +48,16 @@ public abstract class Robot {
     public void emptyWater()
     {
         this.volumeReservoir = 0;
+    }
+    public void registerFillReservoir(int date, Simulateur sim)
+    {
+        Remplir remplir = new Remplir(date, sim, this);
+        sim.addEvent(remplir);
+        this.volumeReservoir = this.volumeReservoirMax;
+    }
+    public void fillReservoir()
+    {
+        this.volumeReservoir = this.volumeReservoirMax;
     }
 
     /**
