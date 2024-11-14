@@ -46,7 +46,7 @@ public class Deplacer extends Evenement{
     @Override 
     public String toString()
     {
-        return "Deplacement de robot: "+this.robot+" vers: "+this.dir;
+        return "Deplacement de robot: "+this.robot+" vers: "+this.dir+" on day: "+this.getDate();
     }
 
 }

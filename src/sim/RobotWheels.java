@@ -72,6 +72,7 @@ public class RobotWheels extends Robot {
      * Finds shortest part from current position to Case end and
      * adds Deplacements to the simulator at the corresponding dates
      */
+    @Override
     public void createShortestPathTo(Case end, Carte carte, Simulateur sim)
     {
         if(!this.isMoving())
