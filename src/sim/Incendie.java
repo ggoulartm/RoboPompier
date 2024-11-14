@@ -37,8 +37,8 @@ public class Incendie {
     }
 
     public void draw (GUISimulator gui, int tailleCase) {
-        int coordX = this.position.getColonne() * tailleCase;
-        int coordY = this.position.getLigne() * tailleCase;
+        int coordX = tailleCase + this.position.getColonne() * tailleCase;
+        int coordY = tailleCase + this.position.getLigne() * tailleCase;
         float alpha = (float)this.intensite/(float)maxIntensity;
         Color redIntensity = new Color(1, 0, 0, alpha);
             gui.addGraphicalElement(new gui.Rectangle(

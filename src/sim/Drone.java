@@ -1,14 +1,11 @@
 package sim;
 import gui.GUISimulator;
-import java.awt.Color;
-
+import gui.ImageElement;
 
 import java.util.ArrayList;
 
 import events.Deplacer;
 import graphes.StrategieDijkstra;
-import sim.NatureTerrain;
-
 
 public class Drone extends Robot
 {
@@ -75,14 +72,14 @@ public class Drone extends Robot
     @Override
     public void draw(GUISimulator gui, int tailleCase) {
         Case caseRobot = this.getPosition();
-        int caseX = caseRobot.getColonne() * tailleCase;
-        int caseY = caseRobot.getLigne() * tailleCase;
+        int caseX = tailleCase/2 + caseRobot.getColonne() * tailleCase;
+        int caseY = tailleCase/2 + caseRobot.getLigne() * tailleCase;
 
-        gui.addGraphicalElement(new gui.Oval(
+        gui.addGraphicalElement(new ImageElement(
                 caseX, caseY,
-                Color.BLACK,                           // Border color
-                Color.PINK,                             // Fill color
-                tailleCase, tailleCase
+                "images/robot-drone.png",
+                tailleCase, tailleCase,
+                null
         ));
     }
 }

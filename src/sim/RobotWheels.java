@@ -1,13 +1,11 @@
 package sim;
 import gui.GUISimulator;
-import java.awt.Color;
+import gui.ImageElement;
 import java.util.ArrayList;
 
 import events.Deplacer;
 import graphes.StrategieDijkstra;
 
-import sim.NatureTerrain;
-import sim.Direction;
 public class RobotWheels extends Robot {
 
     // Vitesse par défaut de 80 km/h, mais qui peut être lue dans le fichier. 
@@ -58,15 +56,16 @@ public class RobotWheels extends Robot {
     @Override
     public void draw(GUISimulator gui, int tailleCase) {
         Case caseRobot = this.getPosition();
-        int caseX = caseRobot.getColonne() * tailleCase;
-        int caseY = caseRobot.getLigne() * tailleCase;
+        int caseX = tailleCase/2 + caseRobot.getColonne() * tailleCase;
+        int caseY = tailleCase/2 + caseRobot.getLigne() * tailleCase;
 
-        gui.addGraphicalElement(new gui.Oval(
+        gui.addGraphicalElement(new ImageElement(
                 caseX, caseY,
-                Color.BLACK,                                   // Border color
-                Color.WHITE,                             // Fill color
-                tailleCase, tailleCase
-        ));     }
+                "images/robot-roues.png",
+                tailleCase, tailleCase,
+                null
+        ));
+    }
 
     /**
      * Finds shortest part from current position to Case end and
