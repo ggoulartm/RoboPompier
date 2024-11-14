@@ -99,6 +99,7 @@ public class RobotWheels extends Robot {
                 previousDate = dateAtNextCase;
             }
             this.setMoving(true);
+            this.intervenir(previousDate,sim);
         }
         else
         {
