@@ -24,6 +24,37 @@ public abstract class Robot {
         this.type = type;
     }
 
+    /**
+     * Returns Direction of Case b relative to Case a, Returns NO_DIRECTION if Cases are not adjacent
+     * @param a Case of home
+     * @param b Case relative to home
+     */
+    public Direction getDirectionFromCases(Case a, Case b)
+    {
+        int a_ligne = a.getLigne();
+        int a_colonne = a.getColonne();
+        int b_ligne = b.getLigne();
+        int b_colonne = b.getColonne();
+
+        if(a_ligne == b_ligne)
+        {
+            if(b_colonne == a_colonne+1) return Direction.EST;
+            else if(b_colonne == a_colonne-1) return Direction.OUEST;
+            else return Direction.NO_DIRECTION;
+        }
+        else if(a_colonne == b_colonne)
+        {
+            if(b_ligne == a_ligne+1) return Direction.SUD;
+            else if(b_ligne == a_ligne-1) return Direction.NORD;
+            else return Direction.NO_DIRECTION;
+        }
+        else
+        {
+            return Direction.NO_DIRECTION;
+        }
+
+    }
+
     public RobotType getType(){
         return this.type;
     }

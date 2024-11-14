@@ -1,16 +1,21 @@
 package sim;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Queue;
+import java.util.LinkedList;
 
-import events.Evenement;
+import events.*;
 import gui.GUISimulator;
 import gui.Simulable;
 
 public class Simulateur implements Simulable {
     private GUISimulator gui;           // Reference to the graphical interface
     private DonneesSimulation data;     // Contains the map, robots, and fires
-    private long dateSimulation;
-    private Evenement premierEvent;
+    private int dateSimulation;
+    private Evenement premierEvent, lastEvent;
+    // Evenement Management, outer arraylist collects arraylist of events to be executed at certain date 
+    ArrayList<ArrayList<Evenement>> dates = new ArrayList<ArrayList<Evenement>>();
     ArrayList<Evenement> events = new ArrayList<Evenement>();
 
     public Simulateur(GUISimulator gui, DonneesSimulation data) {
@@ -29,22 +34,24 @@ public class Simulateur implements Simulable {
 
     public void addEvent(Evenement e)
     {
-        if (premierEvent == null) {
-            premierEvent = e;
-        } else if (premierEvent.getDate() >= e.getDate()) {
-            e.setNext(premierEvent);
-            premierEvent = e;
-        } else if (premierEvent.getNext() == null) {
-            premierEvent.setNext(e);
-        } else {
-            Evenement prec = premierEvent;
-            Evenement courant = premierEvent.getNext();
-            while (courant != null && courant.getDate() < e.getDate()) {
-                prec = courant;
-                courant = courant.getNext();
+        if(e.getDate() > dates.size()-1)
+        {
+            // System.out.println("Starting with "+dates.size()+"days");
+            int datesToAdd = (e.getDate()+1)-dates.size();
+            // Add every day that's missing between date of Event and current list of dates
+            for(int i = 0; i < datesToAdd; i++)
+            {
+                dates.add(new ArrayList<Evenement>());
             }
-            e.setNext(courant);
-            prec.setNext(e);
+            // System.out.println("Dates length: "+dates.size());
+            // System.out.println("Date of Event: "+e.getDate());
+            dates.get(e.getDate()).add(e);
+        }
+        else
+        {
+            // System.out.println("Dates length: "+dates.size());
+            // System.out.println("Date of Event: "+e.getDate());
+            dates.get(e.getDate()).add(e);
         }
     }
     private void incrementeDate()
@@ -55,7 +62,7 @@ public class Simulateur implements Simulable {
     {
         return (premierEvent == null);
     }
-    public long getDateSimulation() {
+    public int getDateSimulation() {
         return dateSimulation;
     }
     public Evenement getPremierEvent() {
@@ -68,22 +75,19 @@ public class Simulateur implements Simulable {
     // This method is called when the "Next" button is pressed
     @Override
     public void next() {
+        System.out.println("It's the "+this.dateSimulation+" day");
+        try{
+            for(Evenement e : dates.get(this.dateSimulation))
+            {
+                e.execute();
+            }
+        }
+        catch(IndexOutOfBoundsException e){
+            System.out.println("Nothing to do on date "+this.dateSimulation);
+        }
+
+        this.incrementeDate();
         draw();
-        System.out.println("Next step in the simulation...");
-
-        if (simulationTerminee()) return;
-        Evenement premierEvent = getPremierEvent();
-        while (premierEvent != null && getDateSimulation() >= premierEvent.getDate()) {
-            premierEvent.execute();
-            premierEvent = premierEvent.getNext();
-        }
-        setPremierEvent(premierEvent);
-
-        if (data.getCarte().getTailleCases() != 10000) {
-            for (int i = 0; i < 5; i++) incrementeDate();
-        } else {
-            for (int i = 0; i < 80; i++) incrementeDate();
-        }
     }
 
     // This method is called when the "Restart" button is pressed
@@ -124,6 +128,20 @@ public class Simulateur implements Simulable {
         for (Incendie incendie : incendies) {
             incendie.draw(gui, tailleCase);
         }
+    }
+
+    public void printEvenements()
+    {
+        System.out.println("Simulator Events:");
+        System.out.println(this.dates.size());
+        for(ArrayList<Evenement> date : this.dates)
+        {
+            for(Evenement e : date)
+            {
+                System.out.println(e);
+            }
+        }
+        
     }
 }
 

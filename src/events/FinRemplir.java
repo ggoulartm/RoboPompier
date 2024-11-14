@@ -1,13 +1,12 @@
 package events;
 
 import sim.Robot;
-import sim.Simulateur;
 
 public class FinRemplir extends Evenement{
     private Robot robot;
 
-    public FinRemplir(long date, Simulateur sim, Robot robot) {
-        super(date, sim);
+    public FinRemplir(long date,Robot robot) {
+        super(date);
         this.robot = robot;
     }
 

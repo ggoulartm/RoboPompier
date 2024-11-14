@@ -15,30 +15,48 @@ import java.util.ArrayList;
 
 public class TestPathFinder
 {
-    public static void main(String[] args)
+    private DonneesSimulation simData;
+    private GUISimulator gui;
+    private Simulateur mySim;
+
+    public TestPathFinder(String fileName)
     {
         try{
-            DonneesSimulation simData = LecteurDonnees.creeDonnees(args[0]);
+            this.simData = LecteurDonnees.creeDonnees(fileName);
             System.out.println(simData);
-            GUISimulator gui = new GUISimulator(800, 600, Color.BLACK);
-            Simulateur mySim = new Simulateur(gui, simData);
-            System.out.println("Searching for shortest path from 0,0 to 4,6");
-            ArrayList<Case> shortestPath_noWater = StrategieDijkstra.findShortestPath(simData.getCarte(), 
-                                    simData.getCarte().getCase(0,0), simData.getCarte().getCase(5,3),
-                                    new NatureTerrain[]{NatureTerrain.EAU, NatureTerrain.ROCHE, NatureTerrain.FORET},
-                                    new double[]{Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY, 10, 10});
-            System.out.println("Found Path:");
-            for(Case c : shortestPath_noWater)
-            {
-                System.out.println(c);
-            }
-
-            RobotWheels walli = new RobotWheels(simData.getCarte().getCase(0,0), 50, 1000, 1000);
-            walli.createShortestPathTo(simData.getCarte().getCase(5, 3), simData.getCarte(), mySim);
+            this.gui = new GUISimulator(800, 600, Color.BLACK);
+            this.mySim = new Simulateur(gui, simData);
         }
         catch (Exception e)
         {
             System.out.println(e);
         }
+    }
+
+    private void testStrategieDijkstra()
+    {
+        System.out.println("Searching for shortest path from 0,0 to 4,6");
+        ArrayList<Case> shortestPath_noWater = StrategieDijkstra.findShortestPath(simData.getCarte(), 
+                                simData.getCarte().getCase(0,0), simData.getCarte().getCase(5,3),
+                                new NatureTerrain[]{NatureTerrain.EAU, NatureTerrain.ROCHE, NatureTerrain.FORET},
+                                new double[]{Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY, 10, 10});
+        System.out.println("Found Path:");
+        for(Case c : shortestPath_noWater)
+        {
+            System.out.println(c);
+        }
+    }
+
+    private void testRobotShortestPathCreation()
+    {
+        this.simData.getRobots()[1].createShortestPathTo(simData.getCarte().getCase(0, 0), simData.getCarte(), mySim);
+        this.simData.getRobots()[2].createShortestPathTo(simData.getCarte().getCase(0, 0), simData.getCarte(), mySim);
+        this.mySim.printEvenements();
+    }
+    public static void main(String[] args)
+    {
+        TestPathFinder testPath = new TestPathFinder(args[0]);
+        System.out.println("Testpathfinder created");
+        testPath.testRobotShortestPathCreation();
     }
 }

@@ -32,6 +32,9 @@ testLecture:
 testSimulateur:
 	javac -d bin -classpath lib/gui.jar -sourcepath src src/TestSimulateur.java
 
+testEvenement:
+	javac -d bin -classpath lib/gui.jar -sourcepath src src/TestEvenement.java
+
 testPathFinder:
 	javac -d bin -classpath lib/gui.jar -sourcepath src src/TestPathFinder.java
 # Execution:
@@ -47,6 +50,9 @@ exeLecture:
 
 exeSim:
 	java -classpath bin:lib/gui.jar TestSimulateur cartes/carteSujet.map
+
+exeEve:
+	java -classpath bin:lib/gui.jar TestEvenement cartes/carteSujet.map
 
 exePath:
 	java -classpath bin:lib/gui.jar TestPathFinder cartes/carteSujet.map

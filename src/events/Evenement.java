@@ -1,30 +1,22 @@
 package events;
 
-import sim.Simulateur;
-
 public abstract class Evenement {
-    private long date;
+    private int date;
     private Evenement next;
-    private Simulateur simulateur;
-
-    public Evenement(long date, Simulateur sim)
+    public Evenement(int date)
     {
         this.date = date;
-        this.simulateur = sim;
         this.next = null;
     }
-    public long getDate()
+    public int getDate()
     {
         return this.date;
     }
     public Evenement getNext() {
         return next;
     }
-    public Simulateur getSim() {
-        return simulateur;
-    }
     public void setNext(Evenement e) {
-        next = e;
+        this.next = e;
     }
     abstract public void execute();
 }

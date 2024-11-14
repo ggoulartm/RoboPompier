@@ -21,8 +21,14 @@ public class Carte {
     public int getTailleCases(){
         return this.tailleCases;
     }
+    /**
+     * TODO: handle case that case is not available
+     * @param lig
+     * @param col
+     * @return
+     */
     public Case getCase(int lig, int col){
-        return chequerboard[lig][col];
+            return chequerboard[lig][col];
     }
     public boolean voisinExiste(Case src, Direction dir){
         return false;

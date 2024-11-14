@@ -3,8 +3,11 @@ import gui.GUISimulator;
 import java.awt.Color;
 import java.util.ArrayList;
 
+import events.Deplacer;
 import graphes.StrategieDijkstra;
 
+import sim.NatureTerrain;
+import sim.Direction;
 public class RobotWheels extends Robot {
 
     // Vitesse par défaut de 80 km/h, mais qui peut être lue dans le fichier. 
@@ -23,6 +26,19 @@ public class RobotWheels extends Robot {
         this.type = RobotType.WHEELS;
         this.tempsRemplissage = 10;
         this.Deversement = new InterventionUnitaire(100, 5); //Litres/seconde
+    }
+
+    private int getVitesseParNature(Case c)
+    {
+        switch(c.getNature())
+        {
+            case TERRAIN_LIBRE:
+                return vitesse/10;
+            case HABITAT:
+                return vitesse/10;
+            default:
+                return 0;
+        }
     }
 
     //Ne peut se déplacer que sur du terrain libre ou habitat.
@@ -48,6 +64,10 @@ public class RobotWheels extends Robot {
                 tailleCase, tailleCase
         ));     }
 
+    /**
+     * Finds shortest part from current position to Case end and
+     * adds Deplacements to the simulator at the corresponding dates
+     */
     public void createShortestPathTo(Case end, Carte carte, Simulateur sim)
     {
         double[] natureCosts = {Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY, 
@@ -55,18 +75,22 @@ public class RobotWheels extends Robot {
         ArrayList<Case> shortestPath = StrategieDijkstra.findShortestPath(carte, this.position, end, new NatureTerrain[]{NatureTerrain.EAU, NatureTerrain.FORET, NatureTerrain.ROCHE}, natureCosts);
         for(Case c : shortestPath)
         {
-            switch(c.getNature())
-            {
-                case TERRAIN_LIBRE:
-                    System.out.println(c+" - TERRAIN LIBRE");
-                    break;
-                case HABITAT:
-                    System.out.println(c+" - HABITAT");
-                    break;
-                default:
-                    System.err.println("Nature in path thats not reachable!");
-                    break;
-            }
+            System.out.println(c);
+        }
+        
+        int previousDate = sim.getDateSimulation();
+        for(int i = 0; i<shortestPath.size()-1;i++)
+        {
+            Case currentCase = shortestPath.get(i);
+            Case nextCase = shortestPath.get(i+1);
+            Direction dir = this.getDirectionFromCases(currentCase, nextCase);
+            int currentCaseVitesse = this.getVitesseParNature(currentCase);
+            int nextCaseVitesse = this.getVitesseParNature(nextCase);
+            int timeToNextCase = currentCaseVitesse+nextCaseVitesse;
+            int dateAtNextCase = previousDate + timeToNextCase;
+            sim.addEvent(new Deplacer(dateAtNextCase, this, dir, carte));
+
+            previousDate = dateAtNextCase;
         }
     }
 }

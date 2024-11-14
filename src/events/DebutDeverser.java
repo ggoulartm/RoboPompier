@@ -2,15 +2,14 @@ package events;
 
 import sim.Incendie;
 import sim.Robot;
-import sim.Simulateur;
 
 public class DebutDeverser extends Evenement{
     private Robot robot;
     private Incendie incendieDeversage;
     private int qteDeverse;
 
-    public DebutDeverser(long date, Simulateur sim, Robot robot, Incendie incendie) {
-        super(date, sim);
+    public DebutDeverser(long date, Robot robot, Incendie incendie) {
+        super(date);
         this.robot = robot;
         this.incendieDeversage = incendie;
         if (incendieDeversage.getIntensite() == 0) this.qteDeverse = 0;
@@ -19,8 +18,7 @@ public class DebutDeverser extends Evenement{
 
     public void execute() {
         long dateFinDeverser = dateFinEvenement();
-        FinDeverser FinDeverser = new FinDeverser(dateFinDeverser, this.getSim(), robot, qteDeverse);
-        this.getSim().addEvent(FinDeverser);
+        FinDeverser FinDeverser = new FinDeverser(dateFinDeverser, robot, qteDeverse);
     }
 
     public long dateFinEvenement() {
