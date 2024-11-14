@@ -18,3 +18,10 @@
 
 - Makefile: quelques explications sur la compilation en ligne, notamment la notion de classpath et l'utilisation de gui.jar
 
+
+## Tools
+Pour la documentation
+```
+javadoc -d doc
+```
+
