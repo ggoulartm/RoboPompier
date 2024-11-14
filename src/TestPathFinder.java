@@ -66,6 +66,6 @@ public class TestPathFinder
         TestPathFinder testPath = new TestPathFinder(args[0]);
         System.out.println("Testpathfinder created");
         testPath.testRobotShortestPathCreation();
-        // testPath.testPattesShortestPathCreation();
+        testPath.testPattesShortestPathCreation();
     }
 }

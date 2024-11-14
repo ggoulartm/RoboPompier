@@ -11,6 +11,8 @@ import gui.GUISimulator;
 // The Drone and Pattes classes might implement the toString method
 public abstract class Robot {
     protected Case position;
+    private Case InitCase;
+    private int initVolume;
     protected int volumeReservoir; //Litres
     protected int volumeReservoirMax; //Litres
     protected int vitesse; //km/h
@@ -23,8 +25,10 @@ public abstract class Robot {
     public Robot(Case position, int vitesse, int waterCapacityMax, int reserveWaterAmount, RobotType type)
     {
         this.position = position;
+        this.InitCase = new Case(position.getLigne(), position.getColonne(), position.getNature());
         this.vitesse = vitesse;
         this.volumeReservoir = reserveWaterAmount;
+        this.initVolume = volumeReservoir;
         this.volumeReservoirMax = waterCapacityMax;
         this.type = type;
         this.moving = false;
@@ -193,6 +197,11 @@ public abstract class Robot {
 
     public int setDeversementTemps(int temps) {
         return this.Deversement.temps = temps;
+    }
+
+    public void Restore(){
+        this.position = new Case(this.InitCase.getLigne(), this.InitCase.getColonne(), this.InitCase.getNature());
+        this.volumeReservoir = initVolume;
     }
 
 }

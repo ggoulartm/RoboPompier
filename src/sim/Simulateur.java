@@ -2,7 +2,7 @@ package sim;
 
 
 import java.lang.reflect.Array;
-import java.util.ArrayList;
+import java.util.*;
 import java.util.Queue;
 import java.util.LinkedList;
 
@@ -12,16 +12,15 @@ import gui.Simulable;
 
 public class Simulateur implements Simulable {
     private GUISimulator gui;           // Reference to the graphical interface
-    private DonneesSimulation data;     // Contains the map, robots, and fires
+    private DonneesSimulation data; // Contains the map, robots, and fires
     private int dateSimulation;
-    private Evenement premierEvent, lastEvent;
     // Evenement Management, outer arraylist collects arraylist of events to be executed at certain date 
     ArrayList<ArrayList<Evenement>> dates = new ArrayList<ArrayList<Evenement>>();
     ArrayList<Evenement> events = new ArrayList<Evenement>();
 
-    public Simulateur(GUISimulator gui, DonneesSimulation data) {
+    public Simulateur(GUISimulator gui, DonneesSimulation dataNew) {
         this.gui = gui;
-        this.data = data;
+        this.data = dataNew;
         this.dateSimulation = 0;
         gui.setSimulable(this);            // Associating to the GUI
 
@@ -60,18 +59,8 @@ public class Simulateur implements Simulable {
     {
         this.dateSimulation++;
     }
-    private boolean simulationTerminee()
-    {
-        return (premierEvent == null);
-    }
     public int getDateSimulation() {
         return dateSimulation;
-    }
-    public Evenement getPremierEvent() {
-        return premierEvent;
-    }
-    public void setPremierEvent(Evenement premierEvent) {
-        this.premierEvent = premierEvent;
     }
     public Incendie getIncendie(Case pos)
     {
@@ -110,7 +99,7 @@ public class Simulateur implements Simulable {
         // Reset the simulation to its initial state
         System.out.println("Simulation restarted.");
         this.dateSimulation = 0;
-        this.premierEvent = null;
+        this.data.Restore();
         draw();
     }
 

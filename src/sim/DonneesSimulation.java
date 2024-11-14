@@ -13,6 +13,23 @@ public class DonneesSimulation {
         System.out.println("Crée-moi!");
     }
 
+    public void Restore() {
+        RestoreIncendie();
+        RestoreRobots();
+    }
+
+    protected void RestoreRobots(){
+        for(Robot r : this.robots){
+            r.Restore();
+        }
+    }
+
+    protected void RestoreIncendie(){
+        for(Incendie It1 : this.incendies){
+            It1.Restore();
+        }
+    }
+
     public Carte getCarte()
     {
         return this.carte;
