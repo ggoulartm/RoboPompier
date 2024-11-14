@@ -35,6 +35,11 @@ public abstract class Robot {
         return this.targetCase;
     }   
 
+    public void setTargetCase(Case c)
+    {
+        this.targetCase = c;
+    }
+
     public boolean isMoving()
     {
         return this.moving;

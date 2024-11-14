@@ -1,8 +1,13 @@
 package sim;
 import gui.GUISimulator;
 import java.awt.Color;
+import java.util.ArrayList;
+
+import events.Deplacer;
+import graphes.StrategieDijkstra;
 
 public class RobotCaterpillar extends Robot {
+    private NatureTerrain[] forbiddenTerrains = {NatureTerrain.EAU, NatureTerrain.ROCHE};
 
     //Vitesse par défaut de 60 km/h, mais qui peut être lue dans le fichier (sans dépasser 80 km/h)
     //Réservoir de 2000 litres. Intervention unitaire : 100 litres en 8 sec.
@@ -42,7 +47,6 @@ public class RobotCaterpillar extends Robot {
         Case caseRobot = this.getPosition();
         int caseX = caseRobot.getColonne() * tailleCase;
         int caseY = caseRobot.getLigne() * tailleCase;
-
         gui.addGraphicalElement(new gui.Oval(
                 caseX, caseY,
                 Color.BLACK,                           // Border color
@@ -51,8 +55,57 @@ public class RobotCaterpillar extends Robot {
         ));
     }
 
-    public void createShortestPathTo(Case c, Carte carte, Simulateur sim)
+    public int getVitesseParNature(Case c)
     {
-        
+        switch(c.getNature())
+        {
+            case EAU:
+                return -1;
+            case FORET:
+                return this.vitesse/20;
+            case ROCHE:
+                return -1;
+            case TERRAIN_LIBRE:
+                return this.vitesse/10;
+            case HABITAT:
+                return this.vitesse/10;
+            default:
+                return -1;
+        }
+
+    }
+
+    public void createShortestPathTo(Case end, Carte carte, Simulateur sim)
+    {
+        if(!this.isMoving())
+        {
+            double[] natureCosts = {Double.POSITIVE_INFINITY, ((double)this.vitesse)/2, 
+                Double.POSITIVE_INFINITY, this.vitesse, this.vitesse};
+            ArrayList<Case> shortestPath = StrategieDijkstra.findShortestPath(carte, this.position, end, new NatureTerrain[]{NatureTerrain.EAU, NatureTerrain.ROCHE}, natureCosts);
+            for(Case c : shortestPath)
+            {
+                System.out.println(c);
+            }
+            
+            int previousDate = sim.getDateSimulation();
+            for(int i = 0; i<shortestPath.size()-1;i++)
+            {
+                Case currentCase = shortestPath.get(i);
+                Case nextCase = shortestPath.get(i+1);
+                Direction dir = this.getDirectionFromCases(currentCase, nextCase);
+                int currentCaseVitesse = this.getVitesseParNature(currentCase);
+                int nextCaseVitesse = this.getVitesseParNature(nextCase);
+                int timeToNextCase = currentCaseVitesse+nextCaseVitesse;
+                int dateAtNextCase = previousDate + timeToNextCase;
+                sim.addEvent(new Deplacer(dateAtNextCase, this, dir, carte));
+
+                previousDate = dateAtNextCase;
+            }
+            this.setMoving(true);
+        }
+        else
+        {
+            System.out.println("Relax - wait until robot has reached its destination to set a new path!");
+        }
     }
 }

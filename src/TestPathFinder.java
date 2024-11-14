@@ -5,12 +5,12 @@ import sim.RobotWheels;
 import sim.Case;
 import sim.DonneesSimulation;
 import sim.Simulateur;
+import sim.Robot;
 
 import graphes.StrategieDijkstra;
 
 import gui.GUISimulator;
 import java.awt.Color;
-import java.awt.Robot;
 import java.util.ArrayList;
 
 public class TestPathFinder
@@ -49,15 +49,23 @@ public class TestPathFinder
 
     private void testRobotShortestPathCreation()
     {
-        this.simData.getRobots()[0].createShortestPathTo(this.simData.getCarte().getCase(0,0), this.simData.getCarte(), this.mySim);
-        this.simData.getRobots()[1].createShortestPathTo(this.simData.getCarte().getCase(0, 0), this.simData.getCarte(), this.mySim);
-        this.simData.getRobots()[2].createShortestPathTo(this.simData.getCarte().getCase(0, 0), this.simData.getCarte(), this.mySim);
+        for(Robot rob : this.simData.getRobots())
+        {
+            rob.createShortestPathTo(this.simData.getCarte().getCase(0,0), this.simData.getCarte(), this.mySim);
+        }
         this.mySim.printEvenements();
     }
+
+    private void testPattesShortestPathCreation()
+    {
+        this.simData.getRobots()[5].createShortestPathTo(this.simData.getCarte().getCase(0, 0), this.simData.getCarte(), this.mySim);
+    }
+
     public static void main(String[] args)
     {
         TestPathFinder testPath = new TestPathFinder(args[0]);
         System.out.println("Testpathfinder created");
         testPath.testRobotShortestPathCreation();
+        // testPath.testPattesShortestPathCreation();
     }
 }
