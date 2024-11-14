@@ -1,4 +1,6 @@
 package sim;
+import events.Evenement;
+import events.Intervention;
 import gui.GUISimulator;
 
 // This is an abstract class, so it cannot be instantiated
@@ -25,6 +27,26 @@ public abstract class Robot {
         this.volumeReservoirMax = waterCapacityMax;
         this.type = type;
         this.moving = false;
+    }
+
+    /**
+     * Needs to be implemented by every robot, make sure to only create new path when robot stopped moving indicated
+     * by the bool notMoving and to set notMoving to false when a path was created. This function is responsible 
+     * that the robots only move as allowed 
+     * @param end target Case
+     * @param carte map on which the robot operates
+     * @param sim reference to the simulateur that receives the deplacer events
+     */
+    abstract public void createShortestPathTo(Case end, Carte carte, Simulateur sim);
+
+    public void intervenir(int date, Simulateur sim)
+    {
+        Intervention intervention = new Intervention(date, this.volumeReservoir, sim, this);
+        sim.addEvent(intervention);
+    }
+    public void emptyWater()
+    {
+        this.volumeReservoir = 0;
     }
 
     /**
@@ -84,15 +106,6 @@ public abstract class Robot {
     public RobotType getType(){
         return this.type;
     }
-    /**
-     * Needs to be implemented by every robot, make sure to only create new path when robot stopped moving indicated
-     * by the bool notMoving and to set notMoving to false when a path was created. This function is responsible 
-     * that the robots only move as allowed 
-     * @param end target Case
-     * @param carte map on which the robot operates
-     * @param sim reference to the simulateur that receives the deplacer events
-     */
-    abstract public void createShortestPathTo(Case end, Carte carte, Simulateur sim);
 
     public Case getPosition() 
     { 
@@ -101,7 +114,15 @@ public abstract class Robot {
 
     public void setPosition(Case c) 
     { 
-        this.position = c; 
+        this.position = c;
+        if(this.position.equals(this.targetCase))
+        {
+            this.setMoving(false);
+        } 
+        else
+        {
+            System.err.println("Relax - Robot still moving, wait until its target is reached and set new path");
+        }
     }
     
     public double getVitesse()

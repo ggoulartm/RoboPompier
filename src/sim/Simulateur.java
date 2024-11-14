@@ -1,5 +1,6 @@
 package sim;
 
+
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Queue;
@@ -70,6 +71,18 @@ public class Simulateur implements Simulable {
     }
     public void setPremierEvent(Evenement premierEvent) {
         this.premierEvent = premierEvent;
+    }
+    public Incendie getIncendie(Case pos)
+    {
+        Incendie[] incs = this.data.getIncendies();
+        for(Incendie inc : incs)
+        {
+            if(inc.getPosition().equals(pos))
+            {
+                return inc;
+            }
+        }
+        return null;
     }
 
     // This method is called when the "Next" button is pressed

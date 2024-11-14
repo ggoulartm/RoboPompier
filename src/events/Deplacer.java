@@ -27,19 +27,29 @@ public class Deplacer extends Evenement{
             case NORD:
                 if(ligne != 0)
                     this.robot.setPosition(this.carte.getCase(ligne-1, colonne));
+                else
+                    System.err.println("ERROR: R2D2 cries because he fell of the map!");
                 break;
             case EST:
                 if(colonne != this.carte.getNbColonnes()-1)
                     this.robot.setPosition(this.carte.getCase(ligne, colonne+1));
+                else
+                    System.err.println("ERROR: R2D2 cries because he fell of the map!");
                 break;
             case SUD:
                 if(ligne!=this.carte.getNbLignes()-1)
                     this.robot.setPosition(this.carte.getCase(ligne+1, colonne));
+                else
+                    System.err.println("ERROR: R2D2 cries because he fell of the map!");
                 break;
             case OUEST:
                 if(colonne != 0)
                     this.robot.setPosition(this.carte.getCase(ligne, colonne-1));
+                else
+                    System.err.println("ERROR: R2D2 cries because he fell of the map!");
                 break;
+            default:
+                System.out.println("No direction specified");
         }
     }
 

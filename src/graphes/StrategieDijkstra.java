@@ -10,7 +10,8 @@ public class StrategieDijkstra
 {
 
     /**
-     * 
+     * Returns either ArrayList<Case> of consecutive Cases to follow or an empty
+     * ArrayList<Case> if no path was found.
      * @param carte
      * @param start
      * @param target
@@ -41,6 +42,8 @@ public class StrategieDijkstra
         this.natureCosts = natureCosts;
     }
 
+    // Returns either ArrayList<Case> of consecutive Cases to follow or an empty
+    // ArrayList<Case> if no path was found.
     private ArrayList<Case> shortestPath(Case s, Case t)
     {
         // As long last as target is not element of tree continue searching
@@ -102,12 +105,17 @@ public class StrategieDijkstra
         if(this.tree.contains(target))
         {
             target = this.tree.get(this.tree.indexOf(target));
+            return constructPathFromTarget(start, target); 
             // System.out.println("Tree contains target");
+        }
+        else
+        {
+            System.out.println("There's no path to the requested Case!");
+            return new ArrayList<Case>(){};
         }
 
         // System.out.println("Added target to tree or ran out of iterations");
 
-        return constructPathFromTarget(start, target); 
     }
 
     private ArrayList<Case> constructPathFromTarget(TreeCase start, TreeCase target)

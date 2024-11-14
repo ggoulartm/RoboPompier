@@ -6,6 +6,7 @@ import java.awt.Color;
 public class Incendie {
     private Case position;
     private int intensite;
+    static int maxIntensity = 0; 
 
     public Incendie(Case position, int intensite)
     {
@@ -13,6 +14,12 @@ public class Incendie {
         System.out.println(position);
         this.position = position;
         this.intensite = intensite;
+        maxIntensity = Math.max(maxIntensity, intensite);
+    }
+
+    public void reduceIntensite(int quantiteEau)
+    {
+        this.intensite = Math.max(0, this.intensite-quantiteEau);
     }
 
     public Case getPosition() {
@@ -32,10 +39,12 @@ public class Incendie {
     public void draw (GUISimulator gui, int tailleCase) {
         int coordX = this.position.getColonne() * tailleCase;
         int coordY = this.position.getLigne() * tailleCase;
+        float alpha = (float)this.intensite/(float)maxIntensity;
+        Color redIntensity = new Color(1, 0, 0, alpha);
             gui.addGraphicalElement(new gui.Rectangle(
                     coordX, coordY,
                     Color.BLACK,                           // Border color
-                    Color.RED,                             // Fill color
+                    redIntensity,                             // Fill color
                     tailleCase, tailleCase
             ));
     }

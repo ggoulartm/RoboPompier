@@ -40,6 +40,7 @@ public class Drone extends Robot
     {
         if(!this.isMoving())
         {
+            this.setTargetCase(end);
             System.out.println("Move Drone");
             double[] natureCosts = {this.vitesse, this.vitesse, 
             this.vitesse, this.vitesse, this.vitesse};

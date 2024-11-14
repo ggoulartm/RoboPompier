@@ -37,6 +37,10 @@ testEvenement:
 
 testPathFinder:
 	javac -d bin -classpath lib/gui.jar -sourcepath src src/TestPathFinder.java
+
+testMover:
+	javac -d bin -classpath lib/gui.jar -sourcepath src src/TestMover.java
+
 # Execution:
 # on peut taper directement la ligne de commande :
 #   > java -classpath bin:lib/gui.jar TestInvader
@@ -56,6 +60,9 @@ exeEve:
 
 exePath:
 	java -classpath bin:lib/gui.jar TestPathFinder cartes/carteSujet.map
+
+exeMove:
+	java -classpath bin:lib/gui.jar TestMover cartes/carteSujet.map
 
 clean:
 	rm -rf bin/*
