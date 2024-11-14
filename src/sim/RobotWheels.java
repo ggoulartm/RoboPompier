@@ -49,6 +49,10 @@ public class RobotWheels extends Robot {
         } else {
             System.out.println("Wheeled robot cannot move to this terrain.");
         }
+        if(target.equals(this.getTargetCase()))
+        {
+            this.setMoving(false);
+        }
     }
 
     @Override
@@ -70,27 +74,35 @@ public class RobotWheels extends Robot {
      */
     public void createShortestPathTo(Case end, Carte carte, Simulateur sim)
     {
-        double[] natureCosts = {Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY, 
-            Double.POSITIVE_INFINITY, this.vitesse, this.vitesse};
-        ArrayList<Case> shortestPath = StrategieDijkstra.findShortestPath(carte, this.position, end, new NatureTerrain[]{NatureTerrain.EAU, NatureTerrain.FORET, NatureTerrain.ROCHE}, natureCosts);
-        for(Case c : shortestPath)
+        if(!this.isMoving())
         {
-            System.out.println(c);
-        }
-        
-        int previousDate = sim.getDateSimulation();
-        for(int i = 0; i<shortestPath.size()-1;i++)
-        {
-            Case currentCase = shortestPath.get(i);
-            Case nextCase = shortestPath.get(i+1);
-            Direction dir = this.getDirectionFromCases(currentCase, nextCase);
-            int currentCaseVitesse = this.getVitesseParNature(currentCase);
-            int nextCaseVitesse = this.getVitesseParNature(nextCase);
-            int timeToNextCase = currentCaseVitesse+nextCaseVitesse;
-            int dateAtNextCase = previousDate + timeToNextCase;
-            sim.addEvent(new Deplacer(dateAtNextCase, this, dir, carte));
+            double[] natureCosts = {Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY, 
+                Double.POSITIVE_INFINITY, this.vitesse, this.vitesse};
+            ArrayList<Case> shortestPath = StrategieDijkstra.findShortestPath(carte, this.position, end, new NatureTerrain[]{NatureTerrain.EAU, NatureTerrain.FORET, NatureTerrain.ROCHE}, natureCosts);
+            for(Case c : shortestPath)
+            {
+                System.out.println(c);
+            }
+            
+            int previousDate = sim.getDateSimulation();
+            for(int i = 0; i<shortestPath.size()-1;i++)
+            {
+                Case currentCase = shortestPath.get(i);
+                Case nextCase = shortestPath.get(i+1);
+                Direction dir = this.getDirectionFromCases(currentCase, nextCase);
+                int currentCaseVitesse = this.getVitesseParNature(currentCase);
+                int nextCaseVitesse = this.getVitesseParNature(nextCase);
+                int timeToNextCase = currentCaseVitesse+nextCaseVitesse;
+                int dateAtNextCase = previousDate + timeToNextCase;
+                sim.addEvent(new Deplacer(dateAtNextCase, this, dir, carte));
 
-            previousDate = dateAtNextCase;
+                previousDate = dateAtNextCase;
+            }
+            this.setMoving(true);
+        }
+        else
+        {
+            System.out.println("Relax - wait until robot has reached its destination to set a new path!");
         }
     }
 }

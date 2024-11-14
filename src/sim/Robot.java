@@ -14,6 +14,8 @@ public abstract class Robot {
     protected RobotType type; //Type de robot: Drone, Pattes(Legs), Roues(Wheels), Chenilles(Caterpillar)
     protected InterventionUnitaire Deversement; //Litres/seconde
     protected int tempsRemplissage; //minutes
+    private boolean moving;
+    private Case targetCase;
 
     public Robot(Case position, int vitesse, int waterCapacityMax, int reserveWaterAmount, RobotType type)
     {
@@ -22,6 +24,25 @@ public abstract class Robot {
         this.volumeReservoir = reserveWaterAmount;
         this.volumeReservoirMax = waterCapacityMax;
         this.type = type;
+        this.moving = false;
+    }
+
+    /**
+     * return the Case which the Robot is moving towards
+     */
+    public Case getTargetCase()
+    {
+        return this.targetCase;
+    }   
+
+    public boolean isMoving()
+    {
+        return this.moving;
+    }
+
+    public void setMoving(boolean b)
+    {
+        this.moving = b;
     }
 
     /**
@@ -58,6 +79,14 @@ public abstract class Robot {
     public RobotType getType(){
         return this.type;
     }
+    /**
+     * Needs to be implemented by every robot, make sure to only create new path when robot stopped moving indicated
+     * by the bool notMoving and to set notMoving to false when a path was created. This function is responsible 
+     * that the robots only move as allowed 
+     * @param end target Case
+     * @param carte map on which the robot operates
+     * @param sim reference to the simulateur that receives the deplacer events
+     */
     abstract public void createShortestPathTo(Case end, Carte carte, Simulateur sim);
 
     public Case getPosition() 
