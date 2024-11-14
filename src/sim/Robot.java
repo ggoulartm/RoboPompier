@@ -40,6 +40,7 @@ public abstract class Robot {
      * @return returns duration it takes the robot to move from current position to target
      */
     abstract public int createShortestPathTo(int date, Case end, Carte carte, Simulateur sim);
+    abstract public int timeTo(Case c, Carte carte);
 
     public void intervenir(int date, Simulateur sim)
     {

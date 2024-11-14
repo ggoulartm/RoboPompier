@@ -80,7 +80,7 @@ public class RobotCaterpillar extends Robot {
         int endDate = -1;
         if(!this.isMoving())
         {
-            int tailleCase = sim.getDonnees().getCarte().getTaille();
+            double tailleCase = carte.getTaille();
             double[] natureCosts = {Double.POSITIVE_INFINITY, (double)tailleCase/((double)this.vitesse/2), 
                 Double.POSITIVE_INFINITY, (double)tailleCase/this.vitesse, (double)tailleCase/this.vitesse};
             ArrayList<Case> shortestPath = StrategieDijkstra.findShortestPath(carte, this.position, end, new NatureTerrain[]{NatureTerrain.EAU, NatureTerrain.ROCHE}, natureCosts);
@@ -95,8 +95,8 @@ public class RobotCaterpillar extends Robot {
                 Case currentCase = shortestPath.get(i);
                 Case nextCase = shortestPath.get(i+1);
                 Direction dir = this.getDirectionFromCases(currentCase, nextCase);
-                int currentCaseTemps = (tailleCase/this.getVitesseParNature(currentCase))/2;
-                int nextCaseTemps = (tailleCase/this.getVitesseParNature(nextCase))/2;
+                int currentCaseTemps = (int)(tailleCase/(2*(double)this.getVitesseParNature(currentCase)));
+                int nextCaseTemps = (int)(tailleCase/(2*(double)this.getVitesseParNature(nextCase)));
                 int timeToNextCase = Math.max(1, currentCaseTemps+nextCaseTemps);
                 int dateAtNextCase = previousDate + timeToNextCase;
                 sim.addEvent(new Deplacer(dateAtNextCase, this, dir, carte));
@@ -111,4 +111,33 @@ public class RobotCaterpillar extends Robot {
         }
         return endDate;
     }
+
+    @Override
+    public int timeTo(Case c, Carte carte)
+    {
+        double tailleCase = carte.getTaille();
+        double[] natureCosts = {Double.POSITIVE_INFINITY, (double)tailleCase/((double)this.vitesse/2), 
+            Double.POSITIVE_INFINITY, (double)tailleCase/this.vitesse, (double)tailleCase/this.vitesse};
+        ArrayList<Case> shortestPath = StrategieDijkstra.findShortestPath(carte, this.position, c, new NatureTerrain[]{NatureTerrain.EAU, NatureTerrain.ROCHE}, natureCosts);
+        
+        if(shortestPath.isEmpty())
+            return -1;
+
+        int previousDate = 0;
+        int endDate = 0;
+        for(int i = 0; i<shortestPath.size()-1;i++)
+        {
+            Case currentCase = shortestPath.get(i);
+            Case nextCase = shortestPath.get(i+1);
+            Direction dir = this.getDirectionFromCases(currentCase, nextCase);
+            int currentCaseTemps = (int)(tailleCase/(2*(double)this.getVitesseParNature(currentCase)));
+            int nextCaseTemps = (int)(tailleCase/(2*(double)this.getVitesseParNature(nextCase)));
+            int timeToNextCase = Math.max(1, currentCaseTemps+nextCaseTemps);
+            int dateAtNextCase = previousDate + timeToNextCase;
+            endDate = dateAtNextCase;
+            previousDate = dateAtNextCase;
+        }
+        return endDate;
+    }
+
 }

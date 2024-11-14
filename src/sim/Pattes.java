@@ -41,7 +41,7 @@ public class Pattes extends Robot
         int endDate = 0;
         if(!this.isMoving())
         {
-            int tailleCase = sim.getDonnees().getCarte().getTaille();
+            double tailleCase = sim.getDonnees().getCarte().getTaille();
             double[] natureCosts = {Double.POSITIVE_INFINITY, ((double)tailleCase)/(double)this.vitesse, 
                 (double)tailleCase/((double)this.vitesse/2), (double)tailleCase/(double)this.vitesse, (double)tailleCase/(double)this.vitesse};
             ArrayList<Case> shortestPath = StrategieDijkstra.findShortestPath(carte, this.position, end, forbiddenTerrains, natureCosts);
@@ -56,8 +56,8 @@ public class Pattes extends Robot
                 Case currentCase = shortestPath.get(i);
                 Case nextCase = shortestPath.get(i+1);
                 Direction dir = this.getDirectionFromCases(currentCase, nextCase);
-                int currentCaseTemps = Math.max(1,(tailleCase/this.getVitesseParNature(currentCase))/2);
-                int nextCaseTemps = tailleCase/this.getVitesseParNature(nextCase);
+                int currentCaseTemps = (int)(tailleCase/(2*(double)this.getVitesseParNature(currentCase)));
+                int nextCaseTemps = (int)(tailleCase/(2*(double)this.getVitesseParNature(nextCase)));
                 int timeToNextCase = Math.max(1, currentCaseTemps+nextCaseTemps);
                 int dateAtNextCase = previousDate + timeToNextCase;
                 sim.addEvent(new Deplacer(dateAtNextCase, this, dir, carte));
@@ -69,6 +69,31 @@ public class Pattes extends Robot
         else
         {
             System.out.println("Relax - wait until robot has reached its destination to set a new path!");
+        }
+        return endDate;
+    }
+
+    public int timeTo(Case c, Carte carte)
+    {
+        double tailleCase = (double)carte.getTaille();
+        double[] natureCosts = {tailleCase/(double)this.vitesse, tailleCase/(double)this.vitesse, 
+            tailleCase/(double)this.vitesse, tailleCase/(double)this.vitesse, tailleCase/(double)this.vitesse};
+        ArrayList<Case> shortestPath = StrategieDijkstra.findShortestPath(carte, this.position, c, this.forbiddenTerrains, natureCosts);
+        if(shortestPath.isEmpty())
+            return -1;
+        int previousDate = 0;
+        int endDate = 0;
+        for(int i = 0; i<shortestPath.size()-1;i++)
+        {
+            Case currentCase = shortestPath.get(i);
+            Case nextCase = shortestPath.get(i+1);
+            Direction dir = this.getDirectionFromCases(currentCase, nextCase);
+            int currentCaseTemps = (int)(tailleCase/(2*(double)this.getVitesseParNature(currentCase)));
+            int nextCaseTemps = (int)(tailleCase/(2*(double)this.getVitesseParNature(nextCase)));
+            int timeToNextCase = Math.max(1, currentCaseTemps+nextCaseTemps);
+            int dateAtNextCase = previousDate + timeToNextCase;
+            endDate = dateAtNextCase;
+            previousDate = dateAtNextCase;
         }
         return endDate;
     }

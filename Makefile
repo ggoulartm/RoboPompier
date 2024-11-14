@@ -41,6 +41,9 @@ testPathFinder:
 testMover:
 	javac -d bin -classpath lib/gui.jar -sourcepath src src/TestMover.java
 
+testChef:
+	javac -d bin -classpath lib/gui.jar -sourcepath src src/TestChefPompier.java
+
 # Execution:
 # on peut taper directement la ligne de commande :
 #   > java -classpath bin:lib/gui.jar TestInvader
@@ -63,6 +66,10 @@ exePath:
 
 exeMove:
 	java -classpath bin:lib/gui.jar TestMover cartes/carteSujet.map
+
+exeChef:
+	java -classpath bin:lib/gui.jar TestChefPompier cartes/carteSujet.map
+
 
 clean:
 	rm -rf bin/*
