@@ -73,7 +73,7 @@ public class RobotWheels extends Robot {
      * adds Deplacements to the simulator at the corresponding dates
      */
     @Override
-    public void createShortestPathTo(Case end, Carte carte, Simulateur sim)
+    public void createShortestPathTo(int start_date, Case end, Carte carte, Simulateur sim)
     {
         if(!this.isMoving())
         {
@@ -85,7 +85,7 @@ public class RobotWheels extends Robot {
                 System.out.println(c);
             }
             
-            int previousDate = sim.getDateSimulation();
+            int previousDate = start_date;
             for(int i = 0; i<shortestPath.size()-1;i++)
             {
                 Case currentCase = shortestPath.get(i);

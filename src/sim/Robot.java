@@ -38,7 +38,7 @@ public abstract class Robot {
      * @param carte map on which the robot operates
      * @param sim reference to the simulateur that receives the deplacer events
      */
-    abstract public void createShortestPathTo(Case end, Carte carte, Simulateur sim);
+    abstract public void createShortestPathTo(int date, Case end, Carte carte, Simulateur sim);
 
     public void intervenir(int date, Simulateur sim)
     {

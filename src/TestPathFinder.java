@@ -51,14 +51,14 @@ public class TestPathFinder
     {
         for(Robot rob : this.simData.getRobots())
         {
-            rob.createShortestPathTo(this.simData.getCarte().getCase(0,0), this.simData.getCarte(), this.mySim);
+            rob.createShortestPathTo(1, this.simData.getCarte().getCase(0,0), this.simData.getCarte(), this.mySim);
         }
         this.mySim.printEvenements();
     }
 
     private void testPattesShortestPathCreation()
     {
-        this.simData.getRobots()[5].createShortestPathTo(this.simData.getCarte().getCase(0, 0), this.simData.getCarte(), this.mySim);
+        this.simData.getRobots()[5].createShortestPathTo(1, this.simData.getCarte().getCase(0, 0), this.simData.getCarte(), this.mySim);
     }
 
     public static void main(String[] args)

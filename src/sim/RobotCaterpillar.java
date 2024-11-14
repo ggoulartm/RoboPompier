@@ -75,7 +75,7 @@ public class RobotCaterpillar extends Robot {
 
     }
 
-    public void createShortestPathTo(Case end, Carte carte, Simulateur sim)
+    public void createShortestPathTo(int start_date, Case end, Carte carte, Simulateur sim)
     {
         if(!this.isMoving())
         {
@@ -87,7 +87,7 @@ public class RobotCaterpillar extends Robot {
                 System.out.println(c);
             }
             
-            int previousDate = sim.getDateSimulation();
+            int previousDate = start_date;
             for(int i = 0; i<shortestPath.size()-1;i++)
             {
                 Case currentCase = shortestPath.get(i);

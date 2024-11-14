@@ -36,7 +36,7 @@ public class Pattes extends Robot
 
     //Ne peut pas se rendre sur de l’eau.
     @Override
-    public void createShortestPathTo(Case end, Carte carte, Simulateur sim)
+    public void createShortestPathTo(int start_date, Case end, Carte carte, Simulateur sim)
     {
         if(!this.isMoving())
         {
@@ -48,7 +48,7 @@ public class Pattes extends Robot
                 System.out.println(c);
             }
             
-            int previousDate = sim.getDateSimulation();
+            int previousDate = start_date;
             for(int i = 0; i<shortestPath.size()-1;i++)
             {
                 Case currentCase = shortestPath.get(i);

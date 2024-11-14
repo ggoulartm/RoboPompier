@@ -59,11 +59,25 @@ public class TestMover
         walli.registerFillReservoir(this.mySim.getDateSimulation()+8, this.mySim);
     }
 
+    public void exampleChefPompierCall()
+    {
+        Robot walli = this.simData.getRobots()[1];
+        // send walli to next fire
+        walli.createShortestPathTo(1, this.simData.getCarte().getCase(7, 0), this.simData.getCarte(), this.mySim);
+        // Make him extinquish the fire 
+        // TODO: find out which date to intervenir (calculate time to follow path from above)
+        walli.intervenir(10, this.mySim);
+        walli.createShortestPathTo(11, this.simData.getCarte().getCase(4, 1), this.simData.getCarte(), this.mySim);
+        walli.registerFillReservoir(12, this.mySim);
+        // etc....
+    }
+
     public static void main(String[] args)
     {
         TestMover unmovedMover = new TestMover(args[0]);
         System.out.println("Testpathfinder created");
         unmovedMover.provokeMapExit();
         unmovedMover.extinguishFire();
+        unmovedMover.exampleChefPompierCall();
     }
 }
