@@ -39,8 +39,8 @@ public class Case{
     }
 
     public void draw(GUISimulator gui, int tailleCase) {
-        int coordX = this.getColonne() * tailleCase;
-        int coordY = this.getLigne() * tailleCase;
+        int coordX = tailleCase + this.getColonne() * tailleCase;
+        int coordY = tailleCase + this.getLigne() * tailleCase;
 
         switch (this.getNature()) {
             case EAU:
@@ -89,7 +89,7 @@ public class Case{
                     gui.addGraphicalElement(new gui.Rectangle(
                             coordX, coordY,
                             Color.BLACK,                           // Border color
-                            Color.LIGHT_GRAY,                             // Fill color
+                            Color.WHITE,                             // Fill color
                             tailleCase, tailleCase
                     ));
                 }
