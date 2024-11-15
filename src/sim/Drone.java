@@ -75,7 +75,7 @@ public class Drone extends Robot
             else
             {
                 System.out.println("Robot already in target position");
-                this.registerAskForInstructions(start_date+1, chef, sim);
+                endDate = start_date;
             }
         }
         return endDate;

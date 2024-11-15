@@ -47,15 +47,29 @@ public class Carte {
     }
     public ArrayList<Case> getNeighbours(Case c)
     {
+        // System.out.println("On the search for neighbours");
         ArrayList<Case> neighbours = new ArrayList<Case>();
         if(this.voisinExiste(c, Direction.NORD))
+        {
+            // System.out.println("Add north neighbour");
             neighbours.add(this.getVoisin(c, Direction.NORD));
+        }
         if(this.voisinExiste(c, Direction.EST))
+        {
+            // System.out.println("Add East neighbour");
             neighbours.add(this.getVoisin(c, Direction.EST));
+        }
         if(this.voisinExiste(c, Direction.SUD))
+        {
+            // System.out.println("Add south neighbour");
             neighbours.add(this.getVoisin(c, Direction.SUD));
+        }
         if(this.voisinExiste(c, Direction.OUEST))
-            neighbours.add(this.getVoisin(c, Direction.SUD));
+        {
+            // System.out.println("Add West neighbour");
+            neighbours.add(this.getVoisin(c, Direction.OUEST));
+        }
+        System.out.println("Length neighbours: "+neighbours.size());
         return neighbours;
     }
     public ArrayList<Case> getNonWaterNeighbours(Case c)
@@ -82,6 +96,7 @@ public class Carte {
     public boolean voisinExiste(Case src, Direction dir){
         int ligne = src.getLigne();
         int colonne = src.getColonne();
+        System.out.println("Checking for voisin, south: "+(ligne < (this.getNbLignes()-1)));
         switch(dir)
         {
             case NORD: 

@@ -62,15 +62,17 @@ public abstract class Robot {
         this.volumeReservoir = 0;
     }
     /**
-     * Registers a Remplir event to the simulator
-     * @param date Date of the attempt to remplir
+     * Registers a Remplir event with following askForInstructions event to the simulator 
+     * @param date Date of start to remplir
      * @param sim Simulator to register the event to
      */
-    public void registerFillReservoir(int date, Simulateur sim)
+    public void registerFillReservoir(int date, Simulateur sim, SimpleChefPompier chef)
     {
-        Remplir remplir = new Remplir(date, sim, this);
+        int dateDeRemplissageComplet = date+this.getTempsRemplissage();
+        int dateDeDemandeInstruction = dateDeRemplissageComplet+1;
+        Remplir remplir = new Remplir(date+this.getTempsRemplissage(), sim, this);
         sim.addEvent(remplir);
-        this.volumeReservoir = this.volumeReservoirMax;
+        this.registerAskForInstructions(dateDeDemandeInstruction, chef, sim);
     }
     /**
      * Only to be called by the Simulator
@@ -208,7 +210,22 @@ public abstract class Robot {
         //Attendre this.Deversement.temps secondes
     }
 
+    /**
+     * 
+     * @return time in seconds
+     */
     public int getTempsRemplissage() {
+        switch(this.type)
+        {
+            case CATERPILLAR:
+                return 5*60;
+            case DRONE:
+                return 30*60;
+            case PATTES:
+                return -1;
+            case WHEELS:
+                return 10*60;
+        }
         return this.tempsRemplissage;
     }
     

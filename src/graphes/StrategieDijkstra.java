@@ -61,7 +61,7 @@ public class StrategieDijkstra
         // List of all sommets that were called in a scan
         ArrayList<TreeCase> updatedNeighbours = new ArrayList<TreeCase>();
         updatedNeighbours.add(start);
-        while(iterations < this.carte.getNbLignes()*this.carte.getNbColonnes()) //&& iterations < this.carte.getNbLignes()*(this.carte.getNbColonnes()-1)
+        while(iterations < this.carte.getNbLignes()*this.carte.getNbColonnes())
         {
             iterations++;
             // System.out.println("Start of while - size of tree: "+this.tree.size()+" target: "+target);

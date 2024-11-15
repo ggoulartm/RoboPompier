@@ -20,7 +20,12 @@ public class Remplir extends Evenement{
 
     private boolean waterNextTo(Case pos)
     {
+        // System.out.println("    Check for water at "+pos);
+        if(pos.getNature() == NatureTerrain.EAU)
+            return true;
+
         ArrayList<Case> neighbours = sim.getDonnees().getCarte().getNeighbours(pos);
+        System.out.println("    Found: "+neighbours.isEmpty()+" neighbours");
         for(Case c : neighbours)
         {
             if (c.getNature() == NatureTerrain.EAU)
@@ -31,9 +36,11 @@ public class Remplir extends Evenement{
 
     public void execute()
     {
+        System.out.println("Execute Remplir");
         System.out.println("Try to refill reservoir");
+        // System.out.println("Water next to pos: "+waterNextTo(this.robot.getPosition()));
         if(waterNextTo(this.robot.getPosition()))
-        {
+        {            
             this.robot.fillReservoir();
             System.out.println(this.robot+" has filled his reservoir!");
         }

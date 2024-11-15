@@ -167,9 +167,8 @@ public class SimpleChefPompier {
                 }
             }
             System.out.println("Found nearest Water "+nearestWaterNeigbour+" for robot: "+ walli);
-            int dateOfFireArrival = walli.createShortestPathTo(this.sim.getDateSimulation(), nearestWaterNeigbour, this.simData.getCarte(), this.sim, this);
-            walli.registerFillReservoir(dateOfFireArrival+1, this.sim);
-            walli.registerAskForInstructions(dateOfFireArrival+2, this, this.sim);
+            int dateOfWaterArrival = walli.createShortestPathTo(this.sim.getDateSimulation()+1, nearestWaterNeigbour, this.simData.getCarte(), this.sim, this);
+            walli.registerFillReservoir(dateOfWaterArrival+1, this.sim, this);
         }
         catch(Exception e)
         {
