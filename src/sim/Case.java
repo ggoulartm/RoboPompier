@@ -36,6 +36,9 @@ public class Case{
         this.estBrulee = brulee;
     }
 
+    public void extinguish() {
+        setEstBrulee(false);
+    }
     public boolean isBrulee() {
         return this.estBrulee;
     }

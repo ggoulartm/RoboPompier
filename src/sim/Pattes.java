@@ -142,4 +142,11 @@ public class Pattes extends Robot
                 null
         ));     
     }
+
+    @Override
+    public String toString()
+    {
+        return "Robot Pattes at: "+this.position.toString()+" with speed: "+this.vitesse;
+    }
+
 }

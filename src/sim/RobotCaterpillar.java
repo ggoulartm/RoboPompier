@@ -99,7 +99,7 @@ public class RobotCaterpillar extends Robot {
             {
                 System.out.println(c);
             }
-            
+
             int previousDate = start_date;
             for(int i = 0; i<shortestPath.size()-1;i++)
             {

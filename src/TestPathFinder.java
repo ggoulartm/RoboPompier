@@ -1,11 +1,6 @@
 import io.LecteurDonnees;
 
-import sim.NatureTerrain;
-import sim.RobotWheels;
-import sim.Case;
-import sim.DonneesSimulation;
-import sim.Simulateur;
-import sim.Robot;
+import sim.*;
 
 import graphes.StrategieDijkstra;
 
@@ -66,6 +61,5 @@ public class TestPathFinder
         TestPathFinder testPath = new TestPathFinder(args[0]);
         System.out.println("Testpathfinder created");
         testPath.testRobotShortestPathCreation();
-        // testPath.testPattesShortestPathCreation();
     }
 }

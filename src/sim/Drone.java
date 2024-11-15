@@ -121,6 +121,13 @@ public class Drone extends Robot
                 null
         ));
     }
+
+    @Override
+    public String toString()
+    {
+        return "Robot Drone at: "+this.position.toString()+" with speed: "+this.vitesse;
+    }
+
 }
 
 

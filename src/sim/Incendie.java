@@ -10,12 +10,14 @@ public class Incendie {
     private Case position;
     private int intensite;
     static int maxIntensity = 0; 
+    private int InitIntensite;
 
     public Incendie(Case position, int intensite)
     {
         System.out.println("Creating Incendie");
         System.out.println(position);
         this.position = position;
+        this.InitIntensite = intensite;
         this.intensite = intensite;
         maxIntensity = Math.max(maxIntensity, intensite);
     }
@@ -31,6 +33,10 @@ public class Incendie {
 
     public int getIntensite() {
         return intensite;
+    }
+
+    public void Restore() {
+        this.intensite = InitIntensite;
     }
 
     @Override

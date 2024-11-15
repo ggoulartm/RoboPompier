@@ -156,4 +156,11 @@ public class RobotWheels extends Robot {
         }
         return endDate;
     }
+
+    @Override
+    public String toString()
+    {
+        return "Robot Wheels at: "+this.position.toString()+" with speed: "+this.vitesse;
+    }
+
 }

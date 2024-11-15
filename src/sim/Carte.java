@@ -131,6 +131,20 @@ public class Carte {
         return this.tailleCases;
     }
 
+    public Case[] getCasesByTerrain(NatureTerrain nT) {
+        Case[] caseMatch = new Case[this.tailleCases];
+        int size = 0;
+        for(Case[] caseLigne: this.chequerboard) {
+            for(Case c : caseLigne) {
+                if(c.getNature() == nT) {
+                    caseMatch[size]=c;
+                    size++;
+                }
+            }
+        }
+        return caseMatch;
+    }
+
     @Override
     public String toString()
     {
