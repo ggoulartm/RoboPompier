@@ -101,10 +101,9 @@ public class Simulateur implements Simulable {
         gui.reset();
         Carte carte = data.getCarte();
 
-        int tailleCase = 0;
-        if (carte.getNbColonnes() == 8) tailleCase = carte.getTailleCases() / 100;
-        else if (carte.getNbColonnes() == 20) tailleCase = 45;
-        else tailleCase = 20;
+        int tailleCase;
+        if (carte.getNbColonnes() == 8) tailleCase = 600 / (carte.getNbColonnes()) - 10;
+        else tailleCase = 50;
 
         // Draw cases
         for (int x = 0; x < carte.getNbLignes(); x++) {
@@ -114,16 +113,16 @@ public class Simulateur implements Simulable {
             }
         }
 
-        // Draw robots
-        Robot[] robots = data.getRobots();
-        for (Robot robot : robots) {
-            robot.draw(gui, tailleCase);
-        }
-
         // Draw fires
         Incendie[] incendies = getDonnees().getIncendies();
         for (Incendie incendie : incendies) {
             incendie.draw(gui, tailleCase);
+        }
+
+        // Draw robots
+        Robot[] robots = data.getRobots();
+        for (Robot robot : robots) {
+            robot.draw(gui, tailleCase);
         }
     }
 

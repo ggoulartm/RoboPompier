@@ -1,9 +1,11 @@
+package tests;
+
 import gui.GUISimulator;
 import io.LecteurDonnees;
 import sim.DonneesSimulation;
 import sim.Simulateur;
 import strategies.SimpleChefPompier;
-import gui.GUISimulator;
+
 import java.awt.Color;
 
 public class TestChefPompier {
@@ -18,7 +20,7 @@ public class TestChefPompier {
         try{
             this.simData = LecteurDonnees.creeDonnees(fileName);
             System.out.println(simData);
-            this.gui = new GUISimulator(800, 600, Color.BLACK);
+            this.gui = new GUISimulator(2800, 2800, Color.BLACK);
             this.mySim = new Simulateur(gui, simData);
         }
         catch (Exception e)

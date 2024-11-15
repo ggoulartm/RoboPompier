@@ -1,18 +1,14 @@
+package tests;
+
 import io.LecteurDonnees;
 
-import sim.NatureTerrain;
-import sim.RobotWheels;
-import sim.Case;
 import sim.Direction;
 import sim.DonneesSimulation;
 import sim.Simulateur;
 import sim.Robot;
 
-import graphes.StrategieDijkstra;
-
 import gui.GUISimulator;
 import java.awt.Color;
-import java.util.ArrayList;
 
 import events.Deplacer;
 

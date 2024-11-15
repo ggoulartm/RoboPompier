@@ -1,3 +1,5 @@
+package tests;
+
 import io.LecteurDonnees;
 
 import sim.*;

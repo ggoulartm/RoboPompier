@@ -1,8 +1,9 @@
+package tests;
+
 import sim.Simulateur;
 import sim.Direction;
 import sim.DonneesSimulation;
 import events.Deplacer;
-import events.Evenement;
 import io.LecteurDonnees;
 
 import gui.GUISimulator;
