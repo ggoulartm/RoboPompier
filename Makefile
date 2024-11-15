@@ -1,4 +1,4 @@
-# Ensimag 2A POO - TP 2018/19
+# 2A POO - TP 2014/25
 # ============================
 #
 # Ce Makefile permet de compiler le test de l'ihm en ligne de commande.
@@ -79,6 +79,11 @@ exeMove:
 exeChef:
 	java -classpath bin:lib/gui.jar TestChefPompier cartes/carteSujet.map
 
+# JAVADOCS
+# javadoc -d docs -sourcepath src -subpackages toto
+javadoc: 
+	javadoc -d doc -classpath lib/gui.jar src/*.java src/*/*
 
+# Nettoyage:
 clean:
 	rm -rf bin/*
