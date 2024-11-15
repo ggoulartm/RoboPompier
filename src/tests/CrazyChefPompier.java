@@ -1,4 +1,5 @@
-import graphes.StrategieDijkstra;
+package tests;
+
 import gui.GUISimulator;
 import io.LecteurDonnees;
 import sim.*;
@@ -86,7 +87,7 @@ public class CrazyChefPompier {
     public static void main(String[] args)
     {
         CrazyChefPompier testBoss = new CrazyChefPompier(args[0]);
-        System.out.println("CrazyChefPompier created");
+        System.out.println("tests.CrazyChefPompier created");
         testBoss.Boss();
     }
 }

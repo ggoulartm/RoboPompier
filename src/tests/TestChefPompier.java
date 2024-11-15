@@ -1,9 +1,11 @@
+package tests;
+
 import gui.GUISimulator;
 import io.LecteurDonnees;
 import sim.DonneesSimulation;
 import sim.Simulateur;
 import strategies.SimpleChefPompier;
-import gui.GUISimulator;
+
 import java.awt.Color;
 
 public class TestChefPompier {
@@ -18,14 +20,14 @@ public class TestChefPompier {
         try{
             this.simData = LecteurDonnees.creeDonnees(fileName);
             System.out.println(simData);
-            this.gui = new GUISimulator(800, 600, Color.BLACK);
+            this.gui = new GUISimulator(2800, 2800, Color.BLACK);
             this.mySim = new Simulateur(gui, simData);
+            this.chefPomp = this.mySim.getChefPomp();
         }
         catch (Exception e)
         {
             System.out.println(e);
         }
-        this.chefPomp = new SimpleChefPompier(this.simData, this.mySim);
     }
     
     public SimpleChefPompier getChefPomp()
@@ -36,6 +38,6 @@ public class TestChefPompier {
     public static void main(String[] args)
     {
         TestChefPompier pompTester = new TestChefPompier(args[0]);
-        pompTester.getChefPomp().startStrategy(0);
+        //pompTester.getChefPomp().startStrategy(0);
     }
 }
