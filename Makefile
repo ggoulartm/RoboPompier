@@ -47,7 +47,7 @@ testMover:
 testChef:
 	javac -d bin -classpath lib/gui.jar -sourcepath src src/tests/TestChefPompier.java
 
-test:
+install:
 	javac -d bin -classpath lib/gui.jar -sourcepath src src/tests/TestChefPompier.java
 
 # Execution:

@@ -43,7 +43,7 @@ To compile and run the tests, you can use the provided `Makefile`. Here are some
 
 - **Compilation**:
   ```sh
-  make test
+  make install
 
 - **Execution**:
   ```sh
