@@ -11,6 +11,12 @@ public class Case{
     private NatureTerrain nature;
     private boolean estBrulee;
 
+    /**
+     * Constructor for one Case used to build a sim.Carte.java
+     * @param ligne line of position in map
+     * @param colonne coloumn of position in map
+     * @param nature type of sim.NatureTerrain of the Case
+     */
     public Case(int ligne, int colonne, NatureTerrain nature){
         this.ligne = ligne;
         this.colonne = colonne;
@@ -44,7 +50,7 @@ public class Case{
     }
 
     /**
-     * Function that draz all the cases in the GUI
+     * Function that draws all the cases in the GUI
      * @param GUISimulator,int the UI where the cases will be drawn and an integer with the case dimensions
      * @return arraylist of water cases
      */

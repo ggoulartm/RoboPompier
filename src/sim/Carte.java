@@ -9,6 +9,13 @@ public class Carte {
     private int tailleCases;
     private Case[][] chequerboard;
     
+    /**
+     * @brief Constructor of sim.Carte.java class
+     * @param nbLignes Number of lines in map
+     * @param nbColonnes Number of coloumns in map
+     * @param tailleCases Size of one Case in meter
+     * @param chequerboard 2d Array of sim.Case.java used to build the map
+     */
     public Carte(int nbLignes, int nbColonnes, int tailleCases, Case[][] chequerboard){
         this.nbLignes = nbLignes;
         this.nbColonnes = nbColonnes;

@@ -12,6 +12,11 @@ public class Incendie {
     static int maxIntensity = 0; 
     private int InitIntensite;
 
+    /**
+     * 
+     * @param position position of fire
+     * @param intensite intensity of fire
+     */
     public Incendie(Case position, int intensite)
     {
         System.out.println("Creating Incendie");

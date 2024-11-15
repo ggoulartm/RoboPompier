@@ -6,7 +6,6 @@ import java.util.ArrayList;
 
 import events.Deplacer;
 import graphes.StrategieDijkstra;
-import sim.NatureTerrain;
 import strategies.SimpleChefPompier;
 
 
@@ -16,16 +15,23 @@ public class Drone extends Robot
     //Vitesse par défault de 100 km/h, mais peut être lue dans le fichier de données (sans dépasser 150 km/h)
     //Réservoir de 10000litres. Remplissage complet en 30 minutes. Se remplit sur une case contenant de l’eau.
     //Intervention unitaire: vide la totalité du réservoir en 30 se- condes.
-    public Drone(Case position, int vitesse, int max, int reserve)
+    /**
+     * Constructs Robot of type Drone
+     * @param position Case of the starting position of the robot
+     * @param vitesse velocity of robot in km/h
+     * @param maxWater maximum capacity of water 
+     * @param reserve 
+     */
+    public Drone(Case position, int vitesse, int maxWater, int reserve)
     {
-        super(position, vitesse, max, reserve, RobotType.DRONE);
+        super(position, vitesse, maxWater, reserve, RobotType.DRONE);
         if(vitesse == 0)
         {
             this.vitesse = 100;
         } else if (vitesse > 150) {
             this.vitesse = 150;
         }
-        if(max == 0)
+        if(maxWater == 0)
         {
             this.volumeReservoirMax = 10000;
         }
@@ -34,7 +40,7 @@ public class Drone extends Robot
     }
 
     //Peut se déplacer sur toutes les cases, quelle que soit leur nature, à vitesse constante.
-    @Override
+    @Override 
     public int createShortestPathTo(int start_date, Case end, Carte carte, Simulateur sim, SimpleChefPompier chef)
     {
         int endDate = -1;

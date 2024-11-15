@@ -22,7 +22,7 @@ public class StrategieDijkstra
      * @param start
      * @param target
      * @param forbiddenTerrains
-     * @param natureCosts Tableau du cout pour une nature de case de la forme {EAU, FORET, ROCHE, TERRAIN_LIBRE, HABITAT}
+     * @param natureCosts Array of costs through nature type, format: {EAU, FORET, ROCHE, TERRAIN_LIBRE, HABITAT}
      * @return
      */
     public static ArrayList<Case> findShortestPath(Carte carte, Case start, Case target, NatureTerrain[] forbiddenTerrains, double[] natureCosts)
@@ -41,6 +41,13 @@ public class StrategieDijkstra
     // POSITIVE_INFINITY when not allowed 
     double[] natureCosts;
 
+    /**
+     * Constructs instance of StrategieDijkstra needed to calculate shortestPath on map
+     * @param carte map on which the path is searched for
+     * @param start start Case
+     * @param forbiddenTerrains NatureTerrains that are not allowed in path
+     * @param natureCosts cost to traverse a certain type of nature; format: {EAU, FORET, ROCHE, TERRAIN_LIBRE, HABITAT}
+     */
     public StrategieDijkstra(Carte carte, Case start, NatureTerrain[] forbiddenTerrains, double[] natureCosts)
     {
         this.carte = carte;
@@ -56,6 +63,12 @@ public class StrategieDijkstra
 
     // Returns either ArrayList<Case> of consecutive Cases to follow or an empty
     // ArrayList<Case> if no path was found.
+    /**
+     * Finds shortest path from s to t
+     * @param s start Case
+     * @param t target Case
+     * @return ordered ArrayList of Cases in path
+     */
     private ArrayList<Case> shortestPath(Case s, Case t)
     {
         System.out.println("Start search for shortest path");
@@ -133,6 +146,12 @@ public class StrategieDijkstra
 
     }
 
+    /**
+     * By following the predecesseur of all TreeCases the path is reconstructed from target
+     * @param start start case
+     * @param target target case
+     * @return ordered list of cases in path
+     */
     private ArrayList<Case> constructPathFromTarget(TreeCase start, TreeCase target)
     {
         System.out.println("Construct path from target");

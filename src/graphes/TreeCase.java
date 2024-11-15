@@ -5,6 +5,11 @@ import java.util.ArrayList;
 import sim.NatureTerrain;
 import sim.Case;
 import sim.Carte;
+
+/**
+ * Wrapper for sim.Case.java to be used in finding shortest path by adding information about 
+ * predecesseur and length from home.
+ */
 public class TreeCase
 {
     private Carte carte;
@@ -106,6 +111,11 @@ public class TreeCase
         return this.localShortestPath;
     }
 
+    /**
+     * Cost to traverse a certain Terrain
+     * @param natureCosts
+     * @return cost
+     */
     public double travelCost(double[] natureCosts)
     {
         switch(this.position.getNature())
@@ -122,7 +132,6 @@ public class TreeCase
                 return natureCosts[4];
             
         }
-        System.out.println("----------------Implement me-------------------------");
         NatureTerrain nature = this.position.getNature();
         if(nature == NatureTerrain.EAU) 
         {
@@ -136,12 +145,6 @@ public class TreeCase
         if( ! (o instanceof TreeCase)) {
                 return false ;
         }
-        // ou, plus restrictif :
-        // if(o.getClass() != this.getClass()) {
-        //  return false ;
-        //}
-
-        // cast explicite nécessaire, car Downcast :
         TreeCase other = (TreeCase) o;
         return (this.position.equals(other.position));
     }

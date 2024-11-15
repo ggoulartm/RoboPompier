@@ -7,6 +7,12 @@ public class DonneesSimulation {
     private Carte carte;
     private Robot[] robots;
 
+    /**
+     * Build collection of simulation data
+     * @param carte used instance of Carte for simulation
+     * @param incs Array of incendies on carte
+     * @param robs Array of robots on carte
+     */
     public DonneesSimulation(Carte carte, Incendie[] incs, Robot[] robs)
     {
         this.carte = carte;

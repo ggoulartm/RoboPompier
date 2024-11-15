@@ -5,7 +5,6 @@ import java.util.ArrayList;
 
 import events.Deplacer;
 import graphes.StrategieDijkstra;
-import sim.NatureTerrain;
 import strategies.SimpleChefPompier;
 
 public class Pattes extends Robot
@@ -89,6 +88,7 @@ public class Pattes extends Robot
     }
 
     /**
+     * Calculate time the robot needs to move to Case c
      * @param c: Case, the case to which the robot wants to go
      * @param carte: Carte, the map where the robot is
      * @return int, the time it will take to get to the case

@@ -4,7 +4,7 @@ import sim.Robot;
 import strategies.SimpleChefPompier;
 
 /**
- * AskInstructions is an event that asks the instructions from the robots to the SimpleChefPompier
+ * AskInstructions is an event that asks the SimpleChefPompier for further Instructions
  */
 public class AskInstructions extends Evenement{
     

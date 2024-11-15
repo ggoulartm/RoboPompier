@@ -24,6 +24,14 @@ public abstract class Robot {
     private boolean moving;
     private Case targetCase;
 
+    /**
+     * 
+     * @param position Case of starting position
+     * @param vitesse velocity in km/h
+     * @param waterCapacityMax 
+     * @param reserveWaterAmount
+     * @param type type of Robot
+     */
     public Robot(Case position, int vitesse, int waterCapacityMax, int reserveWaterAmount, RobotType type)
     {
         this.position = position;
@@ -46,14 +54,31 @@ public abstract class Robot {
      * @return returns duration it takes the robot to move from current position to target
      */
     abstract public int createShortestPathTo(int date, Case end, Carte carte, Simulateur sim, SimpleChefPompier chef);
+    /**
+     * Calculates time robot needs to go to Case c
+     * @param c
+     * @param carte
+     * @return time in seconds
+     */
     abstract public int timeTo(Case c, Carte carte);
 
+    /**
+     * Register an intervention (fire extinguish) event to the simulator
+     * @param date when the event is supposed to happen
+     * @param sim simulator that keeps track of events
+     */
     public void intervenir(int date, Simulateur sim)
     {
         Intervention intervention = new Intervention(date, sim, this);
         sim.addEvent(intervention);
     }
 
+    /**
+     * Register an AskForInstructions event
+     * @param date date when the request shall be posed
+     * @param chef ChefPompier that coordinates firefighting
+     * @param sim instance of the simulator that keeps track of events
+     */
     public void registerAskForInstructions(int date, SimpleChefPompier chef, Simulateur sim)
     {
         System.out.println("Robot is moving: "+this.moving);
@@ -71,6 +96,11 @@ public abstract class Robot {
         this.volumeReservoir = this.volumeReservoir-amount;
     }
 
+    /**
+     * Checks whether robot is next to Water
+     * @param carte
+     * @return true if water in one of the neighbours of robot
+     */
     public boolean nextToWater(Carte carte)
     {
         // System.out.println("    Check for water at "+pos);
@@ -221,21 +251,6 @@ public abstract class Robot {
 
     public abstract void draw(GUISimulator gui, int tailleCase);
 
-    // public class InterventionUnitaire {
-    //     public int volume;
-    //     public int temps;
-    //     public InterventionUnitaire(int volume, int temps) {
-    //         this.volume = volume;
-    //         this.temps = temps;
-    //     }
-    // }
-
-    // public void InterventionUnitaire() {
-    //     System.out.println("Intervention unitaire: " + this.Deversement.volume + "L in " + this.Deversement.temps + "s.");
-    //     deverserEau(this.Deversement.volume); //Litres/seconde
-    //     //Attendre this.Deversement.temps secondes
-    // }
-
     public boolean onBurningFire(DonneesSimulation simData)
     {
         for(Incendie inc : simData.getIncendies())
@@ -248,7 +263,7 @@ public abstract class Robot {
 
     /**
      * 
-     * @return time in seconds
+     * @return time in seconds needed to refill reservoir of robot
      */
     public int getTempsRemplissage() {
         switch(this.type)
@@ -265,21 +280,16 @@ public abstract class Robot {
         return this.tempsRemplissage;
     }
     
-    // public int getDeversementVolume() {
-    //     return this.Deversement.volume;
-    // }
-
-    // public int getDeversementTemps() {
-    //     return this.Deversement.temps;
-    // }
-
-    // public int setDeversementTemps(int temps) {
-    //     return this.Deversement.temps = temps;
-    // }
-
+    /**
+     * checks whether robot has no water left
+     * @return true if reservoir is empty, false if not
+     */
     public boolean isEmpty(){
         return this.volumeReservoir == 0;
     }
+    /**
+     * Reset robot to initial state
+     */
     public void Restore(){
         this.position = new Case(this.InitCase.getLigne(), this.InitCase.getColonne(), this.InitCase.getNature());
         this.volumeReservoir = initVolume;

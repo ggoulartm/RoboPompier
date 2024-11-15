@@ -14,6 +14,13 @@ public class RobotCaterpillar extends Robot {
     //Vitesse par défaut de 60 km/h, mais qui peut être lue dans le fichier (sans dépasser 80 km/h)
     //Réservoir de 2000 litres. Intervention unitaire : 100 litres en 8 sec.
     //Remplissage complet en 5 minutes. Se remplit à côté d’une case contenant de l’eau.
+    /**
+     * 
+     * @param position
+     * @param vitesse velocity in km/h
+     * @param waterCapacityMax
+     * @param reserveWaterAmount
+     */
     public RobotCaterpillar(Case position, int vitesse, int waterCapacityMax, int reserveWaterAmount) {
         super(position,vitesse,waterCapacityMax,reserveWaterAmount, RobotType.CATERPILLAR);  
         if(vitesse == 0)
@@ -28,7 +35,6 @@ public class RobotCaterpillar extends Robot {
         }
         this.type = RobotType.CATERPILLAR;
         this.tempsRemplissage = 5;
-        // this.Deversement = new InterventionUnitaire(100, 8); //Litres/seconde
     }
 
     //La vitesse est diminuée de 50% en forêt.
@@ -62,6 +68,11 @@ public class RobotCaterpillar extends Robot {
         ));
     }
 
+    /**
+     * 
+     * @param c Case through which robot wants to go
+     * @return velocity in m/s
+     */
     public double getVitesseParNature(Case c)
     {
         switch(c.getNature())
