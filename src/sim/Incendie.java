@@ -65,46 +65,46 @@ public class Incendie {
                     redIntensity,                             // Fill color
                     tailleCase, tailleCase
             ));*/
-        if (this.position.getNature() == NatureTerrain.FORET){
-            gui.addGraphicalElement(new gui.Rectangle(
-                    coordX, coordY,
-                    Color.BLACK,                           // Border color
-                    Dark_Green,                             // Fill color
-                    tailleCase, tailleCase
-            ));
-            gui.addGraphicalElement(new ImageElement(
-                    (coordX - tailleCase/2), (coordY - tailleCase/2),
-                    "images/forest-fire.png",
-                    tailleCase, tailleCase,
-                    null
-            ));
-            gui.addGraphicalElement(new Text((coordX), (coordY+tailleCase/4), Color.WHITE, Integer.toString(this.getIntensite())));
+        if (this.getIntensite() > 0) {
+            if (this.position.getNature() == NatureTerrain.FORET) {
+                gui.addGraphicalElement(new gui.Rectangle(
+                        coordX, coordY,
+                        Color.BLACK,                           // Border color
+                        Dark_Green,                             // Fill color
+                        tailleCase, tailleCase
+                ));
+                gui.addGraphicalElement(new ImageElement(
+                        (coordX - tailleCase / 2), (coordY - tailleCase / 2),
+                        "images/forest-fire.png",
+                        tailleCase, tailleCase,
+                        null
+                ));
+                gui.addGraphicalElement(new Text((coordX), (coordY + tailleCase / 4), Color.WHITE, Integer.toString(this.getIntensite())));
 
-        }
-        else if (this.position.getNature() == NatureTerrain.HABITAT){
-            gui.addGraphicalElement(new gui.Rectangle(
-                    coordX, coordY,
-                    Color.BLACK,                           // Border color
-                    Dark_Green,                             // Fill color
-                    tailleCase, tailleCase
-            ));
-            gui.addGraphicalElement(new ImageElement(
-                    (coordX - tailleCase/2), (coordY - tailleCase/2),
-                    "images/habitat-fire.png",
-                    tailleCase, tailleCase,
-                    null
-            ));
-            gui.addGraphicalElement(new Text((coordX), (coordY+tailleCase/4), Color.BLACK, Integer.toString(this.getIntensite())));
+            } else if (this.position.getNature() == NatureTerrain.HABITAT) {
+                gui.addGraphicalElement(new gui.Rectangle(
+                        coordX, coordY,
+                        Color.BLACK,                           // Border color
+                        Dark_Green,                             // Fill color
+                        tailleCase, tailleCase
+                ));
+                gui.addGraphicalElement(new ImageElement(
+                        (coordX - tailleCase / 2), (coordY - tailleCase / 2),
+                        "images/habitat-fire.png",
+                        tailleCase, tailleCase,
+                        null
+                ));
+                gui.addGraphicalElement(new Text((coordX), (coordY + tailleCase / 4), Color.BLACK, Integer.toString(this.getIntensite())));
 
-        }
-        else {
-        gui.addGraphicalElement(new ImageElement(
-                (coordX - tailleCase/2), (coordY - tailleCase/2),
-                "images/fire.png",
-                tailleCase, tailleCase,
-                null
-        ));
-        gui.addGraphicalElement(new Text((coordX), (coordY+tailleCase/4), Color.WHITE, Integer.toString(this.getIntensite())));
+            } else {
+                gui.addGraphicalElement(new ImageElement(
+                        (coordX - tailleCase / 2), (coordY - tailleCase / 2),
+                        "images/fire.png",
+                        tailleCase, tailleCase,
+                        null
+                ));
+                gui.addGraphicalElement(new Text((coordX), (coordY + tailleCase / 4), Color.WHITE, Integer.toString(this.getIntensite())));
+            }
         }
     }
 }

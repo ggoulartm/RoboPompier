@@ -27,7 +27,7 @@ public class RobotWheels extends Robot {
         }
         this.type = RobotType.WHEELS;
         this.tempsRemplissage = 10;
-        this.Deversement = new InterventionUnitaire(100, 5); //Litres/seconde
+        // this.Deversement = new InterventionUnitaire(100, 5); //Litres/seconde
     }
 
     private double getVitesseParNature(Case c)

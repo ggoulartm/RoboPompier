@@ -31,7 +31,6 @@ public class Drone extends Robot
         }
         this.type = RobotType.DRONE;
         this.tempsRemplissage = 30;
-        this.Deversement = new InterventionUnitaire(10000, 30); //Litres/seconde
     }
 
     //Peut se déplacer sur toutes les cases, quelle que soit leur nature, à vitesse constante.

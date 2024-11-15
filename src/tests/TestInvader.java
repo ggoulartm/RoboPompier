@@ -1,3 +1,5 @@
+package tests;
+
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -47,7 +49,7 @@ class Invader implements Simulable {
     private Iterator<Integer> yIterator;
 
     /**
-     * Crée un Invader et le dessine.
+     * Crée un tests.Invader et le dessine.
      * @param gui l'interface graphique associée, dans laquelle se fera le
      * dessin et qui enverra les messages via les méthodes héritées de
      * Simulable.

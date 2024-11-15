@@ -18,7 +18,6 @@ public class Pattes extends Robot
     {
         super(position, vitesse, Integer.MAX_VALUE, reserve, RobotType.PATTES);
         this.type = RobotType.PATTES;
-        this.Deversement = new InterventionUnitaire(10, 1);
     }
 
     /**

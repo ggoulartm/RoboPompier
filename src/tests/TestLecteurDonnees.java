@@ -1,3 +1,4 @@
+package tests;
 
 import io.LecteurDonnees;
 
@@ -8,7 +9,7 @@ public class TestLecteurDonnees {
 
     public static void main(String[] args) {
         if (args.length < 1) {
-            System.out.println("Syntaxe: java TestLecteurDonnees <nomDeFichier>");
+            System.out.println("Syntaxe: java tests.TestLecteurDonnees <nomDeFichier>");
             System.exit(1);
         }
 

@@ -5,7 +5,7 @@ import java.lang.reflect.Array;
 import java.util.*;
 import java.util.Queue;
 import java.util.LinkedList;
-
+import strategies.SimpleChefPompier;
 import events.*;
 import gui.GUISimulator;
 import gui.Simulable;
@@ -24,6 +24,7 @@ public class Simulateur implements Simulable {
     private int dateSimulation;
     // Evenement Management, outer arraylist collects arraylist of events to be executed at certain date 
     private PriorityQueue<Evenement> dates;
+    protected SimpleChefPompier chefPomp;
 
     public Simulateur(GUISimulator gui, DonneesSimulation dataNew) {
         this.gui = gui;
@@ -32,8 +33,15 @@ public class Simulateur implements Simulable {
         this.dates = new PriorityQueue<>(this::compare);
         gui.setSimulable(this);            // Associating to the GUI
 
+        this.chefPomp = new SimpleChefPompier(dataNew, this);
         // Initial setup: display the map, robots, and fires
         draw();
+        this.chefPomp.startStrategy(0);
+    }
+
+    public SimpleChefPompier getChefPomp()
+    {
+        return this.chefPomp;
     }
 
     /**
@@ -62,7 +70,7 @@ public class Simulateur implements Simulable {
     public void addEvent(Evenement e)
     {
             System.out.println("Dates length: "+dates.size());
-             System.out.println("Date of Event: "+e.getDate());
+            System.out.println("Date of Event: "+e.getDate());
             dates.add(e);
             System.out.println("Added Event to que of events"+e);
     }
@@ -104,7 +112,7 @@ public class Simulateur implements Simulable {
     // This method is called when the "Next" button is pressed
     @Override
     public void next() {
-        System.out.println("It's the "+this.dateSimulation+" day");
+        System.out.println("It's the "+this.dateSimulation+" second");
 
         try{
             while(dates.peek().getDate() == this.dateSimulation)
@@ -130,8 +138,13 @@ public class Simulateur implements Simulable {
         System.out.println("Simulation restarted.");
         this.dateSimulation = 0;
         this.data.Restore();
+        System.out.println("PriorityQueue\n"+this.dates);
         this.dates = new PriorityQueue<>(this::compare);
+        this.chefPomp = new SimpleChefPompier(this.data, this);
+        System.out.println("PriorityQueue\n"+this.dates);
         draw();
+        this.chefPomp.startStrategy(0);
+        System.out.println("PriorityQueue\n"+this.dates);
     }
 
     /**
@@ -141,10 +154,9 @@ public class Simulateur implements Simulable {
         gui.reset();
         Carte carte = data.getCarte();
 
-        int tailleCase = 0;
-        if (carte.getNbColonnes() == 8) tailleCase = carte.getTailleCases() / 100;
-        else if (carte.getNbColonnes() == 20) tailleCase = 45;
-        else tailleCase = 20;
+        int tailleCase;
+        if (carte.getNbColonnes() == 8) tailleCase = 600 / (carte.getNbColonnes()) - 10;
+        else tailleCase = 50;
 
         // Draw cases
         for (int x = 0; x < carte.getNbLignes(); x++) {
@@ -154,16 +166,16 @@ public class Simulateur implements Simulable {
             }
         }
 
-        // Draw robots
-        Robot[] robots = data.getRobots();
-        for (Robot robot : robots) {
-            robot.draw(gui, tailleCase);
-        }
-
         // Draw fires
         Incendie[] incendies = getDonnees().getIncendies();
         for (Incendie incendie : incendies) {
             incendie.draw(gui, tailleCase);
+        }
+
+        // Draw robots
+        Robot[] robots = data.getRobots();
+        for (Robot robot : robots) {
+            robot.draw(gui, tailleCase);
         }
     }
 
