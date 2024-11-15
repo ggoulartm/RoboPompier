@@ -5,7 +5,7 @@ import java.lang.reflect.Array;
 import java.util.*;
 import java.util.Queue;
 import java.util.LinkedList;
-
+import strategies.SimpleChefPompier;
 import events.*;
 import gui.GUISimulator;
 import gui.Simulable;
@@ -16,6 +16,7 @@ public class Simulateur implements Simulable {
     private int dateSimulation;
     // Evenement Management, outer arraylist collects arraylist of events to be executed at certain date 
     private PriorityQueue<Evenement> dates;
+    protected SimpleChefPompier chefPomp;
 
     public Simulateur(GUISimulator gui, DonneesSimulation dataNew) {
         this.gui = gui;
@@ -24,8 +25,14 @@ public class Simulateur implements Simulable {
         this.dates = new PriorityQueue<>(this::compare);
         gui.setSimulable(this);            // Associating to the GUI
 
+        this.chefPomp = new SimpleChefPompier(dataNew, this);
         // Initial setup: display the map, robots, and fires
         draw();
+    }
+
+    public SimpleChefPompier getChefPomp()
+    {
+        return this.chefPomp;
     }
 
     public DonneesSimulation getDonnees() {
@@ -95,6 +102,8 @@ public class Simulateur implements Simulable {
         this.data.Restore();
         this.dates = new PriorityQueue<>(this::compare);
         draw();
+        this.chefPomp = new SimpleChefPompier(this.data, this);
+        this.chefPomp.startStrategy(0);
     }
 
     private void draw() {

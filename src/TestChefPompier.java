@@ -20,12 +20,12 @@ public class TestChefPompier {
             System.out.println(simData);
             this.gui = new GUISimulator(800, 600, Color.BLACK);
             this.mySim = new Simulateur(gui, simData);
+            this.chefPomp = this.mySim.getChefPomp();
         }
         catch (Exception e)
         {
             System.out.println(e);
         }
-        this.chefPomp = new SimpleChefPompier(this.simData, this.mySim);
     }
     
     public SimpleChefPompier getChefPomp()

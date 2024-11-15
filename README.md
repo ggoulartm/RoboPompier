@@ -47,7 +47,7 @@ To compile and run the tests, you can use the provided `Makefile`. Here are some
 
 - **Execution**:
   ```sh
-  make exeMap
+  make exeMap 
   make exeMushroom
   make exeSpiral
   make exeDesert
