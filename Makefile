@@ -47,6 +47,9 @@ testMover:
 testChef:
 	javac -d bin -classpath lib/gui.jar -sourcepath src src/TestChefPompier.java
 
+test:
+	javac -d bin -classpath lib/gui.jar -sourcepath src src/TestChefPompier.java
+
 # Execution:
 # on peut taper directement la ligne de commande :
 #   > java -classpath bin:lib/gui.jar TestInvader
@@ -70,14 +73,23 @@ exePath:
 exeBoss:
 	java -classpath bin:lib/gui.jar TestChefPompier cartes/carteSujet.map
 
-exeDesert:
-	java -classpath bin:lib/gui.jar TestPathFinder cartes/desertOfDeath-20x20.map
-
 exeMove:
 	java -classpath bin:lib/gui.jar TestMover cartes/mushroomOfHell-20x20.map
 
 exeChef:
 	java -classpath bin:lib/gui.jar TestChefPompier cartes/carteSujet.map
+
+exeMap:
+	java -classpath bin:lib/gui.jar TestChefPompier cartes/carteSujet.map
+
+exeDesert:
+	java -classpath bin:lib/gui.jar TestChefPompier cartes/desertOfDeath-20x20.map
+
+exeMushroom:
+	java -classpath bin:lib/gui.jar TestChefPompier cartes/mushroomOfHell-20x20.map
+
+exeSpiral:
+	java -classpath bin:lib/gui.jar TestChefPompier cartes/spiralOfMadness-50x50.map
 
 
 clean:
