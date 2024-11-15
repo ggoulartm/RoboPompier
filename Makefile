@@ -31,7 +31,6 @@ testInvader:
 testLecture:
 	javac -d bin -sourcepath src src/tests.TestLecteurDonnees.java
 
-
 testEvenement:
 	javac -d bin -classpath lib/gui.jar -sourcepath src src/tests/TestEvenement.java
 
@@ -74,7 +73,7 @@ exeBoss:
 	java -classpath bin:lib/gui.jar tests.TestChefPompier cartes/carteSujet.map
 
 exeDesert:
-	java -classpath bin:lib/gui.jar tests.TestPathFinder cartes/desertOfDeath-20x20.map
+	java -classpath bin:lib/gui.jar tests.TestChefPompier cartes/desertOfDeath-20x20.map
 
 exeMove:
 	java -classpath bin:lib/gui.jar tests.TestMover cartes/mushroomOfHell-20x20.map
