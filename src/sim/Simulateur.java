@@ -28,6 +28,7 @@ public class Simulateur implements Simulable {
         this.chefPomp = new SimpleChefPompier(dataNew, this);
         // Initial setup: display the map, robots, and fires
         draw();
+        this.chefPomp.startStrategy(0);
     }
 
     public SimpleChefPompier getChefPomp()
@@ -100,10 +101,13 @@ public class Simulateur implements Simulable {
         System.out.println("Simulation restarted.");
         this.dateSimulation = 0;
         this.data.Restore();
+        System.out.println("PriorityQueue\n"+this.dates);
         this.dates = new PriorityQueue<>(this::compare);
-        draw();
         this.chefPomp = new SimpleChefPompier(this.data, this);
+        System.out.println("PriorityQueue\n"+this.dates);
+        draw();
         this.chefPomp.startStrategy(0);
+        System.out.println("PriorityQueue\n"+this.dates);
     }
 
     private void draw() {

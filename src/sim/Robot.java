@@ -251,6 +251,7 @@ public abstract class Robot {
     public void Restore(){
         this.position = new Case(this.InitCase.getLigne(), this.InitCase.getColonne(), this.InitCase.getNature());
         this.volumeReservoir = initVolume;
+        this.setMoving(false);
     }
 
 }

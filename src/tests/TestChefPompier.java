@@ -38,6 +38,6 @@ public class TestChefPompier {
     public static void main(String[] args)
     {
         TestChefPompier pompTester = new TestChefPompier(args[0]);
-        pompTester.getChefPomp().startStrategy(0);
+        //pompTester.getChefPomp().startStrategy(0);
     }
 }
