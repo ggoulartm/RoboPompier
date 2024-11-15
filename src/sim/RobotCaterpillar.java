@@ -85,7 +85,7 @@ public class RobotCaterpillar extends Robot {
     public int createShortestPathTo(int start_date, Case end, Carte carte, Simulateur sim, SimpleChefPompier chef)
     {
         int endDate = -1;
-        if(!this.isMoving())
+        if(!this.isMoving() && !this.getPosition().equals(end))
         {
             this.setTargetCase(end);
             double tailleCase = carte.getTaille();
@@ -99,7 +99,7 @@ public class RobotCaterpillar extends Robot {
             {
                 System.out.println(c);
             }
-
+            
             int previousDate = start_date;
             for(int i = 0; i<shortestPath.size()-1;i++)
             {
@@ -138,7 +138,7 @@ public class RobotCaterpillar extends Robot {
             Double.POSITIVE_INFINITY, 
             (double)tailleCase/this.vitesse, 
             (double)tailleCase/this.vitesse};
-        ArrayList<Case> shortestPath = StrategieDijkstra.findShortestPath(carte, this.position, c, new NatureTerrain[]{NatureTerrain.EAU, NatureTerrain.ROCHE}, natureCosts);
+        ArrayList<Case> shortestPath = StrategieDijkstra.findShortestPath(carte, this.position, c, this.forbiddenTerrains, natureCosts);
         
         if(shortestPath.isEmpty())
             return -1;
