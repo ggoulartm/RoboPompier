@@ -2,7 +2,7 @@ package sim;
 import gui.GUISimulator;
 import strategies.SimpleChefPompier;
 
-import java.awt.Color;
+import gui.ImageElement;
 import java.util.ArrayList;
 
 import events.Deplacer;
@@ -47,13 +47,13 @@ public class RobotCaterpillar extends Robot {
     @Override
     public void draw(GUISimulator gui, int tailleCase) {
         Case caseRobot = this.getPosition();
-        int caseX = caseRobot.getColonne() * tailleCase;
-        int caseY = caseRobot.getLigne() * tailleCase;
-        gui.addGraphicalElement(new gui.Oval(
+        int caseX = tailleCase/2 + caseRobot.getColonne() * tailleCase;
+        int caseY = tailleCase/2 + caseRobot.getLigne() * tailleCase;
+        gui.addGraphicalElement(new ImageElement(
                 caseX, caseY,
-                Color.BLACK,                           // Border color
-                Color.ORANGE,                             // Fill color
-                tailleCase, tailleCase
+                "images/robot-chenilles.png",
+                tailleCase, tailleCase,
+                null
         ));
     }
 

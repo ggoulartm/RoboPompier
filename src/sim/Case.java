@@ -1,6 +1,8 @@
 package sim;
 
 import gui.GUISimulator;
+import gui.ImageElement;
+
 import java.awt.Color;
 
 public class Case{
@@ -39,8 +41,9 @@ public class Case{
     }
 
     public void draw(GUISimulator gui, int tailleCase) {
-        int coordX = this.getColonne() * tailleCase;
-        int coordY = this.getLigne() * tailleCase;
+        int coordX = tailleCase + this.getColonne() * tailleCase;
+        int coordY = tailleCase + this.getLigne() * tailleCase;
+        Color Dark_Green = new Color(20, 100, 30);
 
         switch (this.getNature()) {
             case EAU:
@@ -64,8 +67,14 @@ public class Case{
                     gui.addGraphicalElement(new gui.Rectangle(
                             coordX, coordY,
                             Color.BLACK,                           // Border color
-                            Color.GREEN,                             // Fill color
+                            Dark_Green,                             // Fill color
                             tailleCase, tailleCase
+                    ));
+                    gui.addGraphicalElement(new ImageElement(
+                            (coordX - tailleCase/2), (coordY - tailleCase/2),
+                            "images/forest.png",
+                            tailleCase, tailleCase,
+                            null
                     ));
                 }
                 break;
@@ -73,7 +82,7 @@ public class Case{
                 gui.addGraphicalElement(new gui.Rectangle(
                         coordX, coordY,
                         Color.BLACK,                           // Border color
-                        Color.GRAY,                             // Fill color
+                        Color.darkGray,                             // Fill color
                         tailleCase, tailleCase
                 ));                     break;
             case TERRAIN_LIBRE:
@@ -85,13 +94,15 @@ public class Case{
                             tailleCase, tailleCase
                     ));
                     return;
-                } else {
+                }
+                else {
                     gui.addGraphicalElement(new gui.Rectangle(
                             coordX, coordY,
                             Color.BLACK,                           // Border color
-                            Color.LIGHT_GRAY,                             // Fill color
+                            Dark_Green,                             // Fill color
                             tailleCase, tailleCase
                     ));
+
                 }
                 break;
             case HABITAT:
@@ -107,8 +118,14 @@ public class Case{
                     gui.addGraphicalElement(new gui.Rectangle(
                             coordX, coordY,
                             Color.BLACK,                           // Border color
-                            Color.YELLOW,                             // Fill color
+                            Dark_Green,                             // Fill color
                             tailleCase, tailleCase
+                    ));
+                    gui.addGraphicalElement(new ImageElement(
+                            (coordX - tailleCase/2), (coordY - tailleCase/2),
+                            "images/habitat.png",
+                            tailleCase, tailleCase,
+                            null
                     ));
                 }
                 break;

@@ -1,7 +1,6 @@
 package sim;
 import gui.GUISimulator;
-import java.awt.Color;
-
+import gui.ImageElement;
 import java.util.ArrayList;
 
 import events.Deplacer;
@@ -128,14 +127,13 @@ public class Pattes extends Robot
     @Override
     public void draw(GUISimulator gui, int tailleCase) {
         Case caseRobot = this.getPosition();
-        int caseX = caseRobot.getColonne() * tailleCase;
-        int caseY = caseRobot.getLigne() * tailleCase;
+        int caseX = tailleCase/2 + caseRobot.getColonne() * tailleCase;
+        int caseY = tailleCase/2 + caseRobot.getLigne() * tailleCase;
 
-        gui.addGraphicalElement(new gui.Oval(
-                caseX, caseY,
-                Color.BLACK,                           // Border color
-                Color.CYAN,                             // Fill color
-                tailleCase, tailleCase
+        gui.addGraphicalElement(new ImageElement(caseX, caseY,
+                "images/robot-pattes.png",
+                tailleCase, tailleCase,
+                null
         ));     
     }
 }
