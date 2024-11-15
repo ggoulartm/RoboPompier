@@ -73,6 +73,9 @@ exePath:
 exeBoss:
 	java -classpath bin:lib/gui.jar TestChefPompier cartes/carteSujet.map
 
+exeDesert:
+	java -classpath bin:lib/gui.jar TestPathFinder cartes/desertOfDeath-20x20.map
+
 exeMove:
 	java -classpath bin:lib/gui.jar TestMover cartes/mushroomOfHell-20x20.map
 
@@ -91,6 +94,11 @@ exeMushroom:
 exeSpiral:
 	java -classpath bin:lib/gui.jar TestChefPompier cartes/spiralOfMadness-50x50.map
 
+# JAVADOCS
+# javadoc -d docs -sourcepath src -subpackages toto
+javadoc:
+	javadoc -d doc -classpath lib/gui.jar src/*.java src/*/*
 
+# Nettoyage:
 clean:
 	rm -rf bin/*
