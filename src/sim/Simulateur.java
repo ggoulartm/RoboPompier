@@ -40,7 +40,7 @@ public class Simulateur implements Simulable {
     public void addEvent(Evenement e)
     {
             System.out.println("Dates length: "+dates.size());
-             System.out.println("Date of Event: "+e.getDate());
+            System.out.println("Date of Event: "+e.getDate());
             dates.add(e);
             System.out.println("Added Event to que of events"+e);
     }
