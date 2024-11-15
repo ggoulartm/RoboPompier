@@ -45,7 +45,7 @@ public class Pattes extends Robot
             this.setTargetCase(end);
             double tailleCase = sim.getDonnees().getCarte().getTaille();
             double[] natureCosts = {Double.POSITIVE_INFINITY, ((double)tailleCase)/(double)this.vitesse, 
-                (double)tailleCase/((double)this.vitesse/2), (double)tailleCase/(double)this.vitesse, (double)tailleCase/(double)this.vitesse};
+                (double)tailleCase/(2*(double)this.vitesse), (double)tailleCase/(double)this.vitesse, (double)tailleCase/(double)this.vitesse};
             ArrayList<Case> shortestPath = StrategieDijkstra.findShortestPath(carte, this.position, end, this.forbiddenTerrains, natureCosts);
             for(Case c : shortestPath)
             {
@@ -84,8 +84,8 @@ public class Pattes extends Robot
     public int timeTo(Case c, Carte carte)
     {
         double tailleCase = (double)carte.getTaille();
-        double[] natureCosts = {tailleCase/(double)this.vitesse, tailleCase/(double)this.vitesse, 
-            tailleCase/(double)this.vitesse, tailleCase/(double)this.vitesse, tailleCase/(double)this.vitesse};
+        double[] natureCosts = {Double.POSITIVE_INFINITY, tailleCase/(double)this.vitesse, 
+            tailleCase/(2*(double)this.vitesse), tailleCase/(double)this.vitesse, tailleCase/(double)this.vitesse};
         ArrayList<Case> shortestPath = StrategieDijkstra.findShortestPath(carte, this.position, c, this.forbiddenTerrains, natureCosts);
         if(shortestPath.isEmpty())
             return -1;
@@ -110,7 +110,7 @@ public class Pattes extends Robot
     @Override
     public void setPosition(Case target) {
         if (target.getNature() == NatureTerrain.TERRAIN_LIBRE || target.getNature() == NatureTerrain.HABITAT 
-        || target.getNature() == NatureTerrain.FORET) {
+        || target.getNature() == NatureTerrain.FORET || target.getNature() == NatureTerrain.ROCHE) {
             int adjustedSpeed = (target.getNature() == NatureTerrain.FORET) ? this.vitesse / 2 : this.vitesse;
             System.out.println("Robot Pattes moving to target "+target+" at speed " + adjustedSpeed + " km/h.");
             this.position = target;

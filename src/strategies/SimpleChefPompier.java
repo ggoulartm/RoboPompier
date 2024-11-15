@@ -148,7 +148,7 @@ public class SimpleChefPompier {
     public void sendRobotToWater(Robot walli)
     {
         double timeToNextWaterNeighbour = Double.POSITIVE_INFINITY;
-        // try{
+        try{
             Case nearestWaterNeigbour = this.simData.getCarte().getWaterCases().get(0);
 
             for(Case water : this.simData.getCarte().getWaterCases())
@@ -170,11 +170,11 @@ public class SimpleChefPompier {
             int dateOfFireArrival = walli.createShortestPathTo(this.sim.getDateSimulation(), nearestWaterNeigbour, this.simData.getCarte(), this.sim, this);
             walli.registerFillReservoir(dateOfFireArrival+1, this.sim);
             walli.registerAskForInstructions(dateOfFireArrival+2, this, this.sim);
-        // }
-        // catch(Exception e)
-        // {
-        //     System.err.println("ERROR: "+walli+" Problems with finding Water: "+e);
-        // }
+        }
+        catch(Exception e)
+        {
+            System.err.println("ERROR: "+walli+" Problems with finding Water: "+e);
+        }
     }
 
 }
