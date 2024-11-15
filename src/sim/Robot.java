@@ -50,7 +50,7 @@ public abstract class Robot {
 
     public void intervenir(int date, Simulateur sim)
     {
-        Intervention intervention = new Intervention(date, this.volumeReservoir, sim, this);
+        Intervention intervention = new Intervention(date, sim, this);
         sim.addEvent(intervention);
     }
 
@@ -212,6 +212,16 @@ public abstract class Robot {
         System.out.println("Intervention unitaire: " + this.Deversement.volume + "L in " + this.Deversement.temps + "s.");
         deverserEau(this.Deversement.volume); //Litres/seconde
         //Attendre this.Deversement.temps secondes
+    }
+
+    public boolean onBurningFire(DonneesSimulation simData)
+    {
+        for(Incendie inc : simData.getIncendies())
+        {
+            if(inc.getPosition().equals(this.getPosition()) && inc.getIntensite() != 0)
+                return true;
+        }
+        return false;
     }
 
     /**

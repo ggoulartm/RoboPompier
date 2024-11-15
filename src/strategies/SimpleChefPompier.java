@@ -5,8 +5,11 @@ import java.util.ArrayList;
 import sim.DonneesSimulation;
 import sim.Incendie;
 import sim.Robot;
+import sim.RobotWheels;
 import sim.Simulateur;
 import sim.Case;
+import sim.Pattes;
+import sim.RobotCaterpillar;
 
 public class SimpleChefPompier {
  
@@ -25,11 +28,7 @@ public class SimpleChefPompier {
         ArrayList<Integer> fireArrivalDates = this.sendRobotsToFires(date);
     }
 
-    /**
-     * Robot can shedule this event to ask for new instructions
-     * @param robot
-     */
-    public void askInstructions(Robot robot)
+    public void giveInstructionsToDrone(Robot robot)
     {
         System.out.println(robot+" asked for Instructions");
         if(robot.getWaterContent() <= robot.getMaxWaterContent()/2)
@@ -56,6 +55,76 @@ public class SimpleChefPompier {
                 System.out.println("Sending robot to nearest burning fire");
                 this.sendRobotToFire(robot);
             }
+        }
+    }
+
+    public void giveInstructionsToCaterpillar(Robot robot)
+    {
+        if(robot.onBurningFire(this.simData) && robot.getDeversementVolume()>100)
+        {
+            System.out.println("Let Robot put out the fire its standing on");
+            robot.intervenir(this.sim.getDateSimulation()+8, this.sim);
+            robot.registerAskForInstructions(this.sim.getDateSimulation()+8, this, this.sim);
+        }
+        else
+        {
+            System.out.println("Sending robot to Refill Water");
+            this.sendRobotToWater(robot);   
+        }
+    }
+
+    public void giveInstructionsToWheels(Robot robot)
+    {
+        if(robot.onBurningFire(this.simData) && robot.getDeversementVolume()>100)
+        {
+            System.out.println("Let Robot put out the fire its standing on");
+            robot.intervenir(this.sim.getDateSimulation()+5, this.sim);
+            robot.registerAskForInstructions(this.sim.getDateSimulation()+5, this, this.sim);
+        }
+        else
+        {
+            System.out.println("Sending robot to Refill Water");
+            this.sendRobotToWater(robot);   
+        }
+    }
+
+    public void giveInstructionsToPattes(Robot robot)
+    {
+        System.out.println("Pattes asks for new Instruction");
+        if(robot.onBurningFire(this.simData))
+        {
+            System.out.println("Let Robot put out the fire its standing on");
+            robot.intervenir(this.sim.getDateSimulation()+1, this.sim);
+            robot.registerAskForInstructions(this.sim.getDateSimulation()+1, this, this.sim);
+        }
+        else
+        {
+            System.out.println("Sending pattes to nearest burning fire");
+            this.sendRobotToFire(robot);
+        }
+
+    }
+
+    /**
+     * Robot can shedule this event to ask for new instructions
+     * @param robot
+     */
+    public void askInstructions(Robot robot)
+    {
+        switch(robot.getType())
+        {
+            case DRONE:
+                this.giveInstructionsToDrone(robot);
+                break;
+            case CATERPILLAR:
+                this.giveInstructionsToCaterpillar(robot);
+                break;
+            case PATTES:
+                this.giveInstructionsToPattes(robot);
+                break;
+            case WHEELS:
+                this.giveInstructionsToWheels(robot);
+                break;
         }
     }
 

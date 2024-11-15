@@ -67,7 +67,7 @@ public class Simulateur implements Simulable {
     // This method is called when the "Next" button is pressed
     @Override
     public void next() {
-        System.out.println("It's the "+this.dateSimulation+" day");
+        System.out.println("It's the "+this.dateSimulation+" second");
 
         try{
             while(dates.peek().getDate() == this.dateSimulation)
