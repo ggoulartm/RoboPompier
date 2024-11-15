@@ -42,6 +42,11 @@ public class RobotCaterpillar extends Robot {
         } else {
             System.out.println("Caterpillar robot cannot move to this terrain.");
         }
+        if(target.equals(this.getTargetCase()))
+        {
+            this.setMoving(false);
+            System.out.println();
+        }
     }
 
     @Override
