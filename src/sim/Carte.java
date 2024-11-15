@@ -2,6 +2,7 @@ package sim;
 
 import java.util.ArrayList;
 
+
 public class Carte {
     private int nbLignes;
     private int nbColonnes;
@@ -23,6 +24,11 @@ public class Carte {
     public int getTailleCases(){
         return this.tailleCases;
     }
+
+    /**
+     * Function that finds all the water cases
+     * @return arraylist of water cases
+     */
     public ArrayList<Case> getWaterCases()
     {
         ArrayList<Case> waterCases = new ArrayList<Case>();
@@ -37,7 +43,7 @@ public class Carte {
         return waterCases;
     }
     /**
-     * TODO: handle case that case is not available
+     * Function that returns the case in a specific coordinates
      * @param lig
      * @param col
      * @return
@@ -72,6 +78,12 @@ public class Carte {
         System.out.println("Length neighbours: "+neighbours.size());
         return neighbours;
     }
+
+    /**
+     * Function that finds the cases next to a particular case
+     * @param Case some random case
+     * @return arraylist of cases around 
+     */
     public ArrayList<Case> getNonWaterNeighbours(Case c)
     {
         ArrayList<Case> neighbours = new ArrayList<Case>();
@@ -93,6 +105,12 @@ public class Carte {
         }
         return neighbours;
     }
+
+     /**
+     * Function that looks if exist case next to a particular case in a particular direction
+     * @param Case some random case
+     * @return boolean that says if a case exist or not in the side of the particular case passed by param 
+     */
     public boolean voisinExiste(Case src, Direction dir){
         int ligne = src.getLigne();
         int colonne = src.getColonne();
@@ -111,6 +129,12 @@ public class Carte {
                 return false;
         }
     }
+
+    /**
+     * Function that finds the case next to a particular case in a particular direction
+     * @param Case some random case
+     * @return the case next to the param in that particular direction 
+     */
     public Case getVoisin(Case src, Direction dir){
         switch(dir)
         {
@@ -131,6 +155,11 @@ public class Carte {
         return this.tailleCases;
     }
 
+    /**
+     * Function that finds all the cases from a particular nature
+     * @param NatureTerrain the expected terrain from the return case
+     * @return arraylist of particular nature cases
+     */
     public Case[] getCasesByTerrain(NatureTerrain nT) {
         Case[] caseMatch = new Case[this.tailleCases];
         int size = 0;

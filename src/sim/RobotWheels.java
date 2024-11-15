@@ -126,6 +126,11 @@ public class RobotWheels extends Robot {
         return endDate;
     }
 
+    /**
+     * @param c: Case, the case to which the robot wants to go
+     * @param carte: Carte, the map where the robot is
+     * @return int, the time it will take to get to the case
+     */
     @Override
     public int timeTo(Case c, Carte carte)
     {

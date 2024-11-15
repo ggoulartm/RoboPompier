@@ -15,17 +15,26 @@ public class DonneesSimulation {
         System.out.println("Crée-moi!");
     }
 
+    /*
+     *  Calls the restore functions from robots and fires to restart simulation
+     */
     public void Restore() {
         RestoreIncendie();
         RestoreRobots();
     }
 
+    /*
+     *  Restore robot's positions to initial position to restart simulation
+     */
     protected void RestoreRobots(){
         for(Robot r : this.robots){
             r.Restore();
         }
     }
 
+    /*
+     * Restore fire's intensity to initial value to restart simulation
+     */
     protected void RestoreIncendie(){
         for(Incendie It1 : this.incendies){
             It1.Restore();
@@ -64,6 +73,10 @@ public class DonneesSimulation {
         return burningFires;
     }
 
+    /**
+     * 
+     * @return All cases fulfilled of water
+     */
     public Case[] getWater(){
         return this.getCarte().getCasesByTerrain(NatureTerrain.EAU);
     }

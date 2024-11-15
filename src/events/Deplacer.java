@@ -4,6 +4,9 @@ import sim.Robot;
 import sim.Direction;
 import sim.Carte;
 
+/**
+ * Deplacer is an event that moves a robot in a specific direction
+ */
 public class Deplacer extends Evenement{
     private Robot robot;
     private Direction dir;

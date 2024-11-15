@@ -43,6 +43,11 @@ public class Case{
         return this.estBrulee;
     }
 
+    /**
+     * Function that draz all the cases in the GUI
+     * @param GUISimulator,int the UI where the cases will be drawn and an integer with the case dimensions
+     * @return arraylist of water cases
+     */
     public void draw(GUISimulator gui, int tailleCase) {
         int coordX = tailleCase + this.getColonne() * tailleCase;
         int coordY = tailleCase + this.getLigne() * tailleCase;

@@ -7,6 +7,10 @@ import sim.NatureTerrain;
 
 import java.util.ArrayList;
 
+/**
+ * Class to create a refill event
+ * To make sure that a robot only refills its reservoir when it is next to water
+ */
 public class Remplir extends Evenement{
     private Simulateur sim;
     private Robot robot;

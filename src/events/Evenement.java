@@ -1,5 +1,8 @@
 package events;
 
+/**
+ * Evenement is an abstract class that represents an event in the simulation
+ */
 public abstract class Evenement {
     private int date;
     private Evenement next;

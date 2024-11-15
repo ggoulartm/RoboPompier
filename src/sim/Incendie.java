@@ -22,6 +22,9 @@ public class Incendie {
         maxIntensity = Math.max(maxIntensity, intensite);
     }
 
+    /**
+     * Function that reduces the intensity of the fire
+     */
     public void reduceIntensite(int quantiteEau)
     {
         this.intensite = Math.max(0, this.intensite-quantiteEau);
@@ -44,7 +47,12 @@ public class Incendie {
     {
         return "Incendie at " +this.position.toString()+" with intensity: " + this.intensite;
     }
-
+    
+    /**
+     * Function that draws the fire in the GUI
+     * @param gui the GUI where the fire will be drawn
+     * @param tailleCase the size of the case
+     */
     public void draw (GUISimulator gui, int tailleCase) {
         int coordX = tailleCase + this.position.getColonne() * tailleCase;
         int coordY = tailleCase + this.position.getLigne() * tailleCase;

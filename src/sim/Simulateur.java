@@ -10,6 +10,14 @@ import events.*;
 import gui.GUISimulator;
 import gui.Simulable;
 
+/**
+ * Simulateur: l'utilisation d'une file de priorité (PriorityQueue) est particulièrement adaptée pour gérer les événements à exécuter lors de la simulation.
+ * Gestion efficace des événements par date : Dans une simulation, chaque événement est programmé pour se produire à un instant précis(représenté par dateSimulation). 
+ * Utilisant dates.peek() ou dates.poll(): Ces méthodes permettent respectivement de consulter ou de retirer l'événement ayant la date la plus proche sans parcourir l'ensemble des événements.
+ * Insertion flexible des événements : Les événements peuvent être ajoutés dans n'importe quel ordre à la file de priorité. 
+ * La structure se charge de les positionner correctement en fonction de leur date. 
+ * Cela simplifie le code et évite d'avoir à trier manuellement les événements après chaque insertion.
+ */
 public class Simulateur implements Simulable {
     private GUISimulator gui;           // Reference to the graphical interface
     private DonneesSimulation data; // Contains the map, robots, and fires
@@ -28,15 +36,29 @@ public class Simulateur implements Simulable {
         draw();
     }
 
+    /**
+     * Get the data of the simulation
+     * @return
+     */
     public DonneesSimulation getDonnees() {
         return this.data;
     }
 
+    /**
+     * Compare two events by their date - used in the priority queue definition
+     * @param e1
+     * @param e2
+     * @return
+     */
     public int compare(Evenement e1, Evenement e2)
     {
         return e1.getDate() - e2.getDate();
     }
 
+    /**
+     * Add an event to the queue of events
+     * @param e Represents the event to be added (deplacement, extinction, remplissage)
+     */
     public void addEvent(Evenement e)
     {
             System.out.println("Dates length: "+dates.size());
@@ -44,13 +66,28 @@ public class Simulateur implements Simulable {
             dates.add(e);
             System.out.println("Added Event to que of events"+e);
     }
+
+    /**
+     * Increment the date of the simulation
+     */
     private void incrementeDate()
     {
         this.dateSimulation++;
     }
+
+    /**
+     * Get the date of the simulation
+     * @return
+     */
     public int getDateSimulation() {
         return dateSimulation;
     }
+
+    /**
+     * Get the fire at a certain position
+     * @param pos  The position of the fire
+     * @return Incendie The fire at the position
+     */
     public Incendie getIncendie(Case pos)
     {
         Incendie[] incs = this.data.getIncendies();
@@ -97,6 +134,9 @@ public class Simulateur implements Simulable {
         draw();
     }
 
+    /**
+     * Draw the map, robots, and fires
+     */
     private void draw() {
         gui.reset();
         Carte carte = data.getCarte();
@@ -127,6 +167,9 @@ public class Simulateur implements Simulable {
         }
     }
 
+    /**
+     * Print the simulator events in the console (for debugging purposes)
+     */
     public void printEvenements()
     {
         System.out.println("Simulator Events: "+this.dates.size());

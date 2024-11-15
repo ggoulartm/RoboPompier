@@ -21,6 +21,11 @@ public class Pattes extends Robot
         this.Deversement = new InterventionUnitaire(10, 1);
     }
 
+    /**
+     * Function that returns the speed of the robot depending on the terrain
+     * @param c  the case where the robot will be moving
+     * @return  the speed of the robot in this specific terrain
+     */
     public double getVitesseParNature(Case c)
     {
         switch(c.getNature())
@@ -84,6 +89,11 @@ public class Pattes extends Robot
         return endDate;
     }
 
+    /**
+     * @param c: Case, the case to which the robot wants to go
+     * @param carte: Carte, the map where the robot is
+     * @return int, the time it will take to get to the case
+     */
     public int timeTo(Case c, Carte carte)
     {
         double tailleCase = (double)carte.getTaille();

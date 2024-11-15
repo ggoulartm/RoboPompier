@@ -6,6 +6,12 @@ import sim.NatureTerrain;
 
 import java.util.ArrayList;
 
+/**
+ * Class to find the shortest path between two cases using the Dijkstra algorithm. Its has three main methods:
+ * - findShortestPath: static method that returns the shortest path between two cases
+ * - shortestPath: private method that
+ * - constructPathFromTarget: private method that
+ */
 public class StrategieDijkstra
 {
 
