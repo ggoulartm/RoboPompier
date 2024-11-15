@@ -30,61 +30,105 @@ public class SimpleChefPompier {
 
     public void giveInstructionsToDrone(Robot robot)
     {
-        System.out.println(robot+" asked for Instructions");
-        if(robot.getWaterContent() <= robot.getMaxWaterContent()/2)
+        if(robot.onBurningFire(this.simData) && robot.getWaterContent()>100)
+        {
+            System.out.println("Let Robot put out the fire its standing on");
+            robot.intervenir(this.sim.getDateSimulation()+30, this.sim);
+            robot.registerAskForInstructions(this.sim.getDateSimulation()+30, this, this.sim);
+        }
+        else if(robot.getWaterContent()<=100 && !robot.nextToWater(this.simData.getCarte()))
         {
             System.out.println("Sending robot to Refill Water");
-            this.sendRobotToWater(robot);
+            this.sendRobotToWater(robot);   
         }
-        else if(robot.getWaterContent() > robot.getMaxWaterContent()/2)
+        else if(robot.getWaterContent() <= 100 && robot.nextToWater(this.simData.getCarte()))
         {
-            boolean alreadyOnFire = false;
-            for(Incendie inc : this.simData.getIncendies())
-            {
-                if(inc.getIntensite()>0 && inc.getPosition().equals(robot.getPosition()))
-                {
-                    System.out.println("Let Robot put out the fire its standing on");
-                    robot.intervenir(this.sim.getDateSimulation()+1, this.sim);
-                    robot.registerAskForInstructions(this.sim.getDateSimulation()+2, this, this.sim);
-                    alreadyOnFire = true;
-                    break;
-                }
-            }
-            if(!alreadyOnFire)
-            {
-                System.out.println("Sending robot to nearest burning fire");
-                this.sendRobotToFire(robot);
-            }
+            //Let the robot fill with water for 30min
+            robot.registerFillReservoir(this.sim.getDateSimulation()+30*60, sim, this);
         }
+        else
+        {
+            System.out.println("Sending Caterpillar to nearest burning fire");
+            this.sendRobotToFire(robot);
+        }
+
+
+        // System.out.println(robot+" asked for Instructions");
+        // if(robot.getWaterContent() <= robot.getMaxWaterContent()/2)
+        // {
+        //     System.out.println("Sending robot to Refill Water");
+        //     this.sendRobotToWater(robot);
+        // }
+        // else if(robot.getWaterContent() > robot.getMaxWaterContent()/2)
+        // {
+        //     boolean alreadyOnFire = false;
+        //     for(Incendie inc : this.simData.getIncendies())
+        //     {
+        //         if(inc.getIntensite()>0 && inc.getPosition().equals(robot.getPosition()))
+        //         {
+        //             System.out.println("Let Robot put out the fire its standing on");
+        //             // Take thirty seconds to dump all water
+        //             robot.intervenir(this.sim.getDateSimulation()+30, this.sim);
+        //             robot.registerAskForInstructions(this.sim.getDateSimulation()+30, this, this.sim);
+        //             alreadyOnFire = true;
+        //             break;
+        //         }
+        //     }
+        //     if(!alreadyOnFire)
+        //     {
+        //         System.out.println("Sending robot to nearest burning fire");
+        //         this.sendRobotToFire(robot);
+        //     }
+        // }
     }
 
     public void giveInstructionsToCaterpillar(Robot robot)
     {
-        if(robot.onBurningFire(this.simData) && robot.getDeversementVolume()>100)
+        if(robot.onBurningFire(this.simData) && robot.getWaterContent()>100)
         {
             System.out.println("Let Robot put out the fire its standing on");
             robot.intervenir(this.sim.getDateSimulation()+8, this.sim);
             robot.registerAskForInstructions(this.sim.getDateSimulation()+8, this, this.sim);
         }
-        else
+        else if(robot.getWaterContent()<=100 && !robot.nextToWater(this.simData.getCarte()))
         {
             System.out.println("Sending robot to Refill Water");
             this.sendRobotToWater(robot);   
+        }
+        else if(robot.getWaterContent() <= 100 && robot.nextToWater(this.simData.getCarte()))
+        {
+            //Let the robot fill with water for 300sek
+            robot.registerFillReservoir(this.sim.getDateSimulation()+5*60, sim, this);
+        }
+        else
+        {
+            System.out.println("Sending Caterpillar to nearest burning fire");
+            this.sendRobotToFire(robot);
         }
     }
 
     public void giveInstructionsToWheels(Robot robot)
     {
-        if(robot.onBurningFire(this.simData) && robot.getDeversementVolume()>100)
+        if(robot.onBurningFire(this.simData) && robot.getWaterContent()>100)
         {
             System.out.println("Let Robot put out the fire its standing on");
             robot.intervenir(this.sim.getDateSimulation()+5, this.sim);
             robot.registerAskForInstructions(this.sim.getDateSimulation()+5, this, this.sim);
         }
-        else
+        else if(robot.getWaterContent()<=100 && !robot.nextToWater(this.simData.getCarte()))
         {
             System.out.println("Sending robot to Refill Water");
             this.sendRobotToWater(robot);   
+        }
+        else if(robot.getWaterContent() <= 100 && robot.nextToWater(this.simData.getCarte()))
+        {
+            //Let the robot fill with water for 300sek
+            robot.registerFillReservoir(this.sim.getDateSimulation()+10*60, sim, this);
+        }
+        else
+        {
+            System.out.println("Sending Caterpillar to nearest burning fire");
+            this.sendRobotToFire(robot);
         }
     }
 
@@ -164,8 +208,8 @@ public class SimpleChefPompier {
                 System.out.println("Fire closest to "+walli+": "+incendieProche);
                 incendieVisitees.add(incendieProche);
                 int dateOfFireArrival = walli.createShortestPathTo(date, incendieProche.getPosition(), this.simData.getCarte(), this.sim, this);
-                walli.intervenir(dateOfFireArrival+1, this.sim);
-                walli.registerAskForInstructions(dateOfFireArrival+2, this, this.sim);
+                // walli.intervenir(dateOfFireArrival+1, this.sim);
+                walli.registerAskForInstructions(dateOfFireArrival+1, this, this.sim);
                 endDates.add(dateOfFireArrival+1);
             }
             else
@@ -199,7 +243,7 @@ public class SimpleChefPompier {
             }
             System.out.println("Fire next to "+walli+": "+incendieProche);
             int dateOfFireArrival = walli.createShortestPathTo(this.sim.getDateSimulation(), incendieProche.getPosition(), this.simData.getCarte(), this.sim, this);
-            walli.intervenir(dateOfFireArrival+1, this.sim);
+            // walli.intervenir(dateOfFireArrival+1, this.sim);
             walli.registerAskForInstructions(dateOfFireArrival+2, this, this.sim);
         }
         catch(IndexOutOfBoundsException e)
@@ -237,7 +281,8 @@ public class SimpleChefPompier {
             }
             System.out.println("Found nearest Water "+nearestWaterNeigbour+" for robot: "+ walli);
             int dateOfWaterArrival = walli.createShortestPathTo(this.sim.getDateSimulation()+1, nearestWaterNeigbour, this.simData.getCarte(), this.sim, this);
-            walli.registerFillReservoir(dateOfWaterArrival+1, this.sim, this);
+            // walli.registerFillReservoir(dateOfWaterArrival+1, this.sim, this);
+            walli.registerAskForInstructions(dateOfWaterArrival+1, this, this.sim);
         }
         catch(Exception e)
         {

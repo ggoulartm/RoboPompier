@@ -41,12 +41,12 @@ public class Intervention extends Evenement{
                     this.robot.emptyWater();
                     break;
                 case CATERPILLAR:
-                    incendie.reduceIntensite(quantiteEau);
-                    System.out.println("IMPLEMENT ME");
+                    incendie.reduceIntensite(100);
+                    this.robot.emptyWater(100);
                     break;
                 case WHEELS:
-                    incendie.reduceIntensite(quantiteEau);
-                    System.out.println("IMPLEMENT ME");
+                    incendie.reduceIntensite(100);
+                    this.robot.emptyWater(100);
                     break;
                 case PATTES:
                     incendie.reduceIntensite(10);

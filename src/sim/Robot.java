@@ -1,6 +1,7 @@
 package sim;
+import java.util.ArrayList;
+
 import events.AskInstructions;
-import events.Evenement;
 import events.Intervention;
 import events.Remplir;
 import gui.GUISimulator;
@@ -19,7 +20,6 @@ public abstract class Robot {
     protected int volumeReservoirMax; //Litres
     protected int vitesse; //km/h
     protected RobotType type; //Type de robot: Drone, Pattes(Legs), Roues(Wheels), Chenilles(Caterpillar)
-    protected InterventionUnitaire Deversement; //Litres/seconde
     protected int tempsRemplissage; //minutes
     private boolean moving;
     private Case targetCase;
@@ -65,6 +65,28 @@ public abstract class Robot {
     {
         this.volumeReservoir = 0;
     }
+
+    public void emptyWater(int amount)
+    {
+        this.volumeReservoir = this.volumeReservoir-amount;
+    }
+
+    public boolean nextToWater(Carte carte)
+    {
+        // System.out.println("    Check for water at "+pos);
+        if(this.position.getNature() == NatureTerrain.EAU)
+            return true;
+
+        ArrayList<Case> neighbours = carte.getNeighbours(this.position);
+        System.out.println("    Found: "+neighbours.size()+" neighbours");
+        for(Case c : neighbours)
+        {
+            if (c.getNature() == NatureTerrain.EAU)
+                return true;
+        }
+        return false;
+    }
+
     /**
      * Registers a Remplir event with following askForInstructions event to the simulator 
      * @param date Date of start to remplir
@@ -199,20 +221,20 @@ public abstract class Robot {
 
     public abstract void draw(GUISimulator gui, int tailleCase);
 
-    public class InterventionUnitaire {
-        public int volume;
-        public int temps;
-        public InterventionUnitaire(int volume, int temps) {
-            this.volume = volume;
-            this.temps = temps;
-        }
-    }
+    // public class InterventionUnitaire {
+    //     public int volume;
+    //     public int temps;
+    //     public InterventionUnitaire(int volume, int temps) {
+    //         this.volume = volume;
+    //         this.temps = temps;
+    //     }
+    // }
 
-    public void InterventionUnitaire() {
-        System.out.println("Intervention unitaire: " + this.Deversement.volume + "L in " + this.Deversement.temps + "s.");
-        deverserEau(this.Deversement.volume); //Litres/seconde
-        //Attendre this.Deversement.temps secondes
-    }
+    // public void InterventionUnitaire() {
+    //     System.out.println("Intervention unitaire: " + this.Deversement.volume + "L in " + this.Deversement.temps + "s.");
+    //     deverserEau(this.Deversement.volume); //Litres/seconde
+    //     //Attendre this.Deversement.temps secondes
+    // }
 
     public boolean onBurningFire(DonneesSimulation simData)
     {
@@ -243,17 +265,17 @@ public abstract class Robot {
         return this.tempsRemplissage;
     }
     
-    public int getDeversementVolume() {
-        return this.Deversement.volume;
-    }
+    // public int getDeversementVolume() {
+    //     return this.Deversement.volume;
+    // }
 
-    public int getDeversementTemps() {
-        return this.Deversement.temps;
-    }
+    // public int getDeversementTemps() {
+    //     return this.Deversement.temps;
+    // }
 
-    public int setDeversementTemps(int temps) {
-        return this.Deversement.temps = temps;
-    }
+    // public int setDeversementTemps(int temps) {
+    //     return this.Deversement.temps = temps;
+    // }
 
     public boolean isEmpty(){
         return this.volumeReservoir == 0;

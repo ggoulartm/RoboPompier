@@ -28,7 +28,7 @@ public class RobotCaterpillar extends Robot {
         }
         this.type = RobotType.CATERPILLAR;
         this.tempsRemplissage = 5;
-        this.Deversement = new InterventionUnitaire(100, 8); //Litres/seconde
+        // this.Deversement = new InterventionUnitaire(100, 8); //Litres/seconde
     }
 
     //La vitesse est diminuée de 50% en forêt.
