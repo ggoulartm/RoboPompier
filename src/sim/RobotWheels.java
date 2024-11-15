@@ -10,6 +10,7 @@ import sim.NatureTerrain;
 import strategies.SimpleChefPompier;
 import sim.Direction;
 public class RobotWheels extends Robot {
+    NatureTerrain[] forbiddenTerrains = {NatureTerrain.EAU, NatureTerrain.FORET, NatureTerrain.ROCHE};
 
     // Vitesse par défaut de 80 km/h, mais qui peut être lue dans le fichier. 
     // Capacité de stockage d’eau de 5000L, mais qui peut être lue dans le fichier.
@@ -29,14 +30,14 @@ public class RobotWheels extends Robot {
         this.Deversement = new InterventionUnitaire(100, 5); //Litres/seconde
     }
 
-    private int getVitesseParNature(Case c)
+    private double getVitesseParNature(Case c)
     {
         switch(c.getNature())
         {
             case TERRAIN_LIBRE:
-                return vitesse/10;
+                return (double)this.vitesse;
             case HABITAT:
-                return vitesse/10;
+                return (double)this.vitesse;
             default:
                 return 0;
         }
@@ -85,9 +86,12 @@ public class RobotWheels extends Robot {
         {
             this.setTargetCase(end);
             double tailleCase = carte.getTaille();
-            double[] natureCosts = {Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY, 
-                Double.POSITIVE_INFINITY, (double)tailleCase/(double)this.vitesse, (double)tailleCase/(double)this.vitesse};
-            ArrayList<Case> shortestPath = StrategieDijkstra.findShortestPath(carte, this.position, end, new NatureTerrain[]{NatureTerrain.EAU, NatureTerrain.FORET, NatureTerrain.ROCHE}, natureCosts);
+            double[] natureCosts = {Double.POSITIVE_INFINITY, 
+                Double.POSITIVE_INFINITY, 
+                Double.POSITIVE_INFINITY, 
+                (double)tailleCase/(double)this.vitesse, 
+                (double)tailleCase/(double)this.vitesse};
+            ArrayList<Case> shortestPath = StrategieDijkstra.findShortestPath(carte, this.position, end, this.forbiddenTerrains, natureCosts);
             for(Case c : shortestPath)
             {
                 System.out.println(c);
@@ -126,9 +130,12 @@ public class RobotWheels extends Robot {
     public int timeTo(Case c, Carte carte)
     {
         double tailleCase = carte.getTaille();
-        double[] natureCosts = {Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY, 
-            Double.POSITIVE_INFINITY, (double)tailleCase/(double)this.vitesse, (double)tailleCase/(double)this.vitesse};
-        ArrayList<Case> shortestPath = StrategieDijkstra.findShortestPath(carte, this.position, c, new NatureTerrain[]{NatureTerrain.EAU, NatureTerrain.FORET, NatureTerrain.ROCHE}, natureCosts);
+        double[] natureCosts = {Double.POSITIVE_INFINITY, 
+            Double.POSITIVE_INFINITY, 
+            Double.POSITIVE_INFINITY, 
+            (double)tailleCase/(double)this.vitesse, 
+            (double)tailleCase/(double)this.vitesse};
+        ArrayList<Case> shortestPath = StrategieDijkstra.findShortestPath(carte, this.position, c, this.forbiddenTerrains, natureCosts);
         
         if(shortestPath.isEmpty())
             return -1;

@@ -57,20 +57,20 @@ public class RobotCaterpillar extends Robot {
         ));
     }
 
-    public int getVitesseParNature(Case c)
+    public double getVitesseParNature(Case c)
     {
         switch(c.getNature())
         {
             case EAU:
                 return -1;
             case FORET:
-                return this.vitesse/20;
+                return (double)this.vitesse/2.0;
             case ROCHE:
                 return -1;
             case TERRAIN_LIBRE:
-                return this.vitesse/10;
+                return (double)this.vitesse;
             case HABITAT:
-                return this.vitesse/10;
+                return (double)this.vitesse;
             default:
                 return -1;
         }
@@ -84,8 +84,11 @@ public class RobotCaterpillar extends Robot {
         {
             this.setTargetCase(end);
             double tailleCase = carte.getTaille();
-            double[] natureCosts = {Double.POSITIVE_INFINITY, (double)tailleCase/((double)this.vitesse/2), 
-                Double.POSITIVE_INFINITY, (double)tailleCase/this.vitesse, (double)tailleCase/this.vitesse};
+            double[] natureCosts = {Double.POSITIVE_INFINITY, 
+                (double)tailleCase/((double)this.vitesse/2.0), 
+                Double.POSITIVE_INFINITY, 
+                (double)tailleCase/this.vitesse, 
+                (double)tailleCase/this.vitesse};
             ArrayList<Case> shortestPath = StrategieDijkstra.findShortestPath(carte, this.position, end, new NatureTerrain[]{NatureTerrain.EAU, NatureTerrain.ROCHE}, natureCosts);
             for(Case c : shortestPath)
             {
@@ -125,8 +128,11 @@ public class RobotCaterpillar extends Robot {
     public int timeTo(Case c, Carte carte)
     {
         double tailleCase = carte.getTaille();
-        double[] natureCosts = {Double.POSITIVE_INFINITY, (double)tailleCase/((double)this.vitesse/2), 
-            Double.POSITIVE_INFINITY, (double)tailleCase/this.vitesse, (double)tailleCase/this.vitesse};
+        double[] natureCosts = {Double.POSITIVE_INFINITY, 
+            (double)tailleCase/((double)this.vitesse/2.0), 
+            Double.POSITIVE_INFINITY, 
+            (double)tailleCase/this.vitesse, 
+            (double)tailleCase/this.vitesse};
         ArrayList<Case> shortestPath = StrategieDijkstra.findShortestPath(carte, this.position, c, new NatureTerrain[]{NatureTerrain.EAU, NatureTerrain.ROCHE}, natureCosts);
         
         if(shortestPath.isEmpty())

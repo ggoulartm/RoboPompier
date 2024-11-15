@@ -21,7 +21,7 @@ public class Pattes extends Robot
         this.Deversement = new InterventionUnitaire(10, 1);
     }
 
-    public int getVitesseParNature(Case c)
+    public double getVitesseParNature(Case c)
     {
         switch(c.getNature())
         {
@@ -44,8 +44,11 @@ public class Pattes extends Robot
         {
             this.setTargetCase(end);
             double tailleCase = sim.getDonnees().getCarte().getTaille();
-            double[] natureCosts = {Double.POSITIVE_INFINITY, ((double)tailleCase)/(double)this.vitesse, 
-                (double)tailleCase/(2*(double)this.vitesse), (double)tailleCase/(double)this.vitesse, (double)tailleCase/(double)this.vitesse};
+            double[] natureCosts = {Double.POSITIVE_INFINITY, 
+                (double)tailleCase/(double)this.vitesse, 
+                (double)tailleCase/Math.min((double)this.vitesse, 10), 
+                (double)tailleCase/(double)this.vitesse, 
+                (double)tailleCase/(double)this.vitesse};
             ArrayList<Case> shortestPath = StrategieDijkstra.findShortestPath(carte, this.position, end, this.forbiddenTerrains, natureCosts);
             for(Case c : shortestPath)
             {
@@ -84,8 +87,11 @@ public class Pattes extends Robot
     public int timeTo(Case c, Carte carte)
     {
         double tailleCase = (double)carte.getTaille();
-        double[] natureCosts = {Double.POSITIVE_INFINITY, tailleCase/(double)this.vitesse, 
-            tailleCase/(2*(double)this.vitesse), tailleCase/(double)this.vitesse, tailleCase/(double)this.vitesse};
+        double[] natureCosts = {Double.POSITIVE_INFINITY, 
+            (double)tailleCase/(double)this.vitesse, 
+            (double)tailleCase/Math.min((double)this.vitesse, 10), 
+            (double)tailleCase/(double)this.vitesse, 
+            (double)tailleCase/(double)this.vitesse};
         ArrayList<Case> shortestPath = StrategieDijkstra.findShortestPath(carte, this.position, c, this.forbiddenTerrains, natureCosts);
         if(shortestPath.isEmpty())
             return -1;
