@@ -234,16 +234,34 @@ public class LecteurDonnees {
                 {
                     case "DRONE":
                         vitesse = 100;
+                        break;
                     case "ROUES":
                         vitesse = 80;
+                        break;
                     case "PATTES":
                         vitesse = 30;
+                        break;
                     case "CHENILLES":
                         vitesse = 60;
+                        break;
                 }
 
             } else {
                 vitesse = Integer.parseInt(s);
+                switch(type) 
+                {
+                    case "DRONE":
+                        vitesse = Math.min(150, vitesse);
+                        break;
+                    case "PATTES":
+                        vitesse = Math.min(30, vitesse);
+                        break;
+                    case "CHENILLES":
+                        vitesse = Math.min(80, vitesse);
+                        break;
+                    default:
+                        break;
+                }
                 System.out.print(vitesse);
             }
             verifieLigneTerminee();
